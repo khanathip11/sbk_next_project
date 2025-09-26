@@ -42,6 +42,11 @@ const TaskSummary = ({ count, closeTask, SetCloseTask }: taskProps) => {
                 </IconButton>
             </Stack>
 
+            {closeTask && (
+                <Box>
+                    <Typography>banan</Typography>
+                </Box>
+            )}
         </Box>
     )
 }
