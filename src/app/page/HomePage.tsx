@@ -270,7 +270,7 @@ export default function HomePage() {
                         zIndex: 10,
                     }}
                 >
-                    <AdsClickIcon sx={{ fontSize: 16, color: 'white', transform: 'rotate(180deg)', }} />
+                    <AdsClickIcon sx={{ fontSize: 16, color: 'white', transform: 'rotate(180deg)', }} onClick={() => console.log('s')} />
                 </Box>
             )
             }
