@@ -1,18 +1,18 @@
 import React, { useState } from 'react'
-import { Box, List, Toolbar, Stack, Avatar, Typography, IconButton, AppBar, ListItem, ListItemIcon, ListItemText, ListItemButton, Tooltip } from "@mui/material";
+import { Box, List, Toolbar, Stack, Avatar, Typography, IconButton, AppBar, ListItemIcon, ListItemText, ListItemButton, Tooltip } from "@mui/material";
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
-import DashboardIcon from "@mui/icons-material/Dashboard";
 import AssignmentIcon from "@mui/icons-material/Assignment";
-import PeopleIcon from "@mui/icons-material/People";
-import ReportIcon from "@mui/icons-material/Report";
-import DescriptionIcon from "@mui/icons-material/Description";
 import HelpIcon from "@mui/icons-material/Help";
 import SettingsIcon from "@mui/icons-material/Settings";
-import Brightness4Icon from "@mui/icons-material/Brightness4";
-import Brightness7Icon from "@mui/icons-material/Brightness7";
-import SettingsBrightnessIcon from "@mui/icons-material/SettingsBrightness";
 import LogoutIcon from '@mui/icons-material/Logout';
-import { relative } from 'path';
+import HomeFilledIcon from '@mui/icons-material/HomeFilled';
+import LightModeIcon from '@mui/icons-material/LightMode';
+import PersonIcon from '@mui/icons-material/Person';
+import ContrastIcon from '@mui/icons-material/Contrast';
+import EqualizerIcon from '@mui/icons-material/Equalizer';
+import NightsStayIcon from '@mui/icons-material/NightsStay';
+import ArticleIcon from '@mui/icons-material/Article';
+import BubbleChartIcon from '@mui/icons-material/BubbleChart';
 
 type NavbarProps = {
     collapsed: boolean;
@@ -25,23 +25,23 @@ const Navbar: React.FC<NavbarProps> = ({ collapsed, setCollapsed }) => {
         setSelectedIndex(index);
     };
     const menuTopItems = [
-        { text: "Overview", icon: <DashboardIcon /> },
+        { text: "Overview", icon: <HomeFilledIcon /> },
         { text: "Dashboard", icon: <AssignmentIcon /> },
-        { text: "Issue Management", icon: <AssignmentIcon /> },
-        { text: "Report", icon: <ReportIcon /> },
-        { text: "User Management", icon: <PeopleIcon /> },
+        { text: "Issue Management", icon: <BubbleChartIcon /> },
+        { text: "Report", icon: <EqualizerIcon /> },
+        { text: "User Management", icon: <PersonIcon /> },
     ];
 
     const menuBottomItems = [
-        { text: "Documentation", icon: <DescriptionIcon /> },
+        { text: "Documentation", icon: <ArticleIcon /> },
         { text: "Help", icon: <HelpIcon /> },
         { text: "Setting", icon: <SettingsIcon /> }
     ];
 
     const themeOptions = [
-        { mode: "auto", icon: <SettingsBrightnessIcon sx={{ fontSize: 18 }} />, label: "Auto" },
-        { mode: "light", icon: <Brightness7Icon sx={{ fontSize: 18 }} />, label: "Light" },
-        { mode: "dark", icon: <Brightness4Icon sx={{ fontSize: 18 }} />, label: "Dark" },
+        { mode: "auto", icon: <ContrastIcon sx={{ fontSize: 18 }} />, label: "Auto" },
+        { mode: "light", icon: <LightModeIcon sx={{ fontSize: 18 }} />, label: "Light" },
+        { mode: "dark", icon: <NightsStayIcon sx={{ fontSize: 18 }} />, label: "Dark" },
     ];
 
     const [mode, setMode] = useState<string>("auto");
@@ -56,7 +56,7 @@ const Navbar: React.FC<NavbarProps> = ({ collapsed, setCollapsed }) => {
                 <AppBar
                     position="static"
                     color="transparent"
-                    sx={{ borderRadius: 2, backgroundColor: "white", width: '100%',boxShadow: 1, mb: 1 }}
+                    sx={{ borderRadius: 2, backgroundColor: "white", width: '100%', boxShadow: 1, mb: 1 }}
                 >
                     <Toolbar sx={{ height: '100%', minHeight: '50px !important' }}>
                         <Stack
@@ -65,7 +65,6 @@ const Navbar: React.FC<NavbarProps> = ({ collapsed, setCollapsed }) => {
                             sx={{
                                 gap: 1,
                                 width: "100%",
-                                // justifyContent: collapsed ? "center" : "flex-start",
                             }}
                         >
                             <Avatar
@@ -85,9 +84,9 @@ const Navbar: React.FC<NavbarProps> = ({ collapsed, setCollapsed }) => {
                                     <Box sx={{ flexGrow: 1 }} />
                                     <IconButton
                                         onClick={() => setCollapsed(true)} // คลิก arrow ย่อ navbar
-                                        sx={{ "&:hover": { bgcolor: "transparent",} }}
+                                        sx={{ "&:hover": { bgcolor: "transparent", } }}
                                     >
-                                        <ArrowBackIosNewIcon sx={{ fontSize: 14 }} />
+                                        <ArrowBackIosNewIcon sx={{ fontSize: 14, transition: "transform 0.5s ease", }} />
                                     </IconButton>
                                 </>
                             )}
@@ -107,6 +106,7 @@ const Navbar: React.FC<NavbarProps> = ({ collapsed, setCollapsed }) => {
                                 bgcolor: "transparent",
                                 borderRadius: 2,
                                 display: 'flex',
+                                gap: 1,
                                 color: '#575656',
                                 justifyContent: collapsed ? 'center' : 'flex-start',
                                 "&.Mui-selected": {
@@ -146,6 +146,7 @@ const Navbar: React.FC<NavbarProps> = ({ collapsed, setCollapsed }) => {
                                 mb: 0,
                                 bgcolor: "transparent",
                                 color: '#575656',
+                                gap: 1,
                                 borderRadius: 2,
                                 display: 'flex',
                                 justifyContent: collapsed ? 'center' : 'flex-start',
@@ -173,32 +174,33 @@ const Navbar: React.FC<NavbarProps> = ({ collapsed, setCollapsed }) => {
                     ))}
                 </List>
 
-                {!collapsed && 
+                {!collapsed &&
                     <Box
-                    sx={{
+                        sx={{
                             display: "flex",
                             alignItems: "center",
                             justifyContent: "space-between",
                             p: 2,
                             pr: 0,
                             borderRadius: 2,
-                            bgcolor: "transparent", 
-                            width: '100%', 
+                            bgcolor: "transparent",
+                            width: '100%',
                         }}
                     >
                         <Stack direction={'row'} alignItems={'center'} spacing={1}>
-                            <SettingsBrightnessIcon />
+                            <ContrastIcon />
                             <Typography>Theme</Typography>
                         </Stack>
 
-                        <Stack direction={'row'} sx={{backgroundColor: '#DBDBDB', width:'100p%', height: 'auto', borderRadius: 3, p:0.5}}>
+                        <Stack direction={'row'} sx={{ backgroundColor: '#DBDBDB', width: '100p%', height: 'auto', borderRadius: 3, p: 0.5 }}>
                             {themeOptions.map((option) => (
-                                <Tooltip title={option.label} key={option.mode}> 
-                                    <IconButton 
-                                    color={mode === option.mode ? 'primary' : 'default'}
-                                    onClick={() => handleChang(option.mode)}
-                                    sx={{bgcolor: mode === option.mode ? 'white' : 'transparent',
-                                        "&:hover": {
+                                <Tooltip title={option.label} key={option.mode}>
+                                    <IconButton
+                                        color={mode === option.mode ? 'primary' : 'default'}
+                                        onClick={() => handleChang(option.mode)}
+                                        sx={{
+                                            bgcolor: mode === option.mode ? 'white' : 'transparent',
+                                            "&:hover": {
                                                 bgcolor: mode === option.mode ? "primary.white" : "action.hover",
                                             },
                                             borderRadius: 2,
@@ -212,8 +214,8 @@ const Navbar: React.FC<NavbarProps> = ({ collapsed, setCollapsed }) => {
 
                     </Box>
                 }
-                
-                <Box sx={{display:'flex' ,alignItems: 'center', justifyContent: collapsed ? 'center' : 'space-between'}}>
+
+                <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: collapsed ? 'center' : 'space-between' }}>
                     {!collapsed && (
                         <Stack direction={'row'} alignItems={'center'} spacing={1}>
                             <Avatar />
@@ -222,15 +224,16 @@ const Navbar: React.FC<NavbarProps> = ({ collapsed, setCollapsed }) => {
                     )}
                     <Tooltip title={'Logout'}>
                         <LogoutIcon sx={{
-                            bgcolor: '#B0E8F5',
+                            bgcolor: 'primary.main',
                             p: 0.8,
                             fontSize: 30,
                             borderRadius: 2,
+                            color: '#ffffff',
                             "&:hover": {
-                            bgcolor: '#7CD2E6', // สีตอน hover
-                            cursor: 'pointer',  // เพิ่มถ้าต้องการ
+                                bgcolor: '#0209FA', // สีตอน hover
+                                cursor: 'pointer',  // เพิ่มถ้าต้องการ
                             },
-                        }}/>
+                        }} />
                     </Tooltip>
                 </Box>
             </Box >
