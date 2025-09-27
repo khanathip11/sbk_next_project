@@ -52,7 +52,13 @@ const Navbar: React.FC<NavbarProps> = ({ collapsed, setCollapsed }) => {
 
     return (
         <>
-            <Box sx={{ display: 'flex', flexDirection: 'column', height: '100%', p: 2, }}>
+            <Box
+                sx={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    height: '100%',
+                    p: 2,
+                }}>
                 <AppBar
                     position="static"
                     color="transparent"

@@ -145,7 +145,13 @@ export default function HomePage() {
         //     height: !collapsed && !closeTask ? '100%' : '100vh',
         //     gap: 2,
         // }}>
-        //     <Paper elevation={5} sx={{ borderRadius: 4, bgcolor: '#F7F7F7', width: !collapsed ? '30%' : '10%', transition: 'width 0.5s ease', }}>
+        //     <Paper elevation={5}
+        //         sx={{
+        //             borderRadius: 4,
+        //             bgcolor: '#F7F7F7',
+        //             width: !collapsed ? '30%' : '10%',
+        //             transition: 'width 0.5s ease',
+        //         }}>
         //         <Navbar collapsed={collapsed} setCollapsed={setCollapsed} />
         //     </Paper>
 
@@ -192,7 +198,7 @@ export default function HomePage() {
             display: 'flex',
             p: 2,
             bgcolor: '#F0F0F0',
-            height: !collapsed && !closeTask ? '100%' : '100vh',
+            height: !collapsed ? '100%' : '100vh',
             gap: 2,
             position: 'relative',
         }}>
@@ -203,6 +209,8 @@ export default function HomePage() {
                     bgcolor: '#F7F7F7',
                     width: !collapsed ? '30%' : '10%',
                     transition: 'width 0.5s ease',
+                    // height: '100%',
+                    // height: closeTask ? '100%' : 'auto',
                 }}
             >
                 <Navbar collapsed={collapsed} setCollapsed={setCollapsed} />
@@ -214,6 +222,10 @@ export default function HomePage() {
                     borderRadius: 4,
                     bgcolor: '#F7F7F7',
                     width: '100%',
+                    p: 2,
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center'
                 }}
             >
                 Content
