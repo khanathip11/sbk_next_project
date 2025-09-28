@@ -7,6 +7,7 @@ import TaskSummary from "../components/home/TaskSummary";
 import TaskBoard from "../components/home/TaskBoard";
 import droneImg from '@/app/assets/drone.jpg';
 import AdsClickIcon from '@mui/icons-material/AdsClick';
+import ComplaintMap from "../components/home/ComplaintMap";
 
 
 export default function HomePage() {
@@ -222,13 +223,13 @@ export default function HomePage() {
                     borderRadius: 4,
                     bgcolor: '#F7F7F7',
                     width: '100%',
-                    p: 2,
+                    // p: 2,
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center'
                 }}
             >
-                Content
+                <ComplaintMap />
             </Paper>
 
             {!closeTask && (
@@ -280,6 +281,9 @@ export default function HomePage() {
                         cursor: 'pointer',
                         borderRadius: 2,
                         zIndex: 10,
+                        '&:hover': {
+                            backgroundColor: '#FF5757'
+                        }
                     }}
                 >
                     <AdsClickIcon sx={{ fontSize: 16, color: 'white', transform: 'rotate(180deg)', }} onClick={() => console.log('s')} />
