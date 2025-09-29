@@ -143,7 +143,15 @@ export default function HomePage() {
             display: 'flex',
             p: 2,
             bgcolor: '#F0F0F0',
-            height: !collapsed ? '100%' : '100vh',
+            height: {
+                lg: !collapsed
+                    ? (!closeTask ? '100%' : '100%')
+                    : (!closeTask ? '100vh' : '100vh'),
+                xl: !collapsed
+                    ? (!closeTask ? '100%' : '100vh')
+                    : (!closeTask ? '100%' : '100vh'),
+            },
+            // height: !collapsed ? '100%' : '100vh',
             gap: 2,
             position: 'relative',
         }}>
@@ -152,10 +160,18 @@ export default function HomePage() {
                 sx={{
                     borderRadius: 4,
                     bgcolor: '#F7F7F7',
-                    width: !collapsed ? '30%' : '10%',
+                    width: {
+                        lg: !collapsed
+                            ? (!closeTask ? '40%' : '27.4%')
+                            : (!closeTask ? '10%' : '10%'),
+                        xl: !collapsed
+                            ? (!closeTask ? '28%' : '19.5%')
+                            : (!closeTask ? '6%' : '5.9%'),
+                    },
+                    // width: !collapsed ? '30%' : '10%',
                     transition: 'width 0.5s ease',
                     // height: '100%',
-                    // height: closeTask ? '100%' : 'auto',
+                    height: closeTask ? '100%' : 'auto',
                 }}
             >
                 <Navbar collapsed={collapsed} setCollapsed={setCollapsed} />

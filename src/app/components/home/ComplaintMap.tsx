@@ -1,8 +1,9 @@
-import React from 'react'
-import { Box, Button } from '@mui/material'
+import React, { useState } from 'react'
+import { Box, Button, Modal } from '@mui/material'
 import ReportProblemIcon from '@mui/icons-material/ReportProblem';
 import ComplaintOverview from './ComplaintOverview';
 import { StaticImageData } from "next/image";
+import EmergencyNotifier from './EmergencyNotifier';
 
 type CardData = {
     id: number;
@@ -26,6 +27,9 @@ type ComplaintMapProps = {
 };
 
 const ComplaintMap: React.FC<ComplaintMapProps> = ({ cardsData, collapse }) => {
+    const [open, setOpen] = useState<boolean>(false);
+    const handleOpen = () => setOpen(true);
+    const handleClose = () => setOpen(false);
 
     return (
         <Box
@@ -49,7 +53,8 @@ const ComplaintMap: React.FC<ComplaintMapProps> = ({ cardsData, collapse }) => {
                 <ComplaintOverview cardsDataOverview={cardsData} />
             </Box>
             <Box>
-                <Button variant="contained"
+                <Button
+                    variant="contained"
                     sx={{
                         width: '200px',
                         height: '5%',
@@ -63,10 +68,18 @@ const ComplaintMap: React.FC<ComplaintMapProps> = ({ cardsData, collapse }) => {
                         '&:hover': {
                             backgroundColor: '#FA4D4D'
                         }
-                    }}>
+                    }}
+                    onClick={handleOpen}
+                >
                     <ReportProblemIcon sx={{ fontSize: 18 }} />
                     แจ้งเตือนเหตุการณ์ฉุกเฉิน
                 </Button>
+
+                <Modal open={open} onClose={handleClose}>
+                    <Box>
+                        <EmergencyNotifier handleClose={handleClose} />
+                    </Box>
+                </Modal>
             </Box>
         </Box >
     )

@@ -34,14 +34,28 @@ const TaskBoard: React.FC<TaskBoardProps> = ({ card }) => {
                         objectFit: 'cover',
                         mt: 0.1,
                         ml: 0.2
-                    }} />
+                    }}
+                />
 
 
                 <Box sx={{ width: '100%', overflow: 'hidden' }}>
                     <Stack direction={'row'} px={2} pt={0.5}>
-                        <Typography fontSize={8} noWrap sx={{ textOverflow: 'ellipsis', maxWidth: '80px' }}>{card.issue?.length > 20 ? card.issue.slice(0, 20) + '…' : card.issue}</Typography>
+                        <Typography fontSize={8} noWrap sx={{ textOverflow: 'ellipsis', maxWidth: '80px', color: 'blue' }}>{card.issue?.length > 18 ? card.issue.slice(0, 18) + '…' : card.issue}</Typography>
                         <Box flexGrow={1} />
-                        <Typography fontSize={8}>{card.status}</Typography>
+                        <Typography
+                            fontSize={8}
+                            noWrap
+                            sx={{
+                                color: card.color,
+                                bgcolor: card.bgColor,
+                                p: 0.3,
+                                pt: 0,
+                                pb: 0,
+                                borderRadius: 1,
+                                width: 'auto',
+                            }}>
+                            {card.status?.length > 30 ? card.status.slice(0, 30) + '…' : card.status}
+                        </Typography>
                     </Stack>
                     <CardContent sx={{ py: 0 }}>
                         <Typography variant="subtitle1" color="text.black" fontSize={12} noWrap>
