@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import Navbar from "../components/home/Navbar";
-import { Box, Paper, Typography } from "@mui/material";
+import { Box, Paper } from "@mui/material";
 import TaskSummary from "../components/home/TaskSummary";
 import TaskBoard from "../components/home/TaskBoard";
 import droneImg from '@/app/assets/drone.jpg';
@@ -139,62 +139,6 @@ export default function HomePage() {
     ];
 
     return (
-        // <Box sx={{
-        //     display: 'flex',
-        //     p: 2,
-        //     bgcolor: '#F0F0F0',
-        //     height: !collapsed && !closeTask ? '100%' : '100vh',
-        //     gap: 2,
-        // }}>
-        //     <Paper elevation={5}
-        //         sx={{
-        //             borderRadius: 4,
-        //             bgcolor: '#F7F7F7',
-        //             width: !collapsed ? '30%' : '10%',
-        //             transition: 'width 0.5s ease',
-        //         }}>
-        //         <Navbar collapsed={collapsed} setCollapsed={setCollapsed} />
-        //     </Paper>
-
-        //     <Paper elevation={5} sx={{ borderRadius: 4, bgcolor: '#F7F7F7', width: '100%' }}>
-        //         Content
-        //     </Paper>
-
-        //     <Paper
-        //         elevation={5}
-        //         sx={{
-        //             borderRadius: 4,
-        //             bgcolor: '#F7F7F7',
-        //             width: !closeTask ? '40%' : '5%',
-        //             p: 1,
-        //             transition: 'width 0.3s ease',
-        //             display: closeTask ? 'flex' : '',
-        //             alignItems: closeTask ? 'center' : '',
-        //             justifyContent: closeTask ? 'center' : '',
-        //             height: '100%',
-        //             maxHeight: 'calc(100vh)',
-        //             overflowY: 'auto',
-        //             "&::-webkit-scrollbar": {
-        //                 width: "0px",
-        //             },
-        //             "&::-webkit-scrollbar-thumb": {
-        //                 backgroundColor: "#c1c1c1",
-        //                 borderRadius: "4px",
-        //             },
-        //             "&::-webkit-scrollbar-thumb:hover": {
-        //                 backgroundColor: "#a0a0a0",
-        //             },
-        //         }}
-        //     >
-        //         <TaskSummary count={120} closeTask={closeTask} SetCloseTask={SetCloseTask} />
-        //         {!closeTask && (
-        //             cardsData.map((card) => (
-        //                 <TaskBoard key={card.id} card={card} />
-        //             ))
-        //         )}
-        //     </Paper>
-        // </Box>
-
         <Box sx={{
             display: 'flex',
             p: 2,
@@ -229,7 +173,7 @@ export default function HomePage() {
                     justifyContent: 'center'
                 }}
             >
-                <ComplaintMap />
+                <ComplaintMap collapse={collapsed} cardsData={cardsData} />
             </Paper>
 
             {!closeTask && (

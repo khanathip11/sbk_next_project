@@ -2,8 +2,31 @@ import React from 'react'
 import { Box, Button } from '@mui/material'
 import ReportProblemIcon from '@mui/icons-material/ReportProblem';
 import ComplaintOverview from './ComplaintOverview';
+import { StaticImageData } from "next/image";
 
-const ComplaintMap = () => {
+type CardData = {
+    id: number;
+    issue: string;
+    count: string | number;
+    status: string;
+    imageSrc: string | StaticImageData;
+    bgColor: string;
+    color: string;
+    title: string;
+    desc: string;
+};
+
+// type ComplaintMapProp = {
+//     collapsed: boolean;
+// };
+
+type ComplaintMapProps = {
+    cardsData: CardData[];
+    collapse: boolean;
+};
+
+const ComplaintMap: React.FC<ComplaintMapProps> = ({ cardsData, collapse }) => {
+
     return (
         <Box
             sx={{
@@ -18,18 +41,17 @@ const ComplaintMap = () => {
                     position: 'absolute',
                     top: 20,
                     left: 20,
-                    border: '1px solid red',
-                    width: '35%',
-                    minHeight: "40%",  // ค่าต่ำสุด
-                    maxHeight: "80%",
-                    // overflow: 'scroll'
+                    // border: '1px solid red',
+                    width: '250px',
+                    minHeight: "40%",
+                    maxHeight: "auto",
                 }}>
-                <ComplaintOverview />
+                <ComplaintOverview cardsDataOverview={cardsData} />
             </Box>
             <Box>
                 <Button variant="contained"
                     sx={{
-                        width: '30%',
+                        width: '200px',
                         height: '5%',
                         position: 'absolute',
                         bottom: 10, left: '50%',
