@@ -76,7 +76,7 @@ const ComplaintMap: React.FC<ComplaintMapProps> = ({ cardsData, collapse }) => {
                 </Button>
 
                 <Modal open={open} onClose={handleClose}>
-                    <Box>
+                    <Box sx={{ width: '100%', height: '100%' }}>
                         <EmergencyNotifier handleClose={handleClose} />
                     </Box>
                 </Modal>

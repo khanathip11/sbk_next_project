@@ -15,7 +15,7 @@ type EmergencyNotifierProps = {
 const EmergencyNotifier: React.FC<EmergencyNotifierProps> = ({ handleClose }) => {
     return (
         <Box
-            sx={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', m: 'auto', mt: 1, }}
+            sx={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', m: 'auto', }}
         >
             <Paper sx={{ width: '900px', height: 'auto', borderRadius: 4, backgroundColor: 'white', p: 1 }}>
                 <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', pt: 2 }}>
