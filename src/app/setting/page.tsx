@@ -1,8 +1,11 @@
 import React from 'react'
+import NavigatLayout from '../components/layout/NavigatLayout'
 
 const Setting = () => {
     return (
-        <div>Setting</div>
+        <NavigatLayout>
+            <div>Setting</div>
+        </NavigatLayout>
     )
 }
 

@@ -1,8 +1,11 @@
 import React from 'react'
+import NavigatLayout from '../components/layout/NavigatLayout'
 
 const UserManagement = () => {
     return (
-        <div>UserManagement</div>
+        <NavigatLayout>
+            <div>UserManagement</div>
+        </NavigatLayout>
     )
 }
 

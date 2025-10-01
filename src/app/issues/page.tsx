@@ -1,9 +1,12 @@
 import React from 'react'
+import NavigatLayout from '../components/layout/NavigatLayout'
 
-const issues = () => {
+const Issues = () => {
     return (
-        <div>issues</div>
+        <NavigatLayout>
+            <div>Issues</div>
+        </NavigatLayout>
     )
 }
 
-export default issues
+export default Issues

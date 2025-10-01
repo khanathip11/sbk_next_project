@@ -10,6 +10,7 @@ import ComplaintMap from "../components/home/ComplaintMap";
 import PreviewPanal from "../components/home/PreviewPanal";
 import { CardItem } from "../types/CardItem";
 import { cardsData } from '../data/CardsData';
+import NavigatLayout from "../components/layout/NavigatLayout";
 
 export default function HomePage() {
     const [collapsed, setCollapsed] = useState<boolean>(false);

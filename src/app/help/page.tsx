@@ -1,8 +1,11 @@
 import React from 'react'
+import NavigatLayout from '../components/layout/NavigatLayout'
 
 const Help = () => {
     return (
-        <div>Help</div>
+        <NavigatLayout>
+            <div>Help</div>
+        </NavigatLayout>
     )
 }
 
