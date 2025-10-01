@@ -7,17 +7,20 @@ import React from 'react'
 type CardsData = {
     id: number;
     issue: string;
-    count: string | number;
-    status?: string;
+    count: string;
+    status: string;
     imageSrc: string | StaticImageData;
     bgColor: string;
     color: string;
     title: string;
     desc: string;
+    refNumber: string;
+    reporter: string;
+    location: string;
+    dateTime: string;
 }
 
 type ComplaintOverviewProps = {
-    // cardsDataOverview: CardsData;
     cardsDataOverview: CardsData[]
 }
 

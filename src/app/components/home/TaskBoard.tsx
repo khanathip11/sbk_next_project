@@ -17,7 +17,6 @@ interface CardItem {
     location: string;
     dateTime: string;
 }
-
 interface TaskBoardProps {
     card: CardItem;
     onClick: () => void;

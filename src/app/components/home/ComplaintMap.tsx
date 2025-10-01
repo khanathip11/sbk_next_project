@@ -8,25 +8,25 @@ import EmergencyNotifier from './EmergencyNotifier';
 type CardData = {
     id: number;
     issue: string;
-    count: string | number;
+    count: string;
     status: string;
     imageSrc: string | StaticImageData;
     bgColor: string;
     color: string;
     title: string;
     desc: string;
+    refNumber: string;
+    reporter: string;
+    location: string;
+    dateTime: string;
 };
-
-// type ComplaintMapProp = {
-//     collapsed: boolean;
-// };
 
 type ComplaintMapProps = {
     cardsData: CardData[];
     collapse: boolean;
 };
 
-const ComplaintMap: React.FC<ComplaintMapProps> = ({ cardsData, collapse }) => {
+const ComplaintMap: React.FC<ComplaintMapProps> = ({ cardsData }) => {
     const [open, setOpen] = useState<boolean>(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);

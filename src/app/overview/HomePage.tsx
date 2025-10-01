@@ -9,12 +9,11 @@ import AdsClickIcon from '@mui/icons-material/AdsClick';
 import ComplaintMap from "../components/home/ComplaintMap";
 import PreviewPanal from "../components/home/PreviewPanal";
 import { CardItem } from "../types/CardItem";
-import { cardsData } from '../data/CardsData'
+import { cardsData } from '../data/CardsData';
 
 export default function HomePage() {
     const [collapsed, setCollapsed] = useState<boolean>(false);
     const [closeTask, SetCloseTask] = useState<boolean>(false);
-
     const [selectedCard, setSelectedCard] = useState<CardItem | null>(null);
 
     return (
@@ -46,9 +45,7 @@ export default function HomePage() {
                             ? (!closeTask ? '28%' : '19.5%')
                             : (!closeTask ? '6%' : '5.9%'),
                     },
-                    // width: !collapsed ? '30%' : '10%',
                     transition: 'width 0.5s ease',
-                    // height: '100%',
                     height: closeTask ? '100%' : 'auto',
                 }}
             >
@@ -61,7 +58,6 @@ export default function HomePage() {
                     borderRadius: 4,
                     bgcolor: '#F7F7F7',
                     width: '100%',
-                    // p: 2,
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center'
@@ -96,7 +92,7 @@ export default function HomePage() {
                     }
                     }
                 >
-                    <TaskSummary count={120} closeTask={closeTask} SetCloseTask={SetCloseTask} />
+                    <TaskSummary count={120} closeTask={closeTask} SetCloseTask={SetCloseTask} selectedCard={selectedCard} />
                     {!selectedCard ? (
                         cardsData.map((card) => (
                             <TaskBoard key={card.id} card={card} onClick={() => setSelectedCard(card)} />
@@ -134,6 +130,5 @@ export default function HomePage() {
             )
             }
         </Box >
-
     );
 }

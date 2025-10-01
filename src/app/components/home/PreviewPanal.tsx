@@ -1,4 +1,4 @@
-import { Box, Button, Card, CardMedia, Typography } from '@mui/material';
+import { Box, Card, CardMedia, Typography } from '@mui/material';
 import React, { useState } from 'react'
 import { formatThaiDateTime } from '@/app/utils/formatThaiDateTime';
 import { StaticImageData } from "next/image";
@@ -10,6 +10,9 @@ import RecordVoiceOverOutlinedIcon from '@mui/icons-material/RecordVoiceOverOutl
 import FmdGoodOutlinedIcon from '@mui/icons-material/FmdGoodOutlined';
 import ScheduleIcon from '@mui/icons-material/Schedule';
 import DescriptionOutlinedIcon from '@mui/icons-material/DescriptionOutlined';
+import MapOutlinedIcon from '@mui/icons-material/MapOutlined';
+import QrCodeScannerOutlinedIcon from '@mui/icons-material/QrCodeScannerOutlined';
+import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined';
 import { Collapse } from '@mui/material';
 
 export interface CardItem {
@@ -29,8 +32,8 @@ export interface CardItem {
 }
 
 interface PreviewPanalProps {
-    card: CardItem;          // การ์ดที่เลือกมาแสดง
-    onBack: () => void;      // ฟังก์ชันกด back
+    card: CardItem;
+    onBack: () => void;
 }
 
 const PreviewPanal: React.FC<PreviewPanalProps> = ({ card, onBack }) => {
@@ -39,12 +42,38 @@ const PreviewPanal: React.FC<PreviewPanalProps> = ({ card, onBack }) => {
     return (
         <Box sx={{ width: "100%", height: "100vh", m: 0, p: 0, position: 'relative' }}>
             {card.imageSrc && (
-                <CardMedia
-                    component="img"
-                    image={typeof card.imageSrc === "string" ? card.imageSrc : card.imageSrc.src}
-                    alt="Preview"
-                    sx={{ width: "100%", height: "auto", objectFit: "cover", p: 0, }}
-                />
+                <>
+                    <Box
+                        sx={{
+                            position: 'absolute',
+                            top: 8,
+                            right: 8,
+                            zIndex: 10,
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center'
+                        }}
+                    >
+                        <CloseOutlinedIcon
+                            onClick={onBack}
+                            sx={{
+                                fontSize: 18,
+                                color: 'text.secondary',
+                                cursor: 'pointer'
+                            }}
+                        />
+                    </Box>
+
+
+                    <CardMedia
+                        component="img"
+                        image={typeof card.imageSrc === "string" ? card.imageSrc : card.imageSrc.src}
+                        alt="Preview"
+                        sx={{ width: "100%", height: "auto", objectFit: "cover", p: 0, }}
+                    />
+
+                </>
+
             )}
             <Card sx={{ borderRadius: 4, backgroundColor: '#ffffff', width: '100%', height: '100%', p: 1, position: 'absolute', top: '38%' }}>
                 <Box sx={{ display: "flex", justifyContent: "center", alignItems: 'center', flexDirection: 'column', mb: 2 }}>
@@ -115,17 +144,29 @@ const PreviewPanal: React.FC<PreviewPanalProps> = ({ card, onBack }) => {
                                 </Box>
                                 <Typography fontSize={12} color="text.secondary" sx={{ mb: 2, ml: `24px`, fontSize: 12 }}>{card.desc}</Typography>
                             </Box>
-                            {/* <Box sx={{ display: 'flex', gap: 1 }}>
-                                <DescriptionOutlinedIcon />
-                                <Typography fontSize={12} color="text.secondary" sx={{ mb: 2 }}>{card.issue}</Typography>
-                            </Box> */}
+
+                            <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+                                <Box sx={{ display: 'flex', gap: 1 }}>
+                                    <MapOutlinedIcon sx={{ fontSize: 16 }} />
+                                    <Typography fontSize={12} color="#000000">แผนที่</Typography>
+                                </Box>
+                                <Typography fontSize={12} color="text.secondary" sx={{ mb: 2, ml: `24px`, fontSize: 12 }}>Lorem ipsum dolor sit amet, consectetur adipiscing elit</Typography>
+                            </Box>
+                            <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+                                <Box sx={{ display: 'flex', gap: 1 }}>
+                                    <QrCodeScannerOutlinedIcon sx={{ fontSize: 16 }} />
+                                    <Typography fontSize={12} color="#000000">QR-Code</Typography>
+                                </Box>
+                                <Typography fontSize={12} color="text.secondary" sx={{ mb: 2, ml: `24px`, fontSize: 12 }}>Lorem ipsum dolor sit amet, consectetur adipiscing elit</Typography>
+                            </Box>
+
                         </Box>
                     </Collapse>
                 </Box>
 
-                <Box sx={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', mt: 2 }}>
+                {/* <Box sx={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', mt: 2 }}>
                     <Button variant="contained" size="small" onClick={onBack}>Back</Button>
-                </Box>
+                </Box> */}
             </Card>
         </Box>
     )

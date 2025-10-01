@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useState } from 'react'
 import { Box, List, Toolbar, Stack, Avatar, Typography, IconButton, AppBar, ListItemIcon, ListItemText, ListItemButton, Tooltip } from "@mui/material";
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
@@ -13,6 +15,8 @@ import EqualizerIcon from '@mui/icons-material/Equalizer';
 import NightsStayIcon from '@mui/icons-material/NightsStay';
 import ArticleIcon from '@mui/icons-material/Article';
 import BubbleChartIcon from '@mui/icons-material/BubbleChart';
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 type NavbarProps = {
     collapsed: boolean;
@@ -24,18 +28,19 @@ const Navbar: React.FC<NavbarProps> = ({ collapsed, setCollapsed }) => {
     const handleListItemClick = (index: number) => {
         setSelectedIndex(index);
     };
+
     const menuTopItems = [
-        { text: "Overview", icon: <HomeFilledIcon /> },
-        { text: "Dashboard", icon: <AssignmentIcon /> },
-        { text: "Issue Management", icon: <BubbleChartIcon /> },
-        { text: "Report", icon: <EqualizerIcon /> },
-        { text: "User Management", icon: <PersonIcon /> },
+        { text: "Overview", icon: <HomeFilledIcon />, href: "/" },
+        { text: "Dashboard", icon: <AssignmentIcon />, href: "/dashboard" },
+        { text: "Issue Management", icon: <BubbleChartIcon />, href: "/issues" },
+        { text: "Report", icon: <EqualizerIcon />, href: "/report" },
+        { text: "User Management", icon: <PersonIcon />, href: "/users" },
     ];
 
     const menuBottomItems = [
-        { text: "Documentation", icon: <ArticleIcon /> },
-        { text: "Help", icon: <HelpIcon /> },
-        { text: "Setting", icon: <SettingsIcon /> }
+        { text: "Documentation", icon: <ArticleIcon />, href: "/documentation" },
+        { text: "Help", icon: <HelpIcon />, href: "/help" },
+        { text: "Setting", icon: <SettingsIcon />, href: "/setting" }
     ];
 
     const themeOptions = [
@@ -49,6 +54,8 @@ const Navbar: React.FC<NavbarProps> = ({ collapsed, setCollapsed }) => {
     const handleChang = (newMode: string) => {
         setMode(newMode)
     }
+
+    const pathname = usePathname();
 
     return (
         <>
@@ -102,40 +109,42 @@ const Navbar: React.FC<NavbarProps> = ({ collapsed, setCollapsed }) => {
 
                 <List>
                     {menuTopItems.map((item, index) => (
-                        <ListItemButton
-                            key={item.text}
-                            selected={selectedIndex === index}
-                            onClick={() => handleListItemClick(index)}
-                            sx={{
-                                cursor: "pointer",
-                                mb: 0,
-                                bgcolor: "transparent",
-                                borderRadius: 2,
-                                display: 'flex',
-                                gap: 1,
-                                color: '#575656',
-                                justifyContent: collapsed ? 'center' : 'flex-start',
-                                "&.Mui-selected": {
-                                    bgcolor: "white",
-                                    borderRadius: 2,
-                                    color: "#000000",
-                                    // boxShadow: 1,
-                                    "&:hover": { bgcolor: "grey.100" },
-                                },
-                                "&:hover": { bgcolor: "action.hover" },
-                            }}
-                        >
-                            <ListItemIcon
+                        <Link href={item.href} key={item.text} passHref legacyBehavior>
+                            <ListItemButton
+                                key={item.text}
+                                selected={pathname === item.href}
+                                onClick={() => handleListItemClick(index)}
                                 sx={{
-                                    minWidth: 36,
-                                    justifyContent: 'center',
-                                    color: selectedIndex === index ? "primary.main" : "inherit",
+                                    cursor: "pointer",
+                                    mb: 0,
+                                    bgcolor: "transparent",
+                                    borderRadius: 2,
+                                    display: 'flex',
+                                    gap: 1,
+                                    color: '#575656',
+                                    justifyContent: collapsed ? 'center' : 'flex-start',
+                                    "&.Mui-selected": {
+                                        bgcolor: "white",
+                                        borderRadius: 2,
+                                        color: "#000000",
+                                        // boxShadow: 1,
+                                        "&:hover": { bgcolor: "grey.100" },
+                                    },
+                                    "&:hover": { bgcolor: "action.hover" },
                                 }}
                             >
-                                {item.icon}
-                            </ListItemIcon>
-                            {!collapsed && <ListItemText primary={item.text} />}
-                        </ListItemButton>
+                                <ListItemIcon
+                                    sx={{
+                                        minWidth: 36,
+                                        justifyContent: 'center',
+                                        color: pathname === item.href ? "primary.main" : "inherit",
+                                    }}
+                                >
+                                    {item.icon}
+                                </ListItemIcon>
+                                {!collapsed && <ListItemText primary={item.text} />}
+                            </ListItemButton>
+                        </Link>
                     ))}
                 </List>
 
@@ -143,40 +152,42 @@ const Navbar: React.FC<NavbarProps> = ({ collapsed, setCollapsed }) => {
 
                 <List>
                     {menuBottomItems.map((item, index) => (
-                        <ListItemButton
-                            key={item.text}
-                            selected={selectedIndex === index + menuTopItems.length}
-                            onClick={() => handleListItemClick(index + menuTopItems.length)}
-                            sx={{
-                                cursor: "pointer",
-                                mb: 0,
-                                bgcolor: "transparent",
-                                color: '#575656',
-                                gap: 1,
-                                borderRadius: 2,
-                                display: 'flex',
-                                justifyContent: collapsed ? 'center' : 'flex-start',
-                                "&.Mui-selected": {
-                                    bgcolor: "white",
-                                    borderRadius: 2,
-                                    color: '#000000',
-                                    boxShadow: 1,
-                                    "&:hover": { bgcolor: "grey.100" },
-                                },
-                                "&:hover": { bgcolor: "action.hover" },
-                            }}
-                        >
-                            <ListItemIcon
+                        <Link href={item.href} key={item.text} passHref legacyBehavior>
+                            <ListItemButton
+                                key={item.text}
+                                selected={pathname === item.href}
+                                onClick={() => handleListItemClick(index + menuTopItems.length)}
                                 sx={{
-                                    minWidth: 36,
-                                    justifyContent: 'center',
-                                    color: selectedIndex === index + menuTopItems.length ? "primary.main" : "inherit",
+                                    cursor: "pointer",
+                                    mb: 0,
+                                    bgcolor: "transparent",
+                                    color: '#575656',
+                                    gap: 1,
+                                    borderRadius: 2,
+                                    display: 'flex',
+                                    justifyContent: collapsed ? 'center' : 'flex-start',
+                                    "&.Mui-selected": {
+                                        bgcolor: "white",
+                                        borderRadius: 2,
+                                        color: '#000000',
+                                        boxShadow: 0,
+                                        "&:hover": { bgcolor: "grey.100" },
+                                    },
+                                    "&:hover": { bgcolor: "action.hover" },
                                 }}
                             >
-                                {item.icon}
-                            </ListItemIcon>
-                            {!collapsed && <ListItemText primary={item.text} />}
-                        </ListItemButton>
+                                <ListItemIcon
+                                    sx={{
+                                        minWidth: 36,
+                                        justifyContent: 'center',
+                                        color: pathname === item.href ? "primary.main" : "inherit",
+                                    }}
+                                >
+                                    {item.icon}
+                                </ListItemIcon>
+                                {!collapsed && <ListItemText primary={item.text} />}
+                            </ListItemButton>
+                        </Link>
                     ))}
                 </List>
 
