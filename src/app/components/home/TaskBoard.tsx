@@ -12,17 +12,22 @@ interface CardItem {
     color: string;
     title: string;
     desc: string;
+    refNumber: string;
+    reporter: string;
+    location: string;
+    dateTime: string;
 }
 
 interface TaskBoardProps {
     card: CardItem;
+    onClick: () => void;
 }
-const TaskBoard: React.FC<TaskBoardProps> = ({ card }) => {
+
+const TaskBoard: React.FC<TaskBoardProps> = ({ card, onClick }) => {
+
     return (
         <>
-
-
-            <Card sx={{ width: '100%', display: 'flex', mb: 1, p: 1, borderRadius: 4, boxShadow: 'none', }}>
+            <Card onClick={onClick} sx={{ width: '100%', display: 'flex', mb: 1, p: 1, borderRadius: 4, boxShadow: 'none', }}>
                 <CardMedia
                     component="img"
                     image={typeof card.imageSrc === "string" ? card.imageSrc : card.imageSrc.src}
@@ -36,7 +41,6 @@ const TaskBoard: React.FC<TaskBoardProps> = ({ card }) => {
                         ml: 0.2
                     }}
                 />
-
 
                 <Box sx={{ width: '100%', overflow: 'hidden' }}>
                     <Stack direction={'row'} px={2} pt={0.5}>
@@ -72,7 +76,6 @@ const TaskBoard: React.FC<TaskBoardProps> = ({ card }) => {
                     </Stack>
                 </Box>
             </Card>
-
         </>
     )
 }
