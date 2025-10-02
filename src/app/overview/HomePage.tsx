@@ -41,7 +41,7 @@ export default function HomePage() {
                     width: {
                         lg: !collapsed
                             ? (!closeTask ? '40%' : '27.4%')
-                            : (!closeTask ? '10%' : '10%'),
+                            : (!closeTask ? '10%' : '8.5%'),
                         xl: !collapsed
                             ? (!closeTask ? '28%' : '19.5%')
                             : (!closeTask ? '6%' : '5.9%'),
@@ -64,7 +64,7 @@ export default function HomePage() {
                     justifyContent: 'center'
                 }}
             >
-                <ComplaintMap collapse={collapsed} cardsData={cardsData} />
+                <ComplaintMap collapse={collapsed} closeTask={closeTask} cardsData={cardsData} />
             </Paper>
 
             {!closeTask && (
@@ -110,7 +110,7 @@ export default function HomePage() {
                     onClick={() => SetCloseTask(false)}
                     sx={{
                         position: 'absolute',
-                        top: 30,
+                        bottom: 30,
                         right: 30,
                         width: '3%',
                         height: '5%',

@@ -106,62 +106,63 @@ const PreviewPanal: React.FC<PreviewPanalProps> = ({ card, onBack }) => {
                     </Box>
 
                     <Collapse in={openDropdown} timeout="auto" unmountOnExit>
-                        <Box sx={{ mt: 1, pl: '24px' }}>
-                            <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-                                <Box sx={{ display: 'flex', gap: 1 }}>
-                                    <VpnKeyOutlinedIcon sx={{ fontSize: 16 }} />
-                                    <Typography fontSize={12} color="#000000">หมายเลขอ้างอิง</Typography>
-                                </Box>
-                                <Typography fontSize={12} color="text.secondary" sx={{ mb: 2, ml: `24px`, fontSize: 12 }}>{card.refNumber}</Typography>
-                            </Box>
-                            <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-                                <Box sx={{ display: 'flex', gap: 1 }}>
-                                    <RecordVoiceOverOutlinedIcon sx={{ fontSize: 16 }} />
-                                    <Typography fontSize={12} color="#000000">ผู้แจ้ง</Typography>
-                                </Box>
-                                <Typography fontSize={12} color="text.secondary" sx={{ mb: 2, ml: `24px`, fontSize: 12 }}>{card.reporter}</Typography>
-                            </Box>
-                            <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-                                <Box sx={{ display: 'flex', gap: 1 }}>
-                                    <FmdGoodOutlinedIcon sx={{ fontSize: 16 }} />
-                                    <Typography fontSize={12} color="#000000">สถานที่</Typography>
-                                </Box>
-                                <Typography fontSize={12} color="text.secondary" sx={{ mb: 2, ml: `24px`, fontSize: 12 }}>{card.location}</Typography>
-                            </Box>
-                            <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-                                <Box sx={{ display: 'flex', gap: 1 }}>
-                                    <ScheduleIcon sx={{ fontSize: 16 }} />
-                                    <Typography fontSize={12} color="#000000">วันและเวลา</Typography>
-                                </Box>
-                                <Typography fontSize={12} color="text.secondary" sx={{ mb: 2, ml: `24px`, fontSize: 12 }}>
-                                    {formatThaiDateTime(card.dateTime)}
-                                </Typography>
-                            </Box>
-                            <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-                                <Box sx={{ display: 'flex', gap: 1 }}>
-                                    <DescriptionOutlinedIcon sx={{ fontSize: 16 }} />
-                                    <Typography fontSize={12} color="#000000">รายละเอียด</Typography>
-                                </Box>
-                                <Typography fontSize={12} color="text.secondary" sx={{ mb: 2, ml: `24px`, fontSize: 12 }}>{card.desc}</Typography>
-                            </Box>
-
-                            <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-                                <Box sx={{ display: 'flex', gap: 1 }}>
-                                    <MapOutlinedIcon sx={{ fontSize: 16 }} />
-                                    <Typography fontSize={12} color="#000000">แผนที่</Typography>
-                                </Box>
-                                <Typography fontSize={12} color="text.secondary" sx={{ mb: 2, ml: `24px`, fontSize: 12 }}>Lorem ipsum dolor sit amet, consectetur adipiscing elit</Typography>
-                            </Box>
-                            <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-                                <Box sx={{ display: 'flex', gap: 1 }}>
-                                    <QrCodeScannerOutlinedIcon sx={{ fontSize: 16 }} />
-                                    <Typography fontSize={12} color="#000000">QR-Code</Typography>
-                                </Box>
-                                <Typography fontSize={12} color="text.secondary" sx={{ mb: 2, ml: `24px`, fontSize: 12 }}>Lorem ipsum dolor sit amet, consectetur adipiscing elit</Typography>
-                            </Box>
-
-                        </Box>
+                        <Box sx={{ pl: '24px' }}>Banana is Fruit 🍌</Box>
                     </Collapse>
+                    <Box sx={{ mt: 1, pl: '24px' }}>
+                        <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+                            <Box sx={{ display: 'flex', gap: 1 }}>
+                                <VpnKeyOutlinedIcon sx={{ fontSize: 16 }} />
+                                <Typography fontSize={12} color="#000000">หมายเลขอ้างอิง</Typography>
+                            </Box>
+                            <Typography fontSize={12} color="text.secondary" sx={{ mb: 2, ml: `24px`, fontSize: 12 }}>{card.refNumber}</Typography>
+                        </Box>
+                        <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+                            <Box sx={{ display: 'flex', gap: 1 }}>
+                                <RecordVoiceOverOutlinedIcon sx={{ fontSize: 16 }} />
+                                <Typography fontSize={12} color="#000000">ผู้แจ้ง</Typography>
+                            </Box>
+                            <Typography fontSize={12} color="text.secondary" sx={{ mb: 2, ml: `24px`, fontSize: 12 }}>{card.reporter}</Typography>
+                        </Box>
+                        <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+                            <Box sx={{ display: 'flex', gap: 1 }}>
+                                <FmdGoodOutlinedIcon sx={{ fontSize: 16 }} />
+                                <Typography fontSize={12} color="#000000">สถานที่</Typography>
+                            </Box>
+                            <Typography fontSize={12} color="text.secondary" sx={{ mb: 2, ml: `24px`, fontSize: 12 }}>{card.location}</Typography>
+                        </Box>
+                        <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+                            <Box sx={{ display: 'flex', gap: 1 }}>
+                                <ScheduleIcon sx={{ fontSize: 16 }} />
+                                <Typography fontSize={12} color="#000000">วันและเวลา</Typography>
+                            </Box>
+                            <Typography fontSize={12} color="text.secondary" sx={{ mb: 2, ml: `24px`, fontSize: 12 }}>
+                                {formatThaiDateTime(card.dateTime)}
+                            </Typography>
+                        </Box>
+                        <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+                            <Box sx={{ display: 'flex', gap: 1 }}>
+                                <DescriptionOutlinedIcon sx={{ fontSize: 16 }} />
+                                <Typography fontSize={12} color="#000000">รายละเอียด</Typography>
+                            </Box>
+                            <Typography fontSize={12} color="text.secondary" sx={{ mb: 2, ml: `24px`, fontSize: 12 }}>{card.desc}</Typography>
+                        </Box>
+
+                        <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+                            <Box sx={{ display: 'flex', gap: 1 }}>
+                                <MapOutlinedIcon sx={{ fontSize: 16 }} />
+                                <Typography fontSize={12} color="#000000">แผนที่</Typography>
+                            </Box>
+                            <Typography fontSize={12} color="text.secondary" sx={{ mb: 2, ml: `24px`, fontSize: 12 }}>Lorem ipsum dolor sit amet, consectetur adipiscing elit</Typography>
+                        </Box>
+                        <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+                            <Box sx={{ display: 'flex', gap: 1 }}>
+                                <QrCodeScannerOutlinedIcon sx={{ fontSize: 16 }} />
+                                <Typography fontSize={12} color="#000000">QR-Code</Typography>
+                            </Box>
+                            <Typography fontSize={12} color="text.secondary" sx={{ mb: 2, ml: `24px`, fontSize: 12 }}>Lorem ipsum dolor sit amet, consectetur adipiscing elit</Typography>
+                        </Box>
+
+                    </Box>
                 </Box>
 
                 {/* <Box sx={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', mt: 2 }}>

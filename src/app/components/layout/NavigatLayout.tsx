@@ -19,10 +19,10 @@ const NavigatLayout: React.FC<menuProps> = ({ children }) => {
                     width: {
                         lg: !collapsed
                             ? (!closeTask ? '21.5%' : '27.4%')
-                            : (!closeTask ? '10%' : '10%'),
+                            : (!closeTask ? '9.2%' : '10%'),
                         xl: !collapsed
-                            ? (!closeTask ? '17%' : '19.5%')
-                            : (!closeTask ? '6%' : '5.9%'),
+                            ? (!closeTask ? '16.30%' : '19.5%')
+                            : (!closeTask ? '5.3%' : '5.9%'),
                     },
                     transition: 'width 0.5s ease',
                     height: closeTask ? '100%' : '100vh',

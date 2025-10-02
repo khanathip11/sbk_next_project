@@ -53,12 +53,6 @@ const TaskSummary = ({ count, closeTask, SetCloseTask, selectedCard }: taskProps
                     />
                 </IconButton>
             </Stack>
-
-            {closeTask && (
-                <Box>
-                    <Typography>banan</Typography>
-                </Box>
-            )}
         </Box>
     )
 }

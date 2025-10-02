@@ -2,6 +2,7 @@ import { Box, Button, Grid, InputAdornment, ListItemButton, Paper, Stack, TextFi
 import FilterListIcon from '@mui/icons-material/FilterList';
 import SearchIcon from "@mui/icons-material/Search";
 import { StaticImageData } from "next/image";
+import ComplaintFilterBar from './ComplaintFilterBar';
 import React from 'react'
 
 type CardsData = {
@@ -22,9 +23,13 @@ type CardsData = {
 
 type ComplaintOverviewProps = {
     cardsDataOverview: CardsData[]
+    collapse: boolean;
+    closeTask: boolean;
 }
 
-const ComplaintOverview: React.FC<ComplaintOverviewProps> = ({ cardsDataOverview }) => {
+const ComplaintOverview: React.FC<ComplaintOverviewProps> = ({ cardsDataOverview,
+    collapse,
+    closeTask, }) => {
     const issueData = [
         { type: "ระบบรับข้อมูลแล้ว", issue: 20, percent: 30, color: "#F72323" },
         { type: "เจ้าหน้าที่ตรวจสอบ", issue: 10, percent: 20, color: "#F7F023" },
@@ -49,89 +54,42 @@ const ComplaintOverview: React.FC<ComplaintOverviewProps> = ({ cardsDataOverview
     ]
 
     return (
-        <Box sx={{ width: '100%', }}>
-            <Stack direction="row" spacing={1} alignItems="center">
+        <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+            <Stack sx={{ display: 'flex', gap: 1, width: '300px', }} direction="row" alignItems="center">
                 <TextField
+                    id="complaint-search"
                     placeholder="ค้นหาตามพื้นที่"
                     variant="outlined"
                     size="small"
                     sx={{
-                        width: '80%',
-                        '& .MuiOutlinedInput-root': {
-                            border: 'none',
-                            borderTop: '1px solid white',
-                            borderBottom: '1px solid white',
-                            borderRadius: 4,
-                            backgroundColor: 'rgba(255,255,255,0.1)',
-                            height: 25,
-                            fontSize: 12,
-                            padding: '0 8px',
-                            '&:hover': {
-                                backgroundColor: 'rgba(255,255,255,0.15)',
-                            },
-                            '&.Mui-focused': {
-                                backgroundColor: 'rgba(255,255,255,0.2)',
-                            },
-                            '& .MuiOutlinedInput-notchedOutline': {
-                                border: 'none',
-                                borderTop: 'none',
-                                borderBottom: 'none',
-                            },
+                        minWidth: '100%',
+                        bgcolor: "white",
+                        borderRadius: 2,
+                        "& .MuiOutlinedInput-root": {
+                            borderRadius: 1,
+                            height: 36,
+                            "& fieldset": { border: "none" },
+                            "&:hover fieldset": { border: "none" },
+                            "&.Mui-focused fieldset": { border: "none" },
                         },
-                        '& .MuiInputAdornment-root': {
-                            marginRight: 1,
-                        },
-                        '& .MuiInputBase-input': {
-                            fontSize: 12,
-                            color: 'white',
-                            '&::placeholder': {
-                                color: '#ffffff',
-                                opacity: 1,
-                            },
+                        "& .MuiInputBase-input": {
+                            fontSize: 14,
+                            color: "black",
                         },
                     }}
                     InputProps={{
                         startAdornment: (
                             <InputAdornment position="start">
-                                <SearchIcon sx={{ fontSize: 16, color: 'white' }} />
+                                <SearchIcon sx={{ fontSize: 18, color: "gray" }} />
                             </InputAdornment>
                         ),
                     }}
                 />
-
-                <Button
-                    startIcon={<FilterListIcon sx={{ fontSize: 12, color: 'white', }} />}
-                    sx={{
-                        minWidth: 0,
-                        height: 25,
-                        padding: '0 8px',
-                        fontSize: 12,
-                        textTransform: 'none',
-                        borderTop: '1px solid white',
-                        borderBottom: '1px solid white',
-                        borderLeft: 'none',
-                        borderRight: 'none',
-                        borderRadius: 2,
-                        backgroundColor: 'rgba(255,255,255,0.1)',
-                        color: 'white',
-                        '&:hover': {
-                            backgroundColor: 'rgba(255,255,255,0.2)',
-                        },
-                        '& .MuiButton-startIcon': {
-                            marginRight: 1,
-                            minWidth: 0,
-                            svg: {
-                                fontSize: 16,
-                            },
-                        },
-                    }}
-                >
-                    Filter
-                </Button>
             </Stack>
 
             <Box
                 sx={{
+                    width: '300px',
                     display: 'grid',
                     gridTemplateColumns: 'repeat(2, 1fr)',
                     gap: 1,
@@ -159,11 +117,11 @@ const ComplaintOverview: React.FC<ComplaintOverviewProps> = ({ cardsDataOverview
                         <Paper
                             sx={{
                                 flex: 1,
-                                minHeight: 50,            // ค่าต่ำสุด
-                                height: 'auto',           // ให้ขยายตามเนื้อหา
+                                minHeight: 50,
+                                height: 'auto',
                                 borderRadius: 4,
                                 display: 'flex',
-                                flexDirection: 'column',  // เรียงแนวตั้ง
+                                flexDirection: 'column',
                                 alignItems: 'flex-start',
                                 justifyContent: 'flex-start',
                                 pl: 1,
@@ -188,7 +146,7 @@ const ComplaintOverview: React.FC<ComplaintOverviewProps> = ({ cardsDataOverview
             </Box>
 
             <Box sx={{
-                width: '100%',
+                width: '300px',
                 height: 'auto',
                 borderTop: '1px solid white',
                 borderBottom: '1px solid white',
@@ -232,31 +190,29 @@ const ComplaintOverview: React.FC<ComplaintOverviewProps> = ({ cardsDataOverview
                     }}
                 >
                     {cardsDataOverview.map((items, index) => (
-                        <>
-                            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, p: 0.7 }}>
-                                <Box
-                                    sx={{
-                                        width: 6,
-                                        height: 6,
-                                        borderRadius: '50%',
-                                        border: '1px solid #ffffff',
-                                        bgcolor: colorCode[index % colorCode.length].color,
-                                    }}
-                                />
+                        <Box key={items.id || index} sx={{ display: 'flex', alignItems: 'center', gap: 1, p: 0.7 }}>
+                            <Box
+                                sx={{
+                                    width: 6,
+                                    height: 6,
+                                    borderRadius: '50%',
+                                    border: '1px solid #ffffff',
+                                    bgcolor: colorCode[index % colorCode.length].color,
+                                }}
+                            />
 
-                                <Typography
-                                    key={items.id}
-                                    sx={{
-                                        color: 'white',
-                                        fontSize: 10,
-                                        lineHeight: '6px',
-                                        m: 0,
-                                    }}
-                                >
-                                    {items.issue}
-                                </Typography>
-                            </Box>
-                        </>
+                            <Typography
+                                key={items.id}
+                                sx={{
+                                    color: 'white',
+                                    fontSize: 10,
+                                    lineHeight: '6px',
+                                    m: 0,
+                                }}
+                            >
+                                {items.issue}
+                            </Typography>
+                        </Box>
                     ))}
                 </Box>
             </Box>

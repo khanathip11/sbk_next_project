@@ -4,6 +4,7 @@ import ReportProblemIcon from '@mui/icons-material/ReportProblem';
 import ComplaintOverview from './ComplaintOverview';
 import { StaticImageData } from "next/image";
 import EmergencyNotifier from './EmergencyNotifier';
+import ComplaintFilterBar from './ComplaintFilterBar';
 
 type CardData = {
     id: number;
@@ -24,9 +25,10 @@ type CardData = {
 type ComplaintMapProps = {
     cardsData: CardData[];
     collapse: boolean;
+    closeTask: boolean;
 };
 
-const ComplaintMap: React.FC<ComplaintMapProps> = ({ cardsData }) => {
+const ComplaintMap: React.FC<ComplaintMapProps> = ({ cardsData, collapse, closeTask, }) => {
     const [open, setOpen] = useState<boolean>(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
@@ -42,31 +44,40 @@ const ComplaintMap: React.FC<ComplaintMapProps> = ({ cardsData }) => {
             }}>
             <Box
                 sx={{
-                    position: 'absolute',
-                    top: 20,
-                    left: 20,
-                    // border: '1px solid red',
-                    width: '250px',
-                    minHeight: "40%",
-                    maxHeight: "auto",
-                }}>
-                <ComplaintOverview cardsDataOverview={cardsData} />
+                    display: "flex",
+                    flexDirection: "row",
+                    alignItems: "flex-start",
+                    p: 2,
+                    gap: 2,
+                    width: "100%",
+                }}
+            >
+                <ComplaintOverview
+                    collapse={collapse}
+                    closeTask={closeTask}
+                    cardsDataOverview={cardsData}
+                />
+
+                <Box sx={{ flex: 1 }}>
+                    <ComplaintFilterBar />
+                </Box>
             </Box>
+
             <Box>
                 <Button
                     variant="contained"
                     sx={{
-                        width: '200px',
+                        width: '195px',
                         height: '5%',
                         position: 'absolute',
                         bottom: 10, left: '50%',
                         transform: 'translateX(-50%)',
-                        backgroundColor: "red",
+                        backgroundColor: "#FF3B3B",
                         fontSize: 12,
                         gap: 1,
                         borderRadius: 2,
                         '&:hover': {
-                            backgroundColor: '#FA4D4D'
+                            backgroundColor: '#FF1A1A'
                         }
                     }}
                     onClick={handleOpen}

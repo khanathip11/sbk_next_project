@@ -64,7 +64,7 @@ const Navbar: React.FC<NavbarProps> = ({ collapsed, setCollapsed }) => {
                     display: 'flex',
                     flexDirection: 'column',
                     height: '100%',
-                    p: 2,
+                    p: 1,
                 }}>
                 <AppBar
                     position="static"
@@ -99,7 +99,7 @@ const Navbar: React.FC<NavbarProps> = ({ collapsed, setCollapsed }) => {
                                         onClick={() => setCollapsed(true)} // คลิก arrow ย่อ navbar
                                         sx={{ "&:hover": { bgcolor: "transparent", } }}
                                     >
-                                        <ArrowBackIosNewIcon sx={{ fontSize: 14, transition: "transform 0.5s ease", }} />
+                                        <ArrowBackIosNewIcon sx={{ fontSize: 14, transition: "transform 0.3s ease", }} />
                                     </IconButton>
                                 </>
                             )}
@@ -109,7 +109,7 @@ const Navbar: React.FC<NavbarProps> = ({ collapsed, setCollapsed }) => {
 
                 <List>
                     {menuTopItems.map((item, index) => (
-                        <Link href={item.href} key={item.text} passHref legacyBehavior>
+                        <Link href={item.href} key={item.text} passHref>
                             <ListItemButton
                                 key={item.text}
                                 selected={pathname === item.href}
@@ -152,7 +152,7 @@ const Navbar: React.FC<NavbarProps> = ({ collapsed, setCollapsed }) => {
 
                 <List>
                     {menuBottomItems.map((item, index) => (
-                        <Link href={item.href} key={item.text} passHref legacyBehavior>
+                        <Link href={item.href} key={item.text} passHref>
                             <ListItemButton
                                 key={item.text}
                                 selected={pathname === item.href}
@@ -191,7 +191,89 @@ const Navbar: React.FC<NavbarProps> = ({ collapsed, setCollapsed }) => {
                     ))}
                 </List>
 
-                {!collapsed &&
+                {!collapsed ? (
+                    <List>
+                        <ListItemButton
+                            disableRipple
+                            sx={{
+                                cursor: "default",         // 👈 ไม่ให้เป็น pointer
+                                mb: 0,
+                                bgcolor: "transparent",
+                                color: "#575656",
+                                gap: 1,
+                                borderRadius: 2,
+                                display: "flex",
+                                justifyContent: "flex-start",
+                                "&:hover": { bgcolor: "transparent" }, // 👈 hover แล้วไม่เปลี่ยนสี
+                            }}
+                        >
+                            <ListItemIcon
+                                sx={{
+                                    minWidth: 36,
+                                    justifyContent: "center",
+                                    color: "inherit",
+                                }}
+                            >
+                                <ContrastIcon />
+                            </ListItemIcon>
+
+                            <ListItemText primary="Theme" />
+
+                            {/* ปุ่มเลือก theme */}
+                            <Stack
+                                direction="row"
+                                sx={{
+                                    backgroundColor: "#DBDBDB",
+                                    borderRadius: 3,
+                                    p: 0.5,
+                                    ml: "auto",
+                                }}
+                            >
+                                {themeOptions.map((option) => (
+                                    <Tooltip title={option.label} key={option.mode}>
+                                        <IconButton
+                                            size="small"
+                                            color={mode === option.mode ? "primary" : "default"}
+                                            onClick={() => handleChang(option.mode)}
+                                            sx={{
+                                                bgcolor: mode === option.mode ? "white" : "transparent",
+                                                "&:hover": {
+                                                    bgcolor: mode === option.mode ? "white" : "action.hover",
+                                                },
+                                                borderRadius: 2,
+                                            }}
+                                        >
+                                            {option.icon}
+                                        </IconButton>
+                                    </Tooltip>
+                                ))}
+                            </Stack>
+                        </ListItemButton>
+                    </List>
+                ) : (
+                    <List>
+                        <ListItemButton
+                            disableRipple
+                            sx={{
+                                cursor: "default",
+                                justifyContent: "center",
+                                "&:hover": { bgcolor: "transparent" }, // 👈 hover ไม่เปลี่ยนสี
+                            }}
+                        >
+                            <ListItemIcon
+                                sx={{
+                                    minWidth: 36,
+                                    justifyContent: "center",
+                                }}
+                            >
+                                <ContrastIcon />
+                            </ListItemIcon>
+                        </ListItemButton>
+                    </List>
+                )}
+
+
+                {/* {!collapsed &&
                     <Box
                         sx={{
                             display: "flex",
@@ -230,9 +312,77 @@ const Navbar: React.FC<NavbarProps> = ({ collapsed, setCollapsed }) => {
                         </Stack>
 
                     </Box>
-                }
+                } */}
 
-                <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: collapsed ? 'center' : 'space-between' }}>
+                <List sx={{ mt: 1 }}>
+                    <ListItemButton
+                        disableRipple
+                        sx={{
+                            cursor: "default",
+                            bgcolor: "transparent",
+                            color: "#575656",
+                            gap: 1,
+                            borderRadius: 2,
+                            display: "flex",
+                            justifyContent: collapsed ? "center" : "flex-start",
+                            "&:hover": { bgcolor: "transparent" },
+                        }}
+                    >
+                        {collapsed ? (
+                            <Tooltip title="Logout">
+                                <LogoutIcon
+                                    sx={{
+                                        bgcolor: "primary.main",
+                                        p: 0.8,
+                                        fontSize: 32,
+                                        borderRadius: 2,
+                                        color: "#fff",
+                                        "&:hover": {
+                                            bgcolor: "#0209FA",
+                                            cursor: "pointer",
+                                        },
+                                    }}
+                                />
+                            </Tooltip>
+                        ) : (
+                            <>
+                                <ListItemIcon
+                                    sx={{
+                                        minWidth: 36,
+                                        justifyContent: "center",
+                                    }}
+                                >
+                                    <Avatar sx={{ width: 36, height: 36 }} />
+                                </ListItemIcon>
+
+                                <ListItemText
+                                    primary="Admin"
+                                    primaryTypographyProps={{ sx: { fontSize: 14, fontWeight: 500, ml: 1 } }}
+                                />
+
+                                <Tooltip title="Logout">
+                                    <LogoutIcon
+                                        sx={{
+                                            bgcolor: "primary.main",
+                                            p: 0.8,
+                                            fontSize: 32,
+                                            borderRadius: 2,
+                                            color: "#fff",
+                                            ml: "auto",
+                                            "&:hover": {
+                                                bgcolor: "#0209FA",
+                                                cursor: "pointer",
+                                            },
+                                        }}
+                                    />
+                                </Tooltip>
+                            </>
+                        )}
+                    </ListItemButton>
+                </List>
+
+
+                {/* <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: collapsed ? 'center' : 'space-between' }}>
                     {!collapsed && (
                         <Stack direction={'row'} alignItems={'center'} spacing={1}>
                             <Avatar />
@@ -252,7 +402,7 @@ const Navbar: React.FC<NavbarProps> = ({ collapsed, setCollapsed }) => {
                             },
                         }} />
                     </Tooltip>
-                </Box>
+                </Box> */}
             </Box >
         </>
     )
