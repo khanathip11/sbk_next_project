@@ -31,7 +31,7 @@ const Navbar: React.FC<NavbarProps> = ({ collapsed, setCollapsed }) => {
 
     const menuTopItems = [
         { text: "Overview", icon: <HomeFilledIcon />, href: "/" },
-        { text: "Dashboard", icon: <AssignmentIcon />, href: "/dashboard" },
+        // { text: "Dashboard", icon: <AssignmentIcon />, href: "/dashboard" },
         { text: "Issue Management", icon: <BubbleChartIcon />, href: "/issues" },
         { text: "Report", icon: <EqualizerIcon />, href: "/report" },
         { text: "User Management", icon: <PersonIcon />, href: "/users" },
@@ -43,17 +43,17 @@ const Navbar: React.FC<NavbarProps> = ({ collapsed, setCollapsed }) => {
         { text: "Setting", icon: <SettingsIcon />, href: "/setting" }
     ];
 
-    const themeOptions = [
-        { mode: "auto", icon: <ContrastIcon sx={{ fontSize: 18 }} />, label: "Auto" },
-        { mode: "light", icon: <LightModeIcon sx={{ fontSize: 18 }} />, label: "Light" },
-        { mode: "dark", icon: <NightsStayIcon sx={{ fontSize: 18 }} />, label: "Dark" },
-    ];
+    // const themeOptions = [
+    //     { mode: "auto", icon: <ContrastIcon sx={{ fontSize: 18 }} />, label: "Auto" },
+    //     { mode: "light", icon: <LightModeIcon sx={{ fontSize: 18 }} />, label: "Light" },
+    //     { mode: "dark", icon: <NightsStayIcon sx={{ fontSize: 18 }} />, label: "Dark" },
+    // ];
 
-    const [mode, setMode] = useState<string>("auto");
+    // const [mode, setMode] = useState<string>("auto");
 
-    const handleChang = (newMode: string) => {
-        setMode(newMode)
-    }
+    // const handleChang = (newMode: string) => {
+    //     setMode(newMode)
+    // }
 
     const pathname = usePathname();
 
@@ -67,6 +67,56 @@ const Navbar: React.FC<NavbarProps> = ({ collapsed, setCollapsed }) => {
                     p: 1,
                 }}>
                 <AppBar
+                    position="static"
+                    color="transparent"
+                    sx={{
+                        borderRadius: 2,
+                        backgroundColor: "white",
+                        width: "100%",
+                        boxShadow: 1,
+                        mb: 1,
+                    }}
+                >
+                    <Toolbar disableGutters sx={{ height: "100%", minHeight: "50px !important", pr: 1 }}>
+                        <Stack
+                            direction="row"
+                            alignItems="center"
+                            justifyContent="space-between" // ดันซ้าย–ขวา
+                            sx={{ width: "100%" }}
+                        >
+                            {/* ซ้าย */}
+                            <Stack direction="row" alignItems="center" spacing={1} sx={{ pl: 2 }} >
+                                <Avatar
+                                    src="/logo.png"
+                                    alt="Logo"
+                                    sx={{ cursor: "pointer", width: "35px", height: "35px" }}
+                                    onClick={() => {
+                                        if (collapsed) setCollapsed(false);
+                                    }}
+                                />
+                                {!collapsed && (
+                                    <Typography>
+                                        SBK_Project
+                                    </Typography>
+                                )}
+                            </Stack>
+
+                            {/* ขวา */}
+                            {!collapsed && (
+                                <IconButton
+                                    onClick={() => setCollapsed(true)} // คลิก arrow ย่อ navbar
+                                    sx={{ "&:hover": { bgcolor: "transparent", pr: -5 } }}
+                                >
+                                    <ArrowBackIosNewIcon
+                                        sx={{ fontSize: 14, transition: "transform 0.3s ease", color: "#8a939c" }}
+                                    />
+                                </IconButton>
+                            )}
+                        </Stack>
+                    </Toolbar>
+                </AppBar>
+
+                {/* <AppBar
                     position="static"
                     color="transparent"
                     sx={{ borderRadius: 2, backgroundColor: "white", width: '100%', boxShadow: 1, mb: 1 }}
@@ -99,13 +149,13 @@ const Navbar: React.FC<NavbarProps> = ({ collapsed, setCollapsed }) => {
                                         onClick={() => setCollapsed(true)} // คลิก arrow ย่อ navbar
                                         sx={{ "&:hover": { bgcolor: "transparent", } }}
                                     >
-                                        <ArrowBackIosNewIcon sx={{ fontSize: 14, transition: "transform 0.3s ease", }} />
+                                        <ArrowBackIosNewIcon sx={{ fontSize: 14, transition: "transform 0.3s ease", color: '##8a939c' }} />
                                     </IconButton>
                                 </>
                             )}
                         </Stack>
                     </Toolbar>
-                </AppBar>
+                </AppBar> */}
 
                 <List>
                     {menuTopItems.map((item, index) => (
@@ -121,10 +171,10 @@ const Navbar: React.FC<NavbarProps> = ({ collapsed, setCollapsed }) => {
                                     borderRadius: 2,
                                     display: 'flex',
                                     gap: 1,
-                                    color: '#575656',
+                                    color: '#8b929c',
                                     justifyContent: collapsed ? 'center' : 'flex-start',
                                     "&.Mui-selected": {
-                                        bgcolor: "white",
+                                        bgcolor: "#ffffff",
                                         borderRadius: 2,
                                         color: "#000000",
                                         // boxShadow: 1,
@@ -137,7 +187,7 @@ const Navbar: React.FC<NavbarProps> = ({ collapsed, setCollapsed }) => {
                                     sx={{
                                         minWidth: 36,
                                         justifyContent: 'center',
-                                        color: pathname === item.href ? "primary.main" : "inherit",
+                                        color: pathname === item.href ? "#0068cb" : "#8a939c",
                                     }}
                                 >
                                     {item.icon}
@@ -161,13 +211,13 @@ const Navbar: React.FC<NavbarProps> = ({ collapsed, setCollapsed }) => {
                                     cursor: "pointer",
                                     mb: 0,
                                     bgcolor: "transparent",
-                                    color: '#575656',
+                                    color: '#8b929c',
                                     gap: 1,
                                     borderRadius: 2,
                                     display: 'flex',
                                     justifyContent: collapsed ? 'center' : 'flex-start',
                                     "&.Mui-selected": {
-                                        bgcolor: "white",
+                                        bgcolor: "#ffffff",
                                         borderRadius: 2,
                                         color: '#000000',
                                         boxShadow: 0,
@@ -180,7 +230,7 @@ const Navbar: React.FC<NavbarProps> = ({ collapsed, setCollapsed }) => {
                                     sx={{
                                         minWidth: 36,
                                         justifyContent: 'center',
-                                        color: pathname === item.href ? "primary.main" : "inherit",
+                                        color: pathname === item.href ? "#0068cb" : "#8a939c",
                                     }}
                                 >
                                     {item.icon}
@@ -191,27 +241,27 @@ const Navbar: React.FC<NavbarProps> = ({ collapsed, setCollapsed }) => {
                     ))}
                 </List>
 
-                {!collapsed ? (
+                {/* {!collapsed ? (
                     <List>
                         <ListItemButton
                             disableRipple
                             sx={{
-                                cursor: "default",         // 👈 ไม่ให้เป็น pointer
+                                cursor: "default",
                                 mb: 0,
                                 bgcolor: "transparent",
-                                color: "#575656",
+                                color: "#8b929c",
                                 gap: 1,
                                 borderRadius: 2,
                                 display: "flex",
                                 justifyContent: "flex-start",
-                                "&:hover": { bgcolor: "transparent" }, // 👈 hover แล้วไม่เปลี่ยนสี
+                                "&:hover": { bgcolor: "transparent" },
                             }}
                         >
                             <ListItemIcon
                                 sx={{
                                     minWidth: 36,
                                     justifyContent: "center",
-                                    color: "inherit",
+                                    color: "#000",
                                 }}
                             >
                                 <ContrastIcon />
@@ -219,7 +269,6 @@ const Navbar: React.FC<NavbarProps> = ({ collapsed, setCollapsed }) => {
 
                             <ListItemText primary="Theme" />
 
-                            {/* ปุ่มเลือก theme */}
                             <Stack
                                 direction="row"
                                 sx={{
@@ -257,11 +306,12 @@ const Navbar: React.FC<NavbarProps> = ({ collapsed, setCollapsed }) => {
                             sx={{
                                 cursor: "default",
                                 justifyContent: "center",
-                                "&:hover": { bgcolor: "transparent" }, // 👈 hover ไม่เปลี่ยนสี
+                                "&:hover": { bgcolor: "transparent" },
                             }}
                         >
                             <ListItemIcon
                                 sx={{
+                                    color: '#000',
                                     minWidth: 36,
                                     justifyContent: "center",
                                 }}
@@ -270,49 +320,7 @@ const Navbar: React.FC<NavbarProps> = ({ collapsed, setCollapsed }) => {
                             </ListItemIcon>
                         </ListItemButton>
                     </List>
-                )}
-
-
-                {/* {!collapsed &&
-                    <Box
-                        sx={{
-                            display: "flex",
-                            alignItems: "center",
-                            justifyContent: "space-between",
-                            p: 2,
-                            pr: 0,
-                            borderRadius: 2,
-                            bgcolor: "transparent",
-                            width: '100%',
-                        }}
-                    >
-                        <Stack direction={'row'} alignItems={'center'} spacing={1}>
-                            <ContrastIcon />
-                            <Typography>Theme</Typography>
-                        </Stack>
-
-                        <Stack direction={'row'} sx={{ backgroundColor: '#DBDBDB', width: '100p%', height: 'auto', borderRadius: 3, p: 0.5 }}>
-                            {themeOptions.map((option) => (
-                                <Tooltip title={option.label} key={option.mode}>
-                                    <IconButton
-                                        color={mode === option.mode ? 'primary' : 'default'}
-                                        onClick={() => handleChang(option.mode)}
-                                        sx={{
-                                            bgcolor: mode === option.mode ? 'white' : 'transparent',
-                                            "&:hover": {
-                                                bgcolor: mode === option.mode ? "primary.white" : "action.hover",
-                                            },
-                                            borderRadius: 2,
-                                        }}
-                                    >
-                                        {option.icon}
-                                    </IconButton>
-                                </Tooltip>
-                            ))}
-                        </Stack>
-
-                    </Box>
-                } */}
+                )} */}
 
                 <List sx={{ mt: 1 }}>
                     <ListItemButton
@@ -345,21 +353,19 @@ const Navbar: React.FC<NavbarProps> = ({ collapsed, setCollapsed }) => {
                                 />
                             </Tooltip>
                         ) : (
-                            <>
-                                <ListItemIcon
-                                    sx={{
-                                        minWidth: 36,
-                                        justifyContent: "center",
-                                    }}
-                                >
+                            <Box sx={{ display: "flex", alignItems: "center", width: "100%", pr: 1 }}>
+                                {/* Avatar + User */}
+                                <Box sx={{ display: "flex", alignItems: "center" }}>
                                     <Avatar sx={{ width: 36, height: 36 }} />
-                                </ListItemIcon>
+                                    <ListItemText
+                                        primary="Admin"
+                                        primaryTypographyProps={{
+                                            sx: { fontSize: 14, fontWeight: 500, pl: 1 }
+                                        }}
+                                    />
+                                </Box>
 
-                                <ListItemText
-                                    primary="Admin"
-                                    primaryTypographyProps={{ sx: { fontSize: 14, fontWeight: 500, ml: 1 } }}
-                                />
-
+                                {/* Logout */}
                                 <Tooltip title="Logout">
                                     <LogoutIcon
                                         sx={{
@@ -368,7 +374,7 @@ const Navbar: React.FC<NavbarProps> = ({ collapsed, setCollapsed }) => {
                                             fontSize: 32,
                                             borderRadius: 2,
                                             color: "#fff",
-                                            ml: "auto",
+                                            ml: "auto", // ดันไปฝั่งขวาสุด
                                             "&:hover": {
                                                 bgcolor: "#0209FA",
                                                 cursor: "pointer",
@@ -376,33 +382,43 @@ const Navbar: React.FC<NavbarProps> = ({ collapsed, setCollapsed }) => {
                                         }}
                                     />
                                 </Tooltip>
-                            </>
+                            </Box>
+
+                            // <>
+                            //     <ListItemIcon
+                            //         sx={{
+                            //             minWidth: 36,
+                            //             justifyContent: "center",
+                            //         }}
+                            //     >
+                            //         <Avatar sx={{ width: 36, height: 36 }} />
+                            //     </ListItemIcon>
+
+                            //     <ListItemText
+                            //         primary="Admin"
+                            //         primaryTypographyProps={{ sx: { fontSize: 14, fontWeight: 500, pl: 1 } }}
+                            //     />
+
+                            //     <Tooltip title="Logout">
+                            //         <LogoutIcon
+                            //             sx={{
+                            //                 bgcolor: "primary.main",
+                            //                 p: 0.8,
+                            //                 fontSize: 32,
+                            //                 borderRadius: 2,
+                            //                 color: "#fff",
+                            //                 ml: "auto",
+                            //                 "&:hover": {
+                            //                     bgcolor: "#0209FA",
+                            //                     cursor: "pointer",
+                            //                 },
+                            //             }}
+                            //         />
+                            //     </Tooltip>
+                            // </>
                         )}
                     </ListItemButton>
                 </List>
-
-
-                {/* <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: collapsed ? 'center' : 'space-between' }}>
-                    {!collapsed && (
-                        <Stack direction={'row'} alignItems={'center'} spacing={1}>
-                            <Avatar />
-                            <Typography>Admin</Typography>
-                        </Stack>
-                    )}
-                    <Tooltip title={'Logout'}>
-                        <LogoutIcon sx={{
-                            bgcolor: 'primary.main',
-                            p: 0.8,
-                            fontSize: 30,
-                            borderRadius: 2,
-                            color: '#ffffff',
-                            "&:hover": {
-                                bgcolor: '#0209FA', // สีตอน hover
-                                cursor: 'pointer',  // เพิ่มถ้าต้องการ
-                            },
-                        }} />
-                    </Tooltip>
-                </Box> */}
             </Box >
         </>
     )

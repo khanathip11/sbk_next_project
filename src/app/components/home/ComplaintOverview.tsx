@@ -31,21 +31,21 @@ const ComplaintOverview: React.FC<ComplaintOverviewProps> = ({ cardsDataOverview
     collapse,
     closeTask, }) => {
     const issueData = [
-        { type: "ระบบรับข้อมูลแล้ว", issue: 20, percent: 30, color: "#F72323" },
-        { type: "เจ้าหน้าที่ตรวจสอบ", issue: 10, percent: 20, color: "#F7F023" },
-        { type: "ส่งต่อให้หน่วยงาน", issue: 30, percent: 25, color: "#38E7FF" },
-        { type: "หน่วยงานกำลังดำเนินการ", issue: 10, percent: 25, color: "#3845FF" },
-        { type: "ดำเนินการเสร็จสิ้น", issue: 7, percent: 25, color: "#1FED64" },
-        { type: "ไม่สามารถดำเนินการได้", issue: 3, percent: 25, color: "#7E13BF" },
+        { type: "ระบบรับข้อมูลแล้ว", issue: 20, percent: 30, color: "#f03e3e" },
+        { type: "เจ้าหน้าที่ตรวจสอบ", issue: 10, percent: 20, color: "#fcbe04" },
+        { type: "ส่งต่อให้หน่วยงาน", issue: 30, percent: 25, color: "#01b5d7" },
+        { type: "หน่วยงานกำลังดำเนินการ", issue: 10, percent: 25, color: "#108be8" },
+        { type: "ดำเนินการเสร็จสิ้น", issue: 7, percent: 25, color: "#35c11f" },
+        { type: "ไม่สามารถดำเนินการได้", issue: 3, percent: 25, color: "#805ad4" },
     ];
 
     const colorCode = [
-        { color: '#00011F' },
-        { color: '#01015C' },
-        { color: '#020296' },
-        { color: '#0202B0' },
-        { color: '#0202D4' },
-        { color: '#4BA8EB' },
+        { color: '#07254A' },
+        { color: '#054887' },
+        { color: '#004D99' },
+        { color: '#0068CB' },
+        { color: '#0A87ED' },
+        { color: '#34A2FC' },
         { color: '#8CCBFA' },
         { color: '#A2D1F5' },
         { color: '#BAF9FF' },
@@ -58,13 +58,14 @@ const ComplaintOverview: React.FC<ComplaintOverviewProps> = ({ cardsDataOverview
             <Stack sx={{ display: 'flex', gap: 1, width: '300px', }} direction="row" alignItems="center">
                 <TextField
                     id="complaint-search"
-                    placeholder="ค้นหาตามพื้นที่"
+                    placeholder="ค้นหา"
                     variant="outlined"
                     size="small"
                     sx={{
                         minWidth: '100%',
-                        bgcolor: "white",
+                        bgcolor: "#f2f2f4",
                         borderRadius: 2,
+                        pointerEvents: 'auto',
                         "& .MuiOutlinedInput-root": {
                             borderRadius: 1,
                             height: 36,
@@ -80,7 +81,7 @@ const ComplaintOverview: React.FC<ComplaintOverviewProps> = ({ cardsDataOverview
                     InputProps={{
                         startAdornment: (
                             <InputAdornment position="start">
-                                <SearchIcon sx={{ fontSize: 18, color: "gray" }} />
+                                <SearchIcon sx={{ fontSize: 18, color: "#5f6470" }} />
                             </InputAdornment>
                         ),
                     }}
@@ -123,23 +124,20 @@ const ComplaintOverview: React.FC<ComplaintOverviewProps> = ({ cardsDataOverview
                                 display: 'flex',
                                 flexDirection: 'column',
                                 alignItems: 'flex-start',
+                                gap: 0.2,
                                 justifyContent: 'flex-start',
-                                pl: 1,
-                                pt: 0.5,
-                                pr: 1,
-                                pb: 0.5,
+                                p: 1,
                                 bgcolor: 'rgba(255,255,255,0.1)',
                                 color: '#ffffff',
-                                borderTop: '1px solid white',
-                                borderBottom: '1px solid white',
+                                borderTop: '0.1px solid white',
+                                borderBottom: '0.1px solid white',
                                 borderLeft: 'none',
                                 borderRight: 'none',
                                 wordBreak: 'break-word',
                             }}
                         >
-                            <Typography sx={{ fontSize: 8 }}>{item.type}</Typography>
-                            <Typography sx={{ fontSize: 13 }}>{`${item.issue} (${item.percent}%)`}</Typography>
-                            {/* {item.percent}% */}
+                            <Typography sx={{ fontSize: 10 }}>{item.type}</Typography>
+                            <Typography sx={{ fontSize: 12 }}>{`${item.issue} (${item.percent}%)`}</Typography>
                         </Paper>
                     </Box>
                 ))}
@@ -162,7 +160,6 @@ const ComplaintOverview: React.FC<ComplaintOverviewProps> = ({ cardsDataOverview
             }}>
                 <Typography sx={{ color: '#ffffff', fontSize: 12 }}>ประเภทปัญหาที่ขอความช่วยเหลือ</Typography>
                 <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', mt: 1 }} >
-                    {/* <Box sx={{ width: 90, height: 90, bgcolor: 'white', borderRadius: '50%' }} /> */}
                     <Box
                         sx={{
                             width: 90,

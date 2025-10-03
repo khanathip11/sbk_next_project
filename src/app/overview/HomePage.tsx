@@ -11,6 +11,7 @@ import PreviewPanal from "../components/home/PreviewPanal";
 import { CardItem } from "../types/CardItem";
 import { cardsData } from '../data/CardsData';
 import NavigatLayout from "../components/layout/NavigatLayout";
+import MapboxMapComponent from "../components/Mapbox";
 
 export default function HomePage() {
     const [collapsed, setCollapsed] = useState<boolean>(false);
@@ -21,7 +22,7 @@ export default function HomePage() {
         <Box sx={{
             display: 'flex',
             p: 2,
-            bgcolor: '#F0F0F0',
+            bgcolor: '#ebecf0',
             height: {
                 lg: !collapsed
                     ? (!closeTask ? '100%' : '100%')
@@ -37,7 +38,7 @@ export default function HomePage() {
                 elevation={5}
                 sx={{
                     borderRadius: 4,
-                    bgcolor: '#F7F7F7',
+                    bgcolor: '#f9f9f9',
                     width: {
                         lg: !collapsed
                             ? (!closeTask ? '40%' : '27.4%')
@@ -57,13 +58,16 @@ export default function HomePage() {
                 elevation={5}
                 sx={{
                     borderRadius: 4,
-                    bgcolor: '#F7F7F7',
+                    bgcolor: '#f9f9f9',
                     width: '100%',
                     display: 'flex',
                     alignItems: 'center',
-                    justifyContent: 'center'
+                    justifyContent: 'center',
+                    p: 0,
+                    m: 0
                 }}
             >
+                {/* <MapboxMapComponent networks={[]} /> */}
                 <ComplaintMap collapse={collapsed} closeTask={closeTask} cardsData={cardsData} />
             </Paper>
 
@@ -73,7 +77,7 @@ export default function HomePage() {
                     elevation={5}
                     sx={{
                         borderRadius: 4,
-                        bgcolor: '#F7F7F7',
+                        bgcolor: '#f9f9f9',
                         width: '40%',
                         p: !selectedCard ? 1 : 0,
                         transition: 'width 0.3s ease',
@@ -112,9 +116,9 @@ export default function HomePage() {
                         position: 'absolute',
                         bottom: 30,
                         right: 30,
-                        width: '3%',
-                        height: '5%',
-                        bgcolor: 'red',
+                        width: '2%',
+                        height: '4%',
+                        bgcolor: '#FFF',
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',
@@ -126,7 +130,7 @@ export default function HomePage() {
                         }
                     }}
                 >
-                    <AdsClickIcon sx={{ fontSize: 16, color: 'white', transform: 'rotate(180deg)', }} onClick={() => console.log('s')} />
+                    <AdsClickIcon sx={{ fontSize: 16, color: '#000', transform: 'rotate(180deg)', }} onClick={() => console.log('s')} />
                 </Box>
             )
             }

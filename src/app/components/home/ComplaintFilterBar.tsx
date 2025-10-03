@@ -24,10 +24,6 @@ const ComplaintFilterBar = () => {
             options={[{ value: "all", label: "ทั้งหมด" }]} />,
         <FilterDropdown key="period" label="ช่วงเวลา" value={subdistrict} onChange={setSubdistrict}
             options={[{ value: "all", label: "ทั้งหมด" }]} />,
-        <FilterDropdown key="owner" label="ผู้รับผิดชอบ" value={subdistrict} onChange={setSubdistrict}
-            options={[{ value: "all", label: "ทั้งหมด" }, { value: "gov", label: "เจ้าหน้าที่" }]} />,
-        <FilterDropdown key="status" label="สถานะ" value={subdistrict} onChange={setSubdistrict}
-            options={[{ value: "all", label: "ทั้งหมด" }, { value: "open", label: "เปิด" }, { value: "close", label: "ปิด" }]} />,
         <FilterDropdown key="statuss" label="ตัวเลือก" value={subdistrict} onChange={setSubdistrict}
             options={[{ value: "all", label: "ทั้งหมด" }, { value: "open", label: "เปิด" }, { value: "close", label: "ปิด" }]} />,
         <FilterDropdown key="statusss" label="ตัวเลือก" value={subdistrict} onChange={setSubdistrict}

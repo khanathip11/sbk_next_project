@@ -1,10 +1,13 @@
-import React, { useState } from 'react'
+import React, { useState, useRef } from 'react'
 import { Box, Button, Modal } from '@mui/material'
 import ReportProblemIcon from '@mui/icons-material/ReportProblem';
 import ComplaintOverview from './ComplaintOverview';
 import { StaticImageData } from "next/image";
 import EmergencyNotifier from './EmergencyNotifier';
 import ComplaintFilterBar from './ComplaintFilterBar';
+import ArrowRightIcon from '@mui/icons-material/ArrowRight';
+import ArrowLeftIcon from '@mui/icons-material/ArrowLeft';
+import MapboxMapComponent from '../Mapbox';
 
 type CardData = {
     id: number;
@@ -30,8 +33,10 @@ type ComplaintMapProps = {
 
 const ComplaintMap: React.FC<ComplaintMapProps> = ({ cardsData, collapse, closeTask, }) => {
     const [open, setOpen] = useState<boolean>(false);
+    const [openFilter, setOpenFilter] = useState<boolean>(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
+    const mapContainer = useRef<HTMLDivElement>(null)
 
     return (
         <Box
@@ -40,8 +45,12 @@ const ComplaintMap: React.FC<ComplaintMapProps> = ({ cardsData, collapse, closeT
                 width: '100%',
                 height: '100%',
                 borderRadius: 4,
-                position: 'relative'
+                position: 'relative',
+                overflow: 'hidden'
             }}>
+
+            <MapboxMapComponent networks={[]} collapse={collapse} closeTask={closeTask} />
+
             <Box
                 sx={{
                     display: "flex",
@@ -50,6 +59,11 @@ const ComplaintMap: React.FC<ComplaintMapProps> = ({ cardsData, collapse, closeT
                     p: 2,
                     gap: 2,
                     width: "100%",
+                    position: 'absolute',
+                    zIndex: 1,
+                    left: 0,
+                    top: 0,
+                    pointerEvents: 'none'
                 }}
             >
                 <ComplaintOverview
@@ -58,8 +72,16 @@ const ComplaintMap: React.FC<ComplaintMapProps> = ({ cardsData, collapse, closeT
                     cardsDataOverview={cardsData}
                 />
 
-                <Box sx={{ flex: 1 }}>
-                    <ComplaintFilterBar />
+                <Box sx={{ flex: 1, display: 'flex', position: 'relative', pointerEvents: 'auto' }}>
+                    {openFilter ? (
+                        <>
+                            <ArrowLeftIcon sx={{ color: 'white', position: 'absolute', top: 6, left: -20, zIndex: 99, cursor: 'pointer' }} onClick={() => setOpenFilter(false)} />
+                            <ComplaintFilterBar />
+                        </>
+                    ) : (
+                        <ArrowRightIcon sx={{ color: 'white', position: 'absolute', top: 6, left: -20, zIndex: 99 }} onClick={() => setOpenFilter(true)} />
+                    )
+                    }
                 </Box>
             </Box>
 
@@ -70,7 +92,8 @@ const ComplaintMap: React.FC<ComplaintMapProps> = ({ cardsData, collapse, closeT
                         width: '195px',
                         height: '5%',
                         position: 'absolute',
-                        bottom: 10, left: '50%',
+                        bottom: 10,
+                        left: '50%',
                         transform: 'translateX(-50%)',
                         backgroundColor: "#FF3B3B",
                         fontSize: 12,
