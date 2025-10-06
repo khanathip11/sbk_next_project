@@ -2,7 +2,9 @@
 import { Stack, TextField, InputAdornment, Paper, Box, Typography } from '@mui/material'
 import SearchIcon from "@mui/icons-material/Search";
 import IssueFilter from './IssueFilter';
+import DateRangePickerDemo from '../common/DateRangePickerDemo';
 import React from 'react'
+import IssueTableChild from './IssueTableChild';
 
 const IssueTable = () => {
     return (
@@ -50,11 +52,17 @@ const IssueTable = () => {
 
                 <IssueFilter />
                 <Box flexGrow={1} />
+
                 <Box sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
+                    <DateRangePickerDemo />
                     <Typography >ผลลัพธ์</Typography>
                     <Typography sx={{ width: 'auto', height: 35, border: '1px solid #D9D9D9', px: 1, borderRadius: 2, backgroundColor: '#ffffff', display: 'flex', alignItems: 'center' }}>100</Typography>
                 </Box>
             </Stack>
+
+            <Box sx={{ p: 2, width: '100%', flexGrow: 1 }}>
+                <IssueTableChild />
+            </Box>
 
         </Paper>
     )
