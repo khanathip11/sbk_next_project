@@ -36,7 +36,6 @@ const ComplaintMap: React.FC<ComplaintMapProps> = ({ cardsData, collapse, closeT
     const [openFilter, setOpenFilter] = useState<boolean>(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
-    const mapContainer = useRef<HTMLDivElement>(null)
 
     return (
         <Box

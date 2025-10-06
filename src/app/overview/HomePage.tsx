@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import Navbar from "../components/home/Navbar";
-import { Box, Paper } from "@mui/material";
+import { Box, Paper, useTheme, useMediaQuery } from "@mui/material";
 import TaskSummary from "../components/home/TaskSummary";
 import TaskBoard from "../components/home/TaskBoard";
 import AdsClickIcon from '@mui/icons-material/AdsClick';
@@ -10,43 +10,39 @@ import ComplaintMap from "../components/home/ComplaintMap";
 import PreviewPanal from "../components/home/PreviewPanal";
 import { CardItem } from "../types/CardItem";
 import { cardsData } from '../data/CardsData';
-import NavigatLayout from "../components/layout/NavigatLayout";
-import MapboxMapComponent from "../components/Mapbox";
 
 export default function HomePage() {
-    const [collapsed, setCollapsed] = useState<boolean>(false);
+    const [collapsed, setCollapsed] = useState<boolean>(true);
     const [closeTask, SetCloseTask] = useState<boolean>(false);
     const [selectedCard, setSelectedCard] = useState<CardItem | null>(null);
 
+    const theme = useTheme();
+    const isLgUp = useMediaQuery(theme.breakpoints.up("lg"));
+    const isXlUp = useMediaQuery(theme.breakpoints.up("xl"));
+
     return (
         <Box sx={{
-            display: 'flex',
-            p: 2,
-            bgcolor: '#ebecf0',
-            height: {
-                lg: !collapsed
-                    ? (!closeTask ? '100%' : '100%')
-                    : (!closeTask ? '100vh' : '100vh'),
-                xl: !collapsed
-                    ? (!closeTask ? '100%' : '100vh')
-                    : (!closeTask ? '100%' : '100vh'),
-            },
+            display: "flex",
+            p: 1,
+            bgcolor: "#ebecf0",
+            height: isLgUp ? "100vh" : "100%",
             gap: 2,
-            position: 'relative',
+            position: "relative",
         }}>
             <Paper
                 elevation={5}
                 sx={{
                     borderRadius: 4,
                     bgcolor: '#f9f9f9',
-                    width: {
-                        lg: !collapsed
-                            ? (!closeTask ? '40%' : '27.4%')
-                            : (!closeTask ? '10%' : '8.5%'),
-                        xl: !collapsed
-                            ? (!closeTask ? '28%' : '19.5%')
-                            : (!closeTask ? '6%' : '5.9%'),
-                    },
+                    width: (() => {
+                        if (isXlUp) {
+                            return collapsed ? (closeTask ? "4%" : "4%") : (closeTask ? "17%" : "25%");
+                        }
+                        if (isLgUp) {
+                            return collapsed ? (closeTask ? "6%" : "6%") : (closeTask ? "24.3%" : "35%");
+                        }
+                        return "100%"; // fallback บนจอเล็ก
+                    })(),
                     transition: 'width 0.5s ease',
                     height: closeTask ? '100%' : 'auto',
                 }}
@@ -67,7 +63,6 @@ export default function HomePage() {
                     m: 0
                 }}
             >
-                {/* <MapboxMapComponent networks={[]} /> */}
                 <ComplaintMap collapse={collapsed} closeTask={closeTask} cardsData={cardsData} />
             </Paper>
 

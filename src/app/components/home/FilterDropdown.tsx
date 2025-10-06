@@ -1,7 +1,7 @@
 "use client";
 
-import { FormControl, MenuItem, Select, SelectChangeEvent } from "@mui/material";
 import React from 'react'
+import { FormControl, MenuItem, Select, SelectChangeEvent } from "@mui/material";
 
 interface FilterDropdownProps {
     label: string;

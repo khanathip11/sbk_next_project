@@ -19,9 +19,22 @@ type EmergencyNotifierProps = {
 const EmergencyNotifier: React.FC<EmergencyNotifierProps> = ({ handleClose }) => {
 
     // state หลัก
+    const [sendType, setSendType] = useState<"all" | "region">("all"); // 🔹 ควบคุมประเภทการส่ง
     const [selectedProvinces, setSelectedProvinces] = useState<string[]>([]);
     const [selectedDistricts, setSelectedDistricts] = useState<string[]>([]);
     const [selectedSubdistricts, setSelectedSubdistricts] = useState<string[]>([]);
+
+    const handleSendTypeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const value = event.target.value as "all" | "region";
+        setSendType(value);
+
+        // ถ้าเลือก "ส่งให้ผู้ใช้ทั้งหมด" → ล้างข้อมูลพื้นที่
+        if (value === "all") {
+            setSelectedProvinces([]);
+            setSelectedDistricts([]);
+            setSelectedSubdistricts([]);
+        }
+    };
 
     // province -> districts
     const availableDistricts: District[] = provinces
@@ -87,7 +100,6 @@ const EmergencyNotifier: React.FC<EmergencyNotifierProps> = ({ handleClose }) =>
                                         '& .MuiOutlinedInput-root': {
                                             borderRadius: 3,
                                             backgroundColor: '#fff',
-                                            // '&.Mui-focused': { backgroundColor: '#F0F0F0' },
                                         },
                                         "& .MuiInputBase-input": {
                                             fontSize: 14,
@@ -106,7 +118,6 @@ const EmergencyNotifier: React.FC<EmergencyNotifierProps> = ({ handleClose }) =>
                                         '& .MuiOutlinedInput-root': {
                                             borderRadius: 3,
                                             backgroundColor: '#fff',
-                                            // '&.Mui-focused': { backgroundColor: '#F0F0F0' },
                                         },
                                         "& .MuiInputBase-input": {
                                             fontSize: 14,
@@ -126,7 +137,6 @@ const EmergencyNotifier: React.FC<EmergencyNotifierProps> = ({ handleClose }) =>
                                             '& .MuiOutlinedInput-root': {
                                                 borderRadius: 3,
                                                 backgroundColor: '#fff',
-                                                // '&.Mui-focused': { backgroundColor: '#F0F0F0' },
                                             },
                                             "& .MuiInputBase-input": {
                                                 fontSize: 14,
@@ -152,7 +162,7 @@ const EmergencyNotifier: React.FC<EmergencyNotifierProps> = ({ handleClose }) =>
                                 <hr style={{ width: '100%', color: '#F0F0F0' }} />
 
                                 <FormLabel sx={{ fontSize: 13, color: '#000', mb: -2 }}>เลือกพื้นที่การส่ง</FormLabel>
-                                <RadioGroup defaultValue="all">
+                                <RadioGroup value={sendType} onChange={handleSendTypeChange}>
                                     <FormControlLabel
                                         value="all"
                                         control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: 16 } }} />}
@@ -169,107 +179,111 @@ const EmergencyNotifier: React.FC<EmergencyNotifierProps> = ({ handleClose }) =>
                                     <Typography sx={{ mt: -1, pl: 3, fontSize: 12, color: '#7D7A7A' }}>สามารถเลือกส่งได้ตามพื้นที่ที่กำหนด</Typography>
                                 </RadioGroup>
 
-                                {/* จังหวัด */}
-                                <FormControl fullWidth size="small">
-                                    <Typography variant="body2" sx={{ mb: 0.5, fontWeight: 500, color: '#7D7A7A' }}>
-                                        จังหวัด
-                                    </Typography>
-                                    <Select
-                                        sx={{ borderRadius: 3, mb: -1.5 }}
-                                        multiple
-                                        value={selectedProvinces}
-                                        onChange={handleProvinceChange}
-                                        renderValue={(selected) =>
-                                            selected.length === 0 ? (
-                                                <em>กรุณาเลือกจังหวัด</em>
-                                            ) : (
-                                                <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
-                                                    {selected.map((value) => {
-                                                        const label = provinces.find((p) => p.value === value)?.label || value;
-                                                        return <Chip key={value} label={label} size="small" />;
-                                                    })}
-                                                </Box>
-                                            )
-                                        }
-                                    >
-                                        <MenuItem value="">
-                                            <em>กรุณาเลือกจังหวัด</em>
-                                        </MenuItem>
-                                        {provinces.map((p) => (
-                                            <MenuItem key={p.value} value={p.value}>
-                                                {p.label}
-                                            </MenuItem>
-                                        ))}
-                                    </Select>
-                                </FormControl>
+                                {sendType === 'region' && (
+                                    <>
+                                        {/* จังหวัด */}
+                                        <FormControl fullWidth size="small">
+                                            <Typography variant="body2" sx={{ mb: 0.5, fontWeight: 500, color: '#7D7A7A' }}>
+                                                จังหวัด
+                                            </Typography>
+                                            <Select
+                                                sx={{ borderRadius: 3, mb: -1.5 }}
+                                                multiple
+                                                value={selectedProvinces}
+                                                onChange={handleProvinceChange}
+                                                renderValue={(selected) =>
+                                                    selected.length === 0 ? (
+                                                        <em>กรุณาเลือกจังหวัด</em>
+                                                    ) : (
+                                                        <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
+                                                            {selected.map((value) => {
+                                                                const label = provinces.find((p) => p.value === value)?.label || value;
+                                                                return <Chip key={value} label={label} size="small" />;
+                                                            })}
+                                                        </Box>
+                                                    )
+                                                }
+                                            >
+                                                <MenuItem value="">
+                                                    <em>กรุณาเลือกจังหวัด</em>
+                                                </MenuItem>
+                                                {provinces.map((p) => (
+                                                    <MenuItem key={p.value} value={p.value}>
+                                                        {p.label}
+                                                    </MenuItem>
+                                                ))}
+                                            </Select>
+                                        </FormControl>
 
-                                {/* อำเภอ */}
-                                <FormControl fullWidth size="small" disabled={!selectedProvinces.length}>
-                                    <Typography variant="body2" sx={{ mb: 0.5, fontWeight: 500, color: '#7D7A7A' }}>
-                                        อำเภอ
-                                    </Typography>
-                                    <Select
-                                        sx={{ borderRadius: 3, mb: -1.5 }}
-                                        multiple
-                                        value={selectedDistricts}
-                                        onChange={handleDistrictChange}
-                                        renderValue={(selected) =>
-                                            selected.length === 0 ? (
-                                                <em>กรุณาเลือกอำเภอ</em>
-                                            ) : (
-                                                <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
-                                                    {selected.map((value) => {
-                                                        const label = availableDistricts.find((d) => d.value === value)?.label || value;
-                                                        return <Chip key={value} label={label} size="small" />;
-                                                    })}
-                                                </Box>
-                                            )
-                                        }
-                                    >
-                                        <MenuItem value="">
-                                            <em>กรุณาเลือกอำเภอ</em>
-                                        </MenuItem>
-                                        {availableDistricts.map((d) => (
-                                            <MenuItem key={d.value} value={d.value}>
-                                                {d.label}
-                                            </MenuItem>
-                                        ))}
-                                    </Select>
-                                </FormControl>
+                                        {/* อำเภอ */}
+                                        <FormControl fullWidth size="small">
+                                            <Typography variant="body2" sx={{ mb: 0.5, fontWeight: 500, color: '#7D7A7A' }}>
+                                                อำเภอ
+                                            </Typography>
+                                            <Select
+                                                sx={{ borderRadius: 3, mb: -1.5 }}
+                                                multiple
+                                                value={selectedDistricts}
+                                                onChange={handleDistrictChange}
+                                                renderValue={(selected) =>
+                                                    selected.length === 0 ? (
+                                                        <em>กรุณาเลือกอำเภอ</em>
+                                                    ) : (
+                                                        <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
+                                                            {selected.map((value) => {
+                                                                const label = availableDistricts.find((d) => d.value === value)?.label || value;
+                                                                return <Chip key={value} label={label} size="small" />;
+                                                            })}
+                                                        </Box>
+                                                    )
+                                                }
+                                            >
+                                                <MenuItem value="">
+                                                    <em>กรุณาเลือกอำเภอ</em>
+                                                </MenuItem>
+                                                {availableDistricts.map((d) => (
+                                                    <MenuItem key={d.value} value={d.value}>
+                                                        {d.label}
+                                                    </MenuItem>
+                                                ))}
+                                            </Select>
+                                        </FormControl>
 
-                                {/* ตำบล */}
-                                <FormControl fullWidth size="small" disabled={!selectedDistricts.length}>
-                                    <Typography variant="body2" sx={{ mb: 0.5, fontWeight: 500, color: '#7D7A7A' }}>
-                                        ตำบล
-                                    </Typography>
-                                    <Select
-                                        sx={{ borderRadius: 3 }}
-                                        multiple
-                                        value={selectedSubdistricts}
-                                        onChange={handleSubdistrictChange}
-                                        renderValue={(selected) =>
-                                            selected.length === 0 ? (
-                                                <em>กรุณาเลือกตำบล</em>
-                                            ) : (
-                                                <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
-                                                    {selected.map((value) => {
-                                                        const label = availableSubdistricts.find((s) => s.value === value)?.label || value;
-                                                        return <Chip key={value} label={label} size="small" />;
-                                                    })}
-                                                </Box>
-                                            )
-                                        }
-                                    >
-                                        <MenuItem value="">
-                                            <em>กรุณาเลือกตำบล</em>
-                                        </MenuItem>
-                                        {availableSubdistricts.map((s) => (
-                                            <MenuItem key={s.value} value={s.value}>
-                                                {s.label}
-                                            </MenuItem>
-                                        ))}
-                                    </Select>
-                                </FormControl>
+                                        {/* ตำบล */}
+                                        <FormControl fullWidth size="small">
+                                            <Typography variant="body2" sx={{ mb: 0.5, fontWeight: 500, color: '#7D7A7A' }}>
+                                                ตำบล
+                                            </Typography>
+                                            <Select
+                                                sx={{ borderRadius: 3 }}
+                                                multiple
+                                                value={selectedSubdistricts}
+                                                onChange={handleSubdistrictChange}
+                                                renderValue={(selected) =>
+                                                    selected.length === 0 ? (
+                                                        <em>กรุณาเลือกตำบล</em>
+                                                    ) : (
+                                                        <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
+                                                            {selected.map((value) => {
+                                                                const label = availableSubdistricts.find((s) => s.value === value)?.label || value;
+                                                                return <Chip key={value} label={label} size="small" />;
+                                                            })}
+                                                        </Box>
+                                                    )
+                                                }
+                                            >
+                                                <MenuItem value="">
+                                                    <em>กรุณาเลือกตำบล</em>
+                                                </MenuItem>
+                                                {availableSubdistricts.map((s) => (
+                                                    <MenuItem key={s.value} value={s.value}>
+                                                        {s.label}
+                                                    </MenuItem>
+                                                ))}
+                                            </Select>
+                                        </FormControl>
+                                    </>
+                                )}
                             </Box>
                         </Box>
                     </Box>

@@ -127,7 +127,7 @@ const ComplaintOverview: React.FC<ComplaintOverviewProps> = ({ cardsDataOverview
                                 gap: 0.2,
                                 justifyContent: 'flex-start',
                                 p: 1,
-                                bgcolor: 'rgba(255,255,255,0.1)',
+                                bgcolor: 'rgba(0,0,0,0.3)',
                                 color: '#ffffff',
                                 borderTop: '0.1px solid white',
                                 borderBottom: '0.1px solid white',
@@ -155,7 +155,7 @@ const ComplaintOverview: React.FC<ComplaintOverviewProps> = ({ cardsDataOverview
                 p: 1,
                 display: 'flex',
                 flexDirection: 'column',
-                backgroundColor: 'rgba(255,255,255,0.1)',
+                backgroundColor: 'rgba(0,0,0,0.3)',
                 color: 'white',
             }}>
                 <Typography sx={{ color: '#ffffff', fontSize: 12 }}>ประเภทปัญหาที่ขอความช่วยเหลือ</Typography>
