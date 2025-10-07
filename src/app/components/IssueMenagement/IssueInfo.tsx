@@ -1,100 +1,172 @@
 import React from "react";
-import { Modal, Box, Button, Typography } from "@mui/material";
+import { Modal, Box, Button, Typography, Tooltip, ImageList, ImageListItem, ListItemButton, IconButton } from "@mui/material";
+import { IssueItem } from "@/app/types/IssueItem";
+import IssueInfoLeft from "./IssueInfoLeft";
+import IssueInfoRight from "./IssueInfoRight";
 import CloseIcon from '@mui/icons-material/Close';
 import SendIcon from '@mui/icons-material/Send';
-import type { DateRow } from "./TypeDate";
-
 interface IssueInfoProps {
     open: boolean;
-    selectedRow: DateRow | null;
+    selectedRow: IssueItem | null;
+    issuesData: IssueItem[];
     handleClose: () => void;
+    getTypeStyle: (status: string) => { background: string; color: string };
 }
 
-const IssueInfo: React.FC<IssueInfoProps> = ({ open, selectedRow, handleClose }) => {
+const IssueInfo: React.FC<IssueInfoProps> = ({
+    open,
+    selectedRow,
+    handleClose,
+    issuesData,
+    getTypeStyle
+}) => {
+    if (!selectedRow) return null;
+
+    const selectedIssue = issuesData.find((item) => item.id === selectedRow.id);
+
     return (
-        <Modal open={open} onClose={handleClose} sx={{ overflow: 'hidden' }}>
+        <Modal open={open} onClose={handleClose} >
             <Box
                 sx={{
                     position: "absolute",
                     top: "50%",
                     left: "50%",
                     transform: "translate(-50%, -50%)",
-                    width: "70%",
-                    height: "80%",
-                    maxWidth: 1200,
+                    width: "60%",
+                    maxWidth: 'auto',
                     bgcolor: "white",
-                    borderRadius: 4,
+                    borderRadius: 6,
                     boxShadow: 24,
-                    p: 4,
-                    px: 2,
+                    overflow: "hidden",
+                    display: "flex",
+                    flexDirection: "column",
                     maxHeight: "90vh",
                 }}
             >
-                <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', pb: 2 }}>
-                    <Typography sx={{ color: '#000' }}>พบการบินโกรน 1</Typography>
-                </Box>
-                <Box sx={{
-                    width: '100%',
-                    display: 'flex',
-                    alignItems: 'flex-start',
-                    gap: 2
-                }}>
-
-                    <Box sx={{ width: '100%' }}>
-                        <Box sx={{
-                            color: '#000',
-                            width: '100%',
-                            height: '600px',
-                            border: '1px solid #D9D9D9',
-                            borderRadius: 4,
-                            backgroundColor: '#F5F5F5',
-                            p: 1,
-                            px: 2
-                        }}>Left</Box>
+                {/* ✅ ชั้นใน - เนื้อหาทั้งหมด */}
+                <Box
+                    sx={{
+                        display: "flex",
+                        flexDirection: "column",
+                        flex: 1,
+                    }}
+                >
+                    {/* 🔹 Header (คงที่) */}
+                    <Box
+                        sx={{
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            flexDirection: "column",
+                            py: 2,
+                            px: 2,
+                            // borderBottom: "1px solid #E0E0E0",
+                            flexShrink: 0,
+                        }}
+                    >
+                        <Typography sx={{ color: "#000", fontSize: 20, fontWeight: 600, mb: 1 }}>
+                            {selectedIssue?.problem ?? "ไม่พบข้อมูลปัญหา"}
+                        </Typography>
+                        <Typography
+                            sx={{
+                                fontSize: 14,
+                                fontWeight: 600,
+                                ...getTypeStyle(selectedIssue?.status ?? ""),
+                                borderRadius: 2,
+                                p: 0.5,
+                                px: 1,
+                            }}
+                        >
+                            {selectedIssue?.status ?? "ไม่พบข้อมูลปัญหา"}
+                        </Typography>
                     </Box>
 
-                    <Box sx={{ width: '100%', display: 'flex', flexDirection: 'column' }}>
-                        <Box sx={{
-                            color: '#000',
-                            width: '100%',
-                            height: '600px',
-                            border: '1px solid #D9D9D9',
-                            borderRadius: 4,
-                            backgroundColor: '#F5F5F5',
-                            p: 1,
-                            px: 2
-                        }}>Right</Box>
+                    {/* 🔹 Content Scroll ได้แค่ภายใน Left/Right */}
+                    <Box
+                        sx={{
+                            flex: 1,
+                            display: "flex",
+                            gap: 2,
+                            p: 2,
+                            overflow: "hidden", // ❗ ไม่ให้ container scroll เอง
+                            "@media (max-width: 900px)": {
+                                flexDirection: "column",
+                            },
+                        }}
+                    >
+                        {/* LEFT (scroll ภายในเอง) */}
                         <Box
                             sx={{
-                                width: '100%',
-                                display: 'flex',
-                                justifyContent: 'flex-end',
-                                gap: 1,
-                                mt: 1
-                            }}>
-                            <Button
-                                variant="contained"
-                                sx={{
-                                    backgroundColor: '#ffffff',
-                                    color: '#000000',
-                                    borderRadius: 2,
-                                }}
-                                onClick={handleClose}
-                            >
-                                <CloseIcon sx={{ fontSize: 16, mr: 1 }} />
-                                ปิด
-                            </Button>
-                            <Button
-                                variant="contained"
-                                sx={{
-                                    color: '#ffffff',
-                                    borderRadius: 2
-                                }}
-                            >
-                                <SendIcon sx={{ fontSize: 16, mr: 1 }} />
-                                ยืนยัน
-                            </Button>
+                                flex: 1,
+                                minWidth: 0,
+                                maxHeight: "70vh",
+                                pr: 1,
+                                overflowY: "auto",
+                                scrollbarWidth: "none", // Firefox
+                                msOverflowStyle: "none", // IE
+                                "&::-webkit-scrollbar": {
+                                    display: "none", // Chrome/Safari
+                                },
+                            }}
+                        >
+                            <IssueInfoLeft issuesData={issuesData} selectedRow={selectedRow} />
                         </Box>
+
+                        {/* RIGHT (scroll ภายในเอง) */}
+                        <Box
+                            sx={{
+                                flex: 1,
+                                minWidth: 0,
+                                maxHeight: "70vh",
+                                pl: 1,
+                                overflowY: "auto",
+                                scrollbarWidth: "none",
+                                msOverflowStyle: "none",
+                                "&::-webkit-scrollbar": {
+                                    display: "none",
+                                },
+                            }}
+                        >
+                            <IssueInfoRight />
+                        </Box>
+                    </Box>
+
+                    <Box
+                        sx={{
+                            display: "flex",
+                            justifyContent: "flex-end",
+                            alignItems: "center",
+                            gap: 1,
+                            px: 2,
+                            flexShrink: 0,
+                            bgcolor: "#fff",
+                            mb: 2
+                        }}
+                    >
+                        <Button
+                            variant="contained"
+                            sx={{
+                                backgroundColor: "#ffffff",
+                                color: "#000000",
+                                borderRadius: 2,
+                                boxShadow: "none",
+                                "&:hover": { backgroundColor: "#f5f5f5" },
+                            }}
+                            onClick={handleClose}
+                        >
+                            <CloseIcon sx={{ fontSize: 16, mr: 1 }} />
+                            ปิด
+                        </Button>
+                        <Button
+                            variant="contained"
+                            sx={{
+                                borderRadius: 2,
+                                color: "#fff",
+                            }}
+                        >
+                            <SendIcon sx={{ fontSize: 16, mr: 1 }} />
+                            ยืนยัน
+                        </Button>
                     </Box>
                 </Box>
             </Box>

@@ -845,3 +845,48 @@ a.mapboxgl-ctrl-logo.mapboxgl-compact {
 .mapboxgl-canvas-container.mapboxgl-interactive:active {
   cursor: grabbing;
 }
+
+.swiper-button-next,
+.swiper-button-prev {
+  color: #555;
+  /* ✅ สีลูกศร */
+  width: 24px;
+  /* ✅ ปรับขนาด */
+  height: 24px;
+  /* ✅ ปรับขนาด */
+}
+
+.swiper-button-next::after,
+.swiper-button-prev::after {
+  font-size: 18px;
+  /* ✅ ลดขนาด icon */
+  font-weight: bold;
+}
+
+.swiper {
+  overflow: visible !important;
+  /* ✅ ให้ปุ่มออกนอกกรอบได้ */
+}
+
+.swiper-button-next,
+.swiper-button-prev {
+  color: #333;
+  width: 28px;
+  height: 28px;
+}
+
+.swiper-button-next::after,
+.swiper-button-prev::after {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.swiper-button-prev {
+  left: -30px;
+  /* ✅ ดึงออกมานอกกรอบซ้าย */
+}
+
+.swiper-button-next {
+  right: -30px;
+  /* ✅ ดึงออกมานอกกรอบขวา */
+}

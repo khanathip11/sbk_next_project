@@ -2,7 +2,7 @@ import { Box, Card, CardMedia, Typography } from '@mui/material';
 import React, { useState } from 'react'
 import { formatThaiDateTime } from '@/app/utils/formatThaiDateTime';
 import { StaticImageData } from "next/image";
-import SpokeIcon from '@mui/icons-material/Spoke';
+import SpokeOutlinedIcon from '@mui/icons-material/SpokeOutlined';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import VpnKeyOutlinedIcon from '@mui/icons-material/VpnKeyOutlined';
@@ -85,7 +85,7 @@ const PreviewPanal: React.FC<PreviewPanalProps> = ({ card, onBack }) => {
                     <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
                         <Box sx={{ display: 'flex', flexDirection: 'column' }}>
                             <Box sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
-                                <SpokeIcon sx={{ fontSize: 16 }} />
+                                <SpokeOutlinedIcon sx={{ fontSize: 16 }} />
                                 <Typography sx={{ mb: 0, fontSize: 12 }}>ผลการติดตาม</Typography>
                             </Box>
                             <Typography color="text.secondary" sx={{ ml: `24px`, fontSize: 12 }}>

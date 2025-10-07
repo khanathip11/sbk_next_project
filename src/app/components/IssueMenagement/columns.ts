@@ -1,16 +1,20 @@
-// src/components/IssueTable/columns.ts
-import { Column } from "./types";
+import { IssueItem } from "@/app/types/IssueItem";
 
-export const columns: readonly Column[] = [
-    { label: "รหัสปัญหา", minWidth: 170 },
-    { label: "ปัญหา", minWidth: 100 },
-    { label: "วันที่แจ้ง", minWidth: 170, align: "right" },
-    { label: "ประเภท", minWidth: 170, align: "right" },
-    { label: "สถานะการแก้ปัญหา", minWidth: 170, align: "center" },
-    { label: "โลเคชั่น", minWidth: 100 },
-    { label: "ผู้แจ้ง", minWidth: 100 },
-    { label: "หน่วยรับผิดชอบ", minWidth: 100 },
-    { label: "ระดับของปัญหา", minWidth: 100, align: "center" },
-    { label: "ระยะเวลาที่ต้องการแก้ไข (เหลือ)", minWidth: 100 },
-    { label: "จัดการ", minWidth: 100, align: "center" },
+export interface Column {
+  label: string;
+  field: keyof IssueItem | "actions"; // ใช้ type จาก IssueItem
+}
+
+export const columns: Column[] = [
+  { label: "รหัสปัญหา", field: "id" },
+  { label: "ปัญหา", field: "problem" },
+  { label: "วันที่แจ้ง", field: "date" },
+  { label: "ประเภท", field: "category" },
+  { label: "สถานะการแก้ปัญหา", field: "status" },
+  { label: "โลเคชั่น", field: "location" },
+  { label: "ผู้แจ้ง", field: "reporter" },
+  { label: "หน่วยรับผิดชอบ", field: "department" },
+  { label: "ระดับของปัญหา", field: "level" },
+  { label: "ระยะเวลาที่ต้องการแก้ไข (เหลือ)", field: "remainingDays" },
+  { label: "จัดการ", field: "actions" },
 ];
