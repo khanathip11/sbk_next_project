@@ -89,7 +89,7 @@ const ComplaintMap: React.FC<ComplaintMapProps> = ({ cardsData, collapse, closeT
                     variant="contained"
                     sx={{
                         width: '195px',
-                        height: '5%',
+                        height: '30px',
                         position: 'absolute',
                         bottom: 10,
                         left: '50%',
