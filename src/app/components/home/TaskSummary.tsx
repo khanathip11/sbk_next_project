@@ -18,15 +18,15 @@ const TaskSummary = ({ count, closeTask, SetCloseTask, selectedCard }: taskProps
                     <>
                         {selectedCard ? (
                             <Box sx={{ p: 1, fontSize: 12, fontWeight: 500, display: 'flex', gap: 1 }}>
-                                <Typography sx={{ fontSize: 12, color: '#000000' }}>Preview</Typography>
-                                <Typography sx={{ fontSize: 12 }} color="text.secondary">{selectedCard.title}</Typography>
+                                <Typography sx={{ fontSize: 12, color: '#000000', ml: 0 }}>Preview</Typography>
+                                {/* <Typography sx={{ fontSize: 12 }} color="text.secondary">{selectedCard.title}</Typography> */}
                             </Box>
                         ) : (
                             <Box sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
-                                <Typography sx={{ fontSize: 10, pl: 1, color: count ? 'red' : 'black' }}>
+                                <Typography sx={{ fontSize: 10, pl: 1, color: '#000' }}>
                                     {count + ' Result'}
                                 </Typography>
-                                <Typography sx={{ fontSize: 10, ml: -0.5 }}>in Thailand</Typography>
+                                <Typography sx={{ fontSize: 10 }}></Typography>
                             </Box>
                         )}
 

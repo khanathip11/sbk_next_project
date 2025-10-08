@@ -23,21 +23,26 @@ const FilterDropdown = ({ label, value, options, onChange }: FilterDropdownProps
                 displayEmpty
                 renderValue={(selected) => {
                     if (!selected) {
-                        return <em>{label}</em>;
+                        return <>{label}</>;
                     }
                     return selected;
                 }}
                 sx={{
                     bgcolor: "white",
                     borderRadius: 2,
-                    height: `36px`
+                    height: `36px`,
+                    fontFamily: "Kanit, sans-serif", // ✅ ใช้ Kanit
+                    "& .MuiSelect-select": {
+                        fontFamily: "Kanit, sans-serif", // ✅ ข้อความใน select
+                        fontSize: 14,
+                    },
                 }}
             >
-                <MenuItem value="">
-                    <em>{label}</em>
+                <MenuItem value="" sx={{ fontSize: 13 }}>
+                    <>{label}</>
                 </MenuItem>
                 {options.map((opt) => (
-                    <MenuItem key={opt.value} value={opt.value}>
+                    <MenuItem key={opt.value} value={opt.value} sx={{ fontSize: 13 }}>
                         {opt.label}
                     </MenuItem>
                 ))}

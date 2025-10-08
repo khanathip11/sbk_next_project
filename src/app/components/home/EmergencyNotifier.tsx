@@ -11,6 +11,8 @@ import notification from '../../assets/noti.jpg'
 import { provinces } from '@/app/data/provinces';
 import RoomIcon from '@mui/icons-material/Room';
 import { Province, District, Subdistrict } from '@/app/types/provinceOptions';
+import { regions } from '@/app/data/regions';
+import { Region } from '@/app/types/Region';
 
 type EmergencyNotifierProps = {
     handleClose: () => void;
@@ -23,7 +25,7 @@ const EmergencyNotifier: React.FC<EmergencyNotifierProps> = ({ handleClose }) =>
     const [selectedProvinces, setSelectedProvinces] = useState<string[]>([]);
     const [selectedDistricts, setSelectedDistricts] = useState<string[]>([]);
     const [selectedSubdistricts, setSelectedSubdistricts] = useState<string[]>([]);
-
+    const [selectRegions, setSelectRegions] = useState<string[]>([]);
     const handleSendTypeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const value = event.target.value as "all" | "region";
         setSendType(value);
@@ -46,9 +48,15 @@ const EmergencyNotifier: React.FC<EmergencyNotifierProps> = ({ handleClose }) =>
         .filter((d) => selectedDistricts.includes(d.value))
         .flatMap((d) => d.subdistricts);
 
+    const handleRegionsChange = (event: SelectChangeEvent<string[]>) => {
+        const value = event.target.value as string[];
+        setSelectRegions(value);
+    };
+
     // event handlers
     const handleProvinceChange = (event: SelectChangeEvent<string[]>) => {
         const value = event.target.value as string[];
+        setSelectRegions(value);
         setSelectedProvinces(value);
         setSelectedDistricts([]);
         setSelectedSubdistricts([]);
@@ -181,8 +189,42 @@ const EmergencyNotifier: React.FC<EmergencyNotifierProps> = ({ handleClose }) =>
 
                                 {sendType === 'region' && (
                                     <>
-                                        {/* จังหวัด */}
+                                        {/* ภาค */}
                                         <FormControl fullWidth size="small">
+                                            <Typography variant="body2" sx={{ mb: 0.5, fontWeight: 500, color: '#7D7A7A' }}>
+                                                ภาค
+                                            </Typography>
+                                            <Select
+                                                sx={{ borderRadius: 3, mb: 1 }}
+                                                multiple
+                                                value={selectRegions}
+                                                onChange={handleRegionsChange}
+                                                renderValue={(selected) =>
+                                                    selected.length === 0 ? (
+                                                        <>{'กรุณาเลือกภาค'}</>
+                                                    ) : (
+                                                        <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
+                                                            {selected.map((value) => {
+                                                                const regionLabel = regions.find((r) => r.value === value)?.label || value;
+                                                                return <Chip key={value} label={regionLabel} size="small" />;
+                                                            })}
+                                                        </Box>
+                                                    )
+                                                }
+                                            >
+                                                <MenuItem value="">
+                                                    <>{'กรุณาเลือกภาค'}</>
+                                                </MenuItem>
+                                                {regions.map((r) => (
+                                                    <MenuItem key={r.value} value={r.value}>
+                                                        {r.label}
+                                                    </MenuItem>
+                                                ))}
+                                            </Select>
+                                        </FormControl>
+
+                                        {/* จังหวัด */}
+                                        {/* <FormControl fullWidth size="small">
                                             <Typography variant="body2" sx={{ mb: 0.5, fontWeight: 500, color: '#7D7A7A' }}>
                                                 จังหวัด
                                             </Typography>
@@ -213,10 +255,10 @@ const EmergencyNotifier: React.FC<EmergencyNotifierProps> = ({ handleClose }) =>
                                                     </MenuItem>
                                                 ))}
                                             </Select>
-                                        </FormControl>
+                                        </FormControl> */}
 
                                         {/* อำเภอ */}
-                                        <FormControl fullWidth size="small">
+                                        {/* <FormControl fullWidth size="small">
                                             <Typography variant="body2" sx={{ mb: 0.5, fontWeight: 500, color: '#7D7A7A' }}>
                                                 อำเภอ
                                             </Typography>
@@ -247,10 +289,10 @@ const EmergencyNotifier: React.FC<EmergencyNotifierProps> = ({ handleClose }) =>
                                                     </MenuItem>
                                                 ))}
                                             </Select>
-                                        </FormControl>
+                                        </FormControl> */}
 
                                         {/* ตำบล */}
-                                        <FormControl fullWidth size="small">
+                                        {/* <FormControl fullWidth size="small">
                                             <Typography variant="body2" sx={{ mb: 0.5, fontWeight: 500, color: '#7D7A7A' }}>
                                                 ตำบล
                                             </Typography>
@@ -281,7 +323,7 @@ const EmergencyNotifier: React.FC<EmergencyNotifierProps> = ({ handleClose }) =>
                                                     </MenuItem>
                                                 ))}
                                             </Select>
-                                        </FormControl>
+                                        </FormControl> */}
                                     </>
                                 )}
                             </Box>
@@ -357,7 +399,7 @@ const EmergencyNotifier: React.FC<EmergencyNotifierProps> = ({ handleClose }) =>
                                 display: 'flex',
                                 justifyContent: 'flex-end',
                                 gap: 1,
-                                px: 2,
+                                px: 2.5,
                                 pt: 1,
                             }}>
                             <Button

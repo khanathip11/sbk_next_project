@@ -35,7 +35,7 @@ export default function DatePickerWithDefaultText() {
         <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="th">
             <Stack
                 direction="row"
-                spacing={2}
+                spacing={1}
                 alignItems="center"
                 justifyContent="center"
             >
@@ -50,7 +50,7 @@ export default function DatePickerWithDefaultText() {
                     }}
                 />
 
-                <Typography sx={{ fontWeight: 600 }}>ถึง</Typography>
+                <Typography >ถึง</Typography>
 
                 {/* ---------- วันที่สิ้นสุด ---------- */}
                 <DatePicker

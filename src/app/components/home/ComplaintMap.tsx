@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react'
-import { Box, Button, Modal } from '@mui/material'
+import { Box, Button, IconButton, Modal } from '@mui/material'
 import ReportProblemIcon from '@mui/icons-material/ReportProblem';
 import ComplaintOverview from './ComplaintOverview';
 import { StaticImageData } from "next/image";
@@ -8,6 +8,7 @@ import ComplaintFilterBar from './ComplaintFilterBar';
 import ArrowRightIcon from '@mui/icons-material/ArrowRight';
 import ArrowLeftIcon from '@mui/icons-material/ArrowLeft';
 import MapboxMapComponent from '../Mapbox';
+import FilterListIcon from '@mui/icons-material/FilterList';
 
 type CardData = {
     id: number;
@@ -71,14 +72,40 @@ const ComplaintMap: React.FC<ComplaintMapProps> = ({ cardsData, collapse, closeT
                     cardsDataOverview={cardsData}
                 />
 
-                <Box sx={{ flex: 1, display: 'flex', position: 'relative', pointerEvents: 'auto' }}>
+                <Box sx={{ flex: 1, display: 'flex', pointerEvents: 'auto' }}>
                     {openFilter ? (
                         <>
-                            <ArrowLeftIcon sx={{ color: 'white', position: 'absolute', top: 6, left: -20, zIndex: 99, cursor: 'pointer' }} onClick={() => setOpenFilter(false)} />
+                            <IconButton
+                                onClick={() => setOpenFilter(false)}
+                                sx={{
+                                    width: 35,
+                                    height: 35,
+                                    backgroundColor: '#fff',
+                                    borderRadius: 2,
+                                    ml: -1,
+                                    mr: 1,
+                                    "&:hover": { backgroundColor: '#f0f0f0' },
+                                }}
+                            >
+                                <FilterListIcon sx={{ fontSize: 22, color: '#000' }} />
+                            </IconButton>
                             <ComplaintFilterBar />
                         </>
                     ) : (
-                        <ArrowRightIcon sx={{ color: 'white', position: 'absolute', top: 6, left: -20, zIndex: 99 }} onClick={() => setOpenFilter(true)} />
+                        <IconButton
+                            onClick={() => setOpenFilter(true)}
+                            sx={{
+                                width: 35,
+                                height: 35,
+                                backgroundColor: '#fff',
+                                borderRadius: 2,
+                                ml: -1,
+                                mr: 1,
+                                "&:hover": { backgroundColor: '#f0f0f0' },
+                            }}
+                        >
+                            <FilterListIcon sx={{ fontSize: 22, color: '#5B616D' }} />
+                        </IconButton>
                     )
                     }
                 </Box>

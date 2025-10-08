@@ -77,7 +77,7 @@
 import { Stack, TextField, InputAdornment, Box, Typography } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import IssueFilter from "./IssueFilter";
-import DateRangePickerDemo from "../common/DateRangePickerDemo";
+import DateRangePickerDemo from "./DateRangePickerDemo";
 import React from "react";
 import IssueTableChild from "./IssueTableChild";
 

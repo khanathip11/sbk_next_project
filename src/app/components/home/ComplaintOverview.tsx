@@ -4,6 +4,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import { StaticImageData } from "next/image";
 import ComplaintFilterBar from './ComplaintFilterBar';
 import React from 'react'
+import ProblemChart from './ProblemChart';
 
 type CardsData = {
     id: number;
@@ -136,7 +137,7 @@ const ComplaintOverview: React.FC<ComplaintOverviewProps> = ({ cardsDataOverview
                                 wordBreak: 'break-word',
                             }}
                         >
-                            <Typography sx={{ fontSize: 10 }}>{item.type}</Typography>
+                            <Typography sx={{ fontSize: 12 }}>{item.type}</Typography>
                             <Typography sx={{ fontSize: 12 }}>{`${item.issue} (${item.percent}%)`}</Typography>
                         </Paper>
                     </Box>
@@ -160,7 +161,7 @@ const ComplaintOverview: React.FC<ComplaintOverviewProps> = ({ cardsDataOverview
             }}>
                 <Typography sx={{ color: '#ffffff', fontSize: 12 }}>ประเภทปัญหาที่ขอความช่วยเหลือ</Typography>
                 <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', mt: 1 }} >
-                    <Box
+                    {/* <Box
                         sx={{
                             width: 90,
                             height: 90,
@@ -174,7 +175,8 @@ const ComplaintOverview: React.FC<ComplaintOverviewProps> = ({ cardsDataOverview
                         }}>
                         <Typography sx={{ fontSize: 12 }}>80</Typography>
                         <Typography sx={{ fontSize: 12 }}>ปัญหา</Typography>
-                    </Box>
+                    </Box> */}
+                    <ProblemChart />
                 </Box>
                 <Box
                     sx={{
@@ -202,7 +204,7 @@ const ComplaintOverview: React.FC<ComplaintOverviewProps> = ({ cardsDataOverview
                                 key={items.id}
                                 sx={{
                                     color: 'white',
-                                    fontSize: 10,
+                                    fontSize: 12,
                                     lineHeight: '6px',
                                     m: 0,
                                 }}

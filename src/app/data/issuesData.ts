@@ -86,7 +86,7 @@ export const issuesData: IssueItem[] = [
     status: "ไม่สามารถดำเนินการได้",
     location: "สมุทรปราการ",
     reporter: "นางสาวอารีย์",
-    department: "กรมสอบสวนคดีพิเศษ",
+    department: "ยังไม่มี",
     level: "ทั่วไป",
     remainingDays: "0 วัน",
     img: [droneImg, droneImg, droneImg],
