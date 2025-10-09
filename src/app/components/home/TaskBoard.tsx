@@ -43,7 +43,7 @@ const TaskBoard: React.FC<TaskBoardProps> = ({ card, onClick }) => {
 
                 <Box sx={{ width: '100%', overflow: 'hidden' }}>
                     <Stack direction={'row'} px={2} pt={0.5}>
-                        <Typography fontSize={8} noWrap sx={{ textOverflow: 'ellipsis', maxWidth: '80px', color: 'blue' }}>{card.issue?.length > 18 ? card.issue.slice(0, 18) + '…' : card.issue}</Typography>
+                        <Typography fontSize={8} noWrap sx={{ textOverflow: 'ellipsis', maxWidth: '80px', color: 'blue',fontSize:10 }}>{card.issue?.length > 18 ? card.issue.slice(0, 18) + '…' : card.issue}</Typography>
                         <Box flexGrow={1} />
                         <Typography
                             fontSize={8}
@@ -56,6 +56,8 @@ const TaskBoard: React.FC<TaskBoardProps> = ({ card, onClick }) => {
                                 pb: 0,
                                 borderRadius: 1,
                                 width: 'auto',
+                                fontSize:10
+                                
                             }}>
                             {card.status?.length > 30 ? card.status.slice(0, 30) + '…' : card.status}
                         </Typography>

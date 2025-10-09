@@ -50,7 +50,7 @@ export default function DatePickerWithDefaultText() {
                     }}
                 />
 
-                <Typography >ถึง</Typography>
+                <Typography sx={{fontSize:12}}>ถึง</Typography>
 
                 {/* ---------- วันที่สิ้นสุด ---------- */}
                 <DatePicker

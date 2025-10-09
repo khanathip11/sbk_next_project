@@ -57,7 +57,7 @@ const ComplaintDatePicker = ({ open }: ComplaintDatePickerProps) => {
                     }}
                 />
 
-                <Typography sx={{ color: '#fff' }}>ถึง</Typography>
+                <Typography sx={{ color: '#fff',fontSize:11 }}>ถึง</Typography>
 
                 {/* ---------- วันที่สิ้นสุด ---------- */}
                 <DatePicker

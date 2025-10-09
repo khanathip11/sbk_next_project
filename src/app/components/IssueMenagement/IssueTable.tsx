@@ -173,7 +173,7 @@ const IssueTable = () => {
                     scrollbarWidth: "none",
                 }}>
                     <DateRangePickerDemo />
-                    <Typography>ผลลัพธ์</Typography>
+                    <Typography sx={{fontSize:12}}>ผลลัพธ์</Typography>
                     <Typography
                         sx={{
                             height: 35,
@@ -183,6 +183,7 @@ const IssueTable = () => {
                             backgroundColor: "#ffffff",
                             display: "flex",
                             alignItems: "center",
+                            fontSize:12
                         }}
                     >
                         100

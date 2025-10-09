@@ -28,6 +28,7 @@ const EmergencyNotifierLeft: React.FC<EmergencyNotifierLeftProps> = ({ sendType,
     const handleRegionsChange = (event: SelectChangeEvent<string[]>) => {
         const value = event.target.value as string[];
         setSelectRegions(value);
+        setSelectedProvinces([]);
     };
 
     // province -> districts
@@ -44,8 +45,8 @@ const EmergencyNotifierLeft: React.FC<EmergencyNotifierLeftProps> = ({ sendType,
     const handleProvinceChange = (event: SelectChangeEvent<string[]>) => {
         const value = event.target.value as string[];
         setSelectedProvinces(value);
-        setSelectedDistricts([]);
-        setSelectedSubdistricts([]);
+        // setSelectedDistricts([]);
+        // setSelectedSubdistricts([]);
     };
 
     const handleDistrictChange = (event: SelectChangeEvent<string[]>) => {
@@ -58,6 +59,8 @@ const EmergencyNotifierLeft: React.FC<EmergencyNotifierLeftProps> = ({ sendType,
         const value = event.target.value as string[];
         setSelectedSubdistricts(value);
     };
+
+    const availableProvinces = regions.filter((r) => selectRegions.includes(r.value)).flatMap((r) => r.provinces)
 
     return (
         <Box sx={{ width: '80%', height: '500px', p: 0, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
@@ -171,7 +174,7 @@ const EmergencyNotifierLeft: React.FC<EmergencyNotifierLeftProps> = ({ sendType,
                     {sendType === 'region' && (
                         <>
                             {/* ภาค */}
-                            <FormControl fullWidth size="small">
+                            <FormControl fullWidth size="small" sx={{mb:-2}}>
                                 <Typography variant="body2" sx={{ mb: 0.5, fontWeight: 500, color: '#7D7A7A' }}>
                                     ภาค
                                 </Typography>
@@ -205,38 +208,39 @@ const EmergencyNotifierLeft: React.FC<EmergencyNotifierLeftProps> = ({ sendType,
                             </FormControl>
 
                             {/* จังหวัด */}
-                            {/* <FormControl fullWidth size="small">
-                                            <Typography variant="body2" sx={{ mb: 0.5, fontWeight: 500, color: '#7D7A7A' }}>
-                                                จังหวัด
-                                            </Typography>
-                                            <Select
-                                                sx={{ borderRadius: 3, mb: -1.5 }}
-                                                multiple
-                                                value={selectedProvinces}
-                                                onChange={handleProvinceChange}
-                                                renderValue={(selected) =>
-                                                    selected.length === 0 ? (
-                                                        <em>กรุณาเลือกจังหวัด</em>
-                                                    ) : (
-                                                        <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
-                                                            {selected.map((value) => {
-                                                                const label = provinces.find((p) => p.value === value)?.label || value;
-                                                                return <Chip key={value} label={label} size="small" />;
-                                                            })}
-                                                        </Box>
-                                                    )
-                                                }
-                                            >
-                                                <MenuItem value="">
-                                                    <em>กรุณาเลือกจังหวัด</em>
-                                                </MenuItem>
-                                                {provinces.map((p) => (
-                                                    <MenuItem key={p.value} value={p.value}>
-                                                        {p.label}
-                                                    </MenuItem>
-                                                ))}
-                                            </Select>
-                                        </FormControl> */}
+                            <FormControl fullWidth size="small" sx={{mb:2}}>
+                                <Typography variant="body2" sx={{ mb: 0.5, fontWeight: 500, color: '#7D7A7A' }}>
+                                    จังหวัด
+                                </Typography>
+                                <Select
+                                    sx={{ borderRadius: 3, mb: -1.5 }}
+                                    multiple
+                                    value={selectedProvinces}
+                                    onChange={handleProvinceChange}
+                                    renderValue={(selected) =>
+                                    selected.length === 0 ? (
+                                        <em>กรุณาเลือกจังหวัด</em>
+                                    ) : (
+                                        <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
+                                        {selected.map((value) => {
+                                            const label = availableProvinces.find((p) => p.value === value)?.label || value;
+                                            return <Chip key={value} label={label} size="small" />;
+                                        })}
+                                        </Box>
+                                    )
+                                    }
+                                >
+                                    <MenuItem value="">
+                                    <em>กรุณาเลือกจังหวัด</em>
+                                    </MenuItem>
+                                    {availableProvinces.map((p) => (
+                                    <MenuItem key={p.value} value={p.value}>
+                                        {p.label}
+                                    </MenuItem>
+                                    ))}
+                                </Select>
+                            </FormControl>
+
 
                             {/* อำเภอ */}
                             {/* <FormControl fullWidth size="small">
