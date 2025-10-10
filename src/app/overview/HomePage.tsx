@@ -36,7 +36,7 @@ export default function HomePage() {
                     bgcolor: '#f9f9f9',
                     width: (() => {
                         if (isXlUp) {
-                            return collapsed ? (closeTask ? "4%" : "4%") : (closeTask ? "17%" : "25%");
+                            return collapsed ? (closeTask ? "4%" : "4%") : (closeTask ? "20%" : "16%");
                         }
                         if (isLgUp) {
                             return collapsed ? (closeTask ? "6%" : "6%") : (closeTask ? "24.3%" : "35%");
@@ -66,7 +66,68 @@ export default function HomePage() {
                 <ComplaintMap collapse={collapsed} closeTask={closeTask} cardsData={cardsData} />
             </Paper>
 
-            {!closeTask && (
+            <Paper
+                id="task-container"
+                elevation={5}
+                sx={{
+                    borderRadius: 4,
+                    bgcolor: '#f9f9f9',
+                    width: (() => {
+                        if (isXlUp) {
+                            return collapsed ? (closeTask ? "30%" : "1.5%") : (closeTask ? "30%" : "2%");
+                        }
+                        if (isLgUp) {
+                            return collapsed ? (closeTask ? "40%" : "2.5%") : (closeTask ? "24.3%" : "35%");
+                        }
+                        return "100%"; // fallback บนจอเล็ก
+                    })(),
+                    p: !selectedCard ? 1 : 0,
+                    transition: 'width 0.3s ease',
+                    height: '100%',
+                    maxHeight: 'calc(100vh)',
+                    overflowY: 'auto',
+                    scrollbarWidth: 'none', // Firefox
+                    msOverflowStyle: 'none', // IE และ Edge เก่า
+                    '&::-webkit-scrollbar': {
+                        display: 'none', // Chrome, Safari
+                    },
+                    "&::-webkit-scrollbar-thumb": {
+                        backgroundColor: "#c1c1c1",
+                        borderRadius: "4px",
+                    },
+                    "&::-webkit-scrollbar-thumb:hover": {
+                        backgroundColor: "#a0a0a0",
+                    },
+                }}
+            >
+                <TaskSummary
+                    count={120}
+                    closeTask={closeTask}
+                    SetCloseTask={SetCloseTask}
+                    selectedCard={selectedCard}
+                />
+
+                {/* ✅ เปลี่ยนเงื่อนไขเป็นแสดงเมื่อ closeTask = true */}
+                {closeTask ? (
+                    !selectedCard ? (
+                        cardsData.map((card) => (
+                            <TaskBoard
+                                key={card.id}
+                                card={card}
+                                onClick={() => setSelectedCard(card)}
+                            />
+                        ))
+                    ) : (
+                        <PreviewPanal
+                            card={selectedCard}
+                            onBack={() => setSelectedCard(null)}
+                        />
+                    )
+                ) : null}
+            </Paper>
+
+
+            {/* {!closeTask && (
                 <Paper
                     id="task-container"
                     elevation={5}
@@ -128,7 +189,7 @@ export default function HomePage() {
                     <AdsClickIcon sx={{ fontSize: 16, color: '#000', transform: 'rotate(180deg)', }} onClick={() => console.log('s')} />
                 </Box>
             )
-            }
+            } */}
         </Box >
     );
 }

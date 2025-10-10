@@ -161,21 +161,6 @@ const ComplaintOverview: React.FC<ComplaintOverviewProps> = ({ cardsDataOverview
             }}>
                 <Typography sx={{ color: '#ffffff', fontSize: 12 }}>ประเภทปัญหาที่ขอความช่วยเหลือ</Typography>
                 <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', mt: 1 }} >
-                    {/* <Box
-                        sx={{
-                            width: 90,
-                            height: 90,
-                            bgcolor: 'none',
-                            borderRadius: '50%',
-                            border: '15px solid blue',
-                            display: 'flex',
-                            flexDirection: 'column',
-                            justifyContent: 'center',
-                            alignItems: 'center',
-                        }}>
-                        <Typography sx={{ fontSize: 12 }}>80</Typography>
-                        <Typography sx={{ fontSize: 12 }}>ปัญหา</Typography>
-                    </Box> */}
                     <ProblemChart />
                 </Box>
                 <Box

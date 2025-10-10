@@ -6,11 +6,9 @@ import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import dayjs, { Dayjs } from "dayjs";
 import "dayjs/locale/th";
 
-const ComplaintDatePicker = () => {
+const CategoryDatePicker = () => {
     const [startDate, setStartDate] = React.useState<Dayjs | null>(null);
     const [endDate, setEndDate] = React.useState<Dayjs | null>(null);
-
-    // ✅ ฟังก์ชันสร้าง TextField สำหรับ date picker
     const renderInputWithDefault = (
         params: React.ComponentProps<typeof TextField>
     ) => (
@@ -21,7 +19,7 @@ const ComplaintDatePicker = () => {
             sx={{
                 width: 140,
                 "& .MuiOutlinedInput-root": {
-                    backgroundColor: '#fff',
+                    // backgroundColor: '#fff',
                     height: 36,
                     borderRadius: 2,
                 },
@@ -31,9 +29,8 @@ const ComplaintDatePicker = () => {
             }}
         />
     );
-
     return (
-        <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="th" >
+        <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="th">
             <Stack
                 direction="row"
                 spacing={0.5}
@@ -65,7 +62,7 @@ const ComplaintDatePicker = () => {
                 />
             </Stack>
         </LocalizationProvider>
-    );
+    )
 }
 
-export default ComplaintDatePicker
+export default CategoryDatePicker

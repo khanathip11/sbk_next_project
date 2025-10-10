@@ -5,16 +5,18 @@ import { Box, List, Toolbar, Stack, Avatar, Typography, IconButton, AppBar, List
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import AssignmentIcon from "@mui/icons-material/Assignment";
 import HelpIcon from "@mui/icons-material/Help";
-import SettingsIcon from "@mui/icons-material/Settings";
+import SettingsRoundedIcon from '@mui/icons-material/SettingsRounded';
 import LogoutIcon from '@mui/icons-material/Logout';
-import HomeFilledIcon from '@mui/icons-material/HomeFilled';
+import HomeRoundedIcon from '@mui/icons-material/HomeRounded';
 import LightModeIcon from '@mui/icons-material/LightMode';
-import PersonIcon from '@mui/icons-material/Person';
 import ContrastIcon from '@mui/icons-material/Contrast';
-import EqualizerIcon from '@mui/icons-material/Equalizer';
+import EqualizerRoundedIcon from '@mui/icons-material/EqualizerRounded';
 import NightsStayIcon from '@mui/icons-material/NightsStay';
-import ArticleIcon from '@mui/icons-material/Article';
-import BubbleChartIcon from '@mui/icons-material/BubbleChart';
+import ArticleRoundedIcon from '@mui/icons-material/ArticleRounded';
+import BubbleChartRoundedIcon from '@mui/icons-material/BubbleChartRounded';
+import CategoryRoundedIcon from '@mui/icons-material/CategoryRounded';
+import PersonRoundedIcon from '@mui/icons-material/PersonRounded';
+import VerifiedUserRoundedIcon from '@mui/icons-material/VerifiedUserRounded';
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
@@ -30,17 +32,18 @@ const Navbar: React.FC<NavbarProps> = ({ collapsed, setCollapsed }) => {
     };
 
     const menuTopItems = [
-        { text: "Overview", icon: <HomeFilledIcon />, href: "/" },
-        // { text: "Dashboard", icon: <AssignmentIcon />, href: "/dashboard" },
-        { text: "Issue Management", icon: <BubbleChartIcon />, href: "/issues" },
-        { text: "Report", icon: <EqualizerIcon />, href: "/report" },
-        { text: "User Management", icon: <PersonIcon />, href: "/users" },
+        { text: "Overview", icon: <HomeRoundedIcon />, href: "/" },
+        { text: "Issue Management", icon: <BubbleChartRoundedIcon />, href: "/issues" },
+        { text: "Report", icon: <EqualizerRoundedIcon />, href: "/report" },
+        { text: "User Management", icon: <PersonRoundedIcon />, href: "/users" },
+        { text: "Category", icon: <CategoryRoundedIcon />, href: "/category" },
     ];
 
     const menuBottomItems = [
-        { text: "Documentation", icon: <ArticleIcon />, href: "/documentation" },
+        { text: "Documentation", icon: <ArticleRoundedIcon />, href: "/documentation" },
+        { text: "Audit trail", icon: <VerifiedUserRoundedIcon />, href: "/audittrail" },
         { text: "Help", icon: <HelpIcon />, href: "/help" },
-        { text: "Setting", icon: <SettingsIcon />, href: "/setting" }
+        { text: "Setting", icon: <SettingsRoundedIcon />, href: "/setting" }
     ];
 
     const pathname = usePathname();

@@ -6,7 +6,11 @@ import { Box, Button } from '@mui/material';
 import DatePickerWithDefaultText from '../IssueMenagement/DateRangePickerDemo';
 import ComplaintDatePicker from './ComplaintDatePicker';
 
-const ComplaintFilterBar = () => {
+interface ComplaintFilterBarProps {
+    open: boolean;
+}
+
+const ComplaintFilterBar: React.FC<ComplaintFilterBarProps> = ({ open }) => {
     const [days, setDays] = useState("");
     const [problemType, setProblemType] = useState("");
     const [region, setRegion] = useState("");
@@ -93,7 +97,7 @@ const ComplaintFilterBar = () => {
                     options={[{ value: "ทั้งหมด", label: "ทั้งหมด" }]} />
             </Box>
             <Box>
-                <ComplaintDatePicker open={openDatePicker} />
+                {openDatePicker && <ComplaintDatePicker />}
             </Box>
         </Box>
     )

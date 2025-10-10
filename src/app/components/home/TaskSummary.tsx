@@ -13,8 +13,8 @@ type taskProps = {
 const TaskSummary = ({ count, closeTask, SetCloseTask, selectedCard }: taskProps) => {
     return (
         <Box p={1}>
-            <Stack direction={!closeTask ? "row" : "column"} spacing={1} alignItems="center" sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', }}>
-                {!closeTask && (
+            <Stack direction={closeTask ? "row" : "column"} spacing={1} alignItems="center" sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', }}>
+                {closeTask && (
                     <>
                         {selectedCard ? (
                             <Box sx={{ p: 1, fontSize: 12, fontWeight: 500, display: 'flex', gap: 1 }}>
@@ -40,14 +40,16 @@ const TaskSummary = ({ count, closeTask, SetCloseTask, selectedCard }: taskProps
                         bgcolor: "white",
                         borderRadius: 2,
                         p: 0.8,
+                        position: 'relative',
+                        left: !closeTask ? -2 : 0,
                     }}
                     onClick={() => SetCloseTask(!closeTask)}
                 >
                     <ArrowForwardIosIcon
                         sx={{
-                            fontSize: !closeTask ? 8 : 14,
-                            color: "black",
-                            transform: closeTask ? "rotate(180deg)" : "rotate(0deg)",
+                            fontSize: 12,
+                            color: "#5B616D",
+                            transform: closeTask ? "rotate(0deg)" : "rotate(180deg)",
                             transition: "transform 0.5s ease",
                         }}
                     />

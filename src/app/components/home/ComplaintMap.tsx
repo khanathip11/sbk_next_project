@@ -89,7 +89,7 @@ const ComplaintMap: React.FC<ComplaintMapProps> = ({ cardsData, collapse, closeT
                             >
                                 <FilterListIcon sx={{ fontSize: 22, color: '#000' }} />
                             </IconButton>
-                            <ComplaintFilterBar />
+                            <ComplaintFilterBar open={open} />
                         </>
                     ) : (
                         <IconButton
