@@ -39,7 +39,7 @@ export default function HomePage() {
                             return collapsed ? (closeTask ? "4%" : "4%") : (closeTask ? "20%" : "16%");
                         }
                         if (isLgUp) {
-                            return collapsed ? (closeTask ? "6%" : "6%") : (closeTask ? "24.3%" : "35%");
+                            return collapsed ? (closeTask ? "6%" : "6%") : (closeTask ? "35.5%" : "26%");
                         }
                         return "100%"; // fallback บนจอเล็ก
                     })(),
@@ -74,10 +74,10 @@ export default function HomePage() {
                     bgcolor: '#f9f9f9',
                     width: (() => {
                         if (isXlUp) {
-                            return collapsed ? (closeTask ? "30%" : "1.5%") : (closeTask ? "30%" : "2%");
+                            return collapsed ? (closeTask ? "30%" : "1.4%") : (closeTask ? "30%" : "1.5%");
                         }
                         if (isLgUp) {
-                            return collapsed ? (closeTask ? "40%" : "2.5%") : (closeTask ? "24.3%" : "35%");
+                            return collapsed ? (closeTask ? "40%" : "2%") : (closeTask ? "40%" : "2.2%");
                         }
                         return "100%"; // fallback บนจอเล็ก
                     })(),

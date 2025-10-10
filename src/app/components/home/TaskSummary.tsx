@@ -41,7 +41,7 @@ const TaskSummary = ({ count, closeTask, SetCloseTask, selectedCard }: taskProps
                         borderRadius: 2,
                         p: 0.8,
                         position: 'relative',
-                        left: !closeTask ? -2 : 0,
+                        left: !closeTask ? -3 : 0,
                     }}
                     onClick={() => SetCloseTask(!closeTask)}
                 >

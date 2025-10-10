@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react"
 import Script from "next/script"
 
-interface Network {
+export interface Network {
     id: number
     name: string
     lat: number

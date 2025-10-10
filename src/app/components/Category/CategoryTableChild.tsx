@@ -6,36 +6,78 @@ import { SimpleTreeView } from '@mui/x-tree-view/SimpleTreeView';
 import { TreeItem } from '@mui/x-tree-view/TreeItem';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
-import React from "react";
+import React, { useState } from "react";
 import { categories } from "@/app/data/categoryData";
-import { Category } from "@/app/types/categoryType";
+import { Category, SubCategory } from "@/app/types/categoryType";
+/**
+ * 🧱 Props ที่รับจาก parent (CategoryTable)
+ * - onEdit: ฟังก์ชัน callback สำหรับเปิด modal “แก้ไขหมวดหมู่”
+ *   (ส่งข้อมูล category ที่ถูกคลิกกลับไปให้ CategoryTable)
+ */
+interface CategoryTableChildProps {
+    onEdit: (category: Category | SubCategory, parent?: Category) => void;
+    onAddSub: (parent: Category) => void;
+    onDelete: (category: Category | SubCategory, parent?: Category) => void;
+}
 
-const CategoryTableChild = () => {
+/**
+ * 🧾 Component: CategoryTableChild
+ * หน้าที่หลัก:
+ * - แสดงตารางหมวดหมู่แบบ TreeView (มีหมวดหลัก / หมวดย่อย)
+ * - จัดการ pagination ของตาราง
+ * - เมื่อคลิกปุ่ม "แก้ไข" จะเรียก onEdit() เพื่อส่งข้อมูลกลับไปให้ parent
+ */
+const CategoryTableChild: React.FC<CategoryTableChildProps> = ({ onEdit, onAddSub, onDelete }) => {
+
+    /** ✅ page: หน้าที่กำลังแสดงอยู่ใน pagination */
     const [page, setPage] = React.useState(0);
-    const [rowsPerPage, setRowsPerPage] = React.useState(10);
 
+    /** ✅ rowsPerPage: จำนวนแถวต่อหน้า */
+    const [rowsPerPage, setRowsPerPage] = useState(10);
+
+    /**
+     * ✅ handleChangePage:
+     * ฟังก์ชันเปลี่ยนหน้าของ pagination
+     * @param newPage หมายเลขหน้าที่ผู้ใช้เลือก
+     */
     const handleChangePage = (_: unknown, newPage: number) => setPage(newPage);
+
+    /**
+     * ✅ handleChangeRowsPerPage:
+     * ฟังก์ชันเมื่อผู้ใช้เปลี่ยนจำนวนแถวต่อหน้า
+     * เช่น จาก 10 → 25 รายการต่อหน้า
+     */
     const handleChangeRowsPerPage = (e: React.ChangeEvent<HTMLInputElement>) => {
         setRowsPerPage(+e.target.value);
-        setPage(0);
+        setPage(0); // ✅ รีเซ็ตกลับไปหน้าแรกทุกครั้งเมื่อเปลี่ยนจำนวนแถว
     };
 
+    /**
+     * ✅ flattenedRows:
+     * รวม (flatten) ข้อมูลหมวดหมู่หลักและหมวดย่อยทั้งหมดให้เป็น array เดียว
+     * เพื่อคำนวณจำนวนรวมทั้งหมดในตาราง (เช่นใช้ใน pagination)
+     */
     const flattenedRows = categories.flatMap((cat) => [
-        { ...cat, isSub: false },
+        { ...cat, isSub: false }, // หมวดหลัก
         ...(cat.children?.map((child) => ({
             ...child,
-            isSub: true,
-            parentId: cat.id,
-            creator: cat.creator,
+            isSub: true,            // บ่งบอกว่าเป็นหมวดย่อย
+            parentId: cat.id,       // เก็บ id ของหมวดหลัก
+            creator: cat.creator,   // สืบทอดข้อมูลจากหมวดหลัก
             createdAt: cat.createdAt,
         })) ?? []),
     ]);
 
-    // จำกัดให้แสดงเฉพาะหมวดหลักตามหน้า
+    /**
+     * ✅ paginatedCategories:
+     * กำหนดให้แสดงเฉพาะหมวดหลักที่อยู่ในหน้าปัจจุบัน (ตาม pagination)
+     */
     const paginatedCategories = categories.slice(
         page * rowsPerPage,
         page * rowsPerPage + rowsPerPage
     );
+
+    // ------------------------------------------------------------
 
     return (
         <Paper
@@ -48,103 +90,131 @@ const CategoryTableChild = () => {
                 display: "flex",
                 flexDirection: "column",
                 overflow: "auto",
-                scrollbarWidth: "none", // Firefox
-                msOverflowStyle: "none", // IE / Edge เก่า
-                "&::-webkit-scrollbar": {
-                    display: "none", // Chrome, Safari
-                },
+                scrollbarWidth: "none",
+                msOverflowStyle: "none",
+                "&::-webkit-scrollbar": { display: "none" },
             }}
         >
-            <TableContainer component={Paper}
+            {/* 🧭 ตารางหลัก */}
+            <TableContainer
+                component={Paper}
                 sx={{
                     borderRadius: 3,
                     boxShadow: "none",
                     border: "1px solid #fff",
                     flex: 1,
                     overflow: "auto",
-                    scrollbarWidth: "none", // Firefox
-                    msOverflowStyle: "none", // IE / Edge
-                    "&::-webkit-scrollbar": { display: "none" }, // Chrome, Safari
-                }}>
+                    scrollbarWidth: "none",
+                    msOverflowStyle: "none",
+                    "&::-webkit-scrollbar": { display: "none" },
+                }}
+            >
                 <Table size="small" sx={{ borderCollapse: "collapse" }}>
-                    {/* ✅ Table Head */}
+
+                    {/* ------------------------------------------------------------
+                        ✅ ส่วนหัวของตาราง (Table Head)
+                        แสดงชื่อคอลัมน์: หมวดหมู่ / ผู้สร้าง / วันที่ / จัดการ
+                    ------------------------------------------------------------ */}
                     <TableHead sx={{ height: 50 }}>
                         <TableRow sx={{ backgroundColor: "#F2F2F4" }}>
-                            <TableCell sx={{ fontWeight: "bold", width: "40%" }}>
-                                หมวดหมู่
-                            </TableCell>
-                            <TableCell sx={{ fontWeight: "bold", width: "20%" }}>
-                                ผู้สร้าง
-                            </TableCell>
-                            <TableCell sx={{ fontWeight: "bold", width: "20%" }}>
-                                สร้างวันที่
-                            </TableCell>
-                            <TableCell
-                                sx={{ fontWeight: "bold", textAlign: "center", width: "20%" }}
-                            >
-                                จัดการ
-                            </TableCell>
+                            <TableCell sx={{ fontWeight: "bold", width: "40%" }}>หมวดหมู่</TableCell>
+                            <TableCell sx={{ fontWeight: "bold", width: "20%" }}>ผู้สร้าง</TableCell>
+                            <TableCell sx={{ fontWeight: "bold", width: "20%" }}>สร้างวันที่</TableCell>
+                            <TableCell sx={{ fontWeight: "bold", textAlign: "center", width: "20%" }}>จัดการ</TableCell>
                         </TableRow>
                     </TableHead>
 
-                    {/* ✅ Table Body */}
+                    {/* ------------------------------------------------------------
+                        ✅ ส่วนข้อมูลของตาราง (Table Body)
+                        ภายในใช้ <SimpleTreeView> เพื่อแสดงหมวดหลัก + หมวดย่อย
+                    ------------------------------------------------------------ */}
                     <TableBody>
                         <TableRow>
-                            {/* ✅ ให้ TreeView อยู่ใน cell เดียว (เต็มความกว้างตาราง) */}
                             <TableCell colSpan={4} sx={{ p: 0 }}>
                                 <SimpleTreeView
                                     disableSelection
-                                    // defaultExpandedItems={categories.map((c) => c.id)}
+                                    // defaultExpandedItems={categories.map((c) => c.id)} // ขยายทั้งหมดอัตโนมัติ (option)
                                     slots={{
-                                        collapseIcon: ExpandMoreIcon,
-                                        expandIcon: ChevronRightIcon,
+                                        collapseIcon: ExpandMoreIcon, // ไอคอนตอนขยาย
+                                        expandIcon: ChevronRightIcon, // ไอคอนตอนยุบ
                                     }}
                                     sx={{
-                                        "& .MuiTreeItem-content": { py: 0.5 },
+                                        "& .MuiTreeItem-content": { py: 0 },
                                         "& .MuiTreeItem-label": { width: "100%" },
                                         "& .MuiTreeItem-group": {
-                                            borderLeft: "1px dashed #E0E0E0",
+                                            borderLeft: "1px dashed #E0E0E0", // เส้นข้างหน้า child
                                             ml: 2,
                                         },
                                     }}
                                 >
+
+                                    {/* 🔹 Loop แสดงหมวดหมู่หลัก */}
                                     {paginatedCategories.map((cat) => (
                                         <TreeItem
                                             key={cat.id}
                                             itemId={cat.id}
                                             label={
-                                                <Table
-                                                    size="small"
-                                                    sx={{ width: "100%", borderCollapse: "collapse" }}
-                                                >
+                                                <Table size="small" sx={{ width: "100%", borderCollapse: "collapse" }}>
                                                     <TableBody>
                                                         <TableRow>
+                                                            {/* 🧩 หมวดหลัก */}
                                                             <TableCell sx={{ width: "40%" }}>
-                                                                <Typography
-                                                                    sx={{ fontWeight: 400, fontSize: 13, color: "#000" }}
-                                                                >
+                                                                <Typography sx={{ fontWeight: 400, fontSize: 13, color: "#000" }}>
                                                                     {cat.category}
                                                                 </Typography>
                                                             </TableCell>
+
+                                                            {/* 🧩 ผู้สร้าง */}
                                                             <TableCell sx={{ width: "20%" }}>
                                                                 <Typography sx={{ fontSize: 13 }}>
                                                                     {cat.creator}
                                                                 </Typography>
                                                             </TableCell>
+
+                                                            {/* 🧩 วันที่สร้าง */}
                                                             <TableCell sx={{ width: "20%" }}>
                                                                 <Typography sx={{ fontSize: 13 }}>
                                                                     {cat.createdAt}
                                                                 </Typography>
                                                             </TableCell>
-                                                            <TableCell sx={{ textAlign: "center", display: 'flex', justifyContent: 'center', gap: 0.5, }}>
-                                                                <IconButton size="small" color="primary" sx={{ backgroundColor: '#fff', borderRadius: 2 }}>
-                                                                    <EditIcon fontSize="small" sx={{ fontSize: 16 }} />
+
+                                                            {/* 🧩 ปุ่มจัดการ */}
+                                                            <TableCell
+                                                                sx={{
+                                                                    textAlign: "center",
+                                                                    display: 'flex',
+                                                                    justifyContent: 'center',
+                                                                    gap: 0.5,
+                                                                }}
+                                                            >
+                                                                {/* ✏️ ปุ่มแก้ไขหมวดหลัก */}
+                                                                <IconButton
+                                                                    size="small"
+                                                                    color="primary"
+                                                                    sx={{ backgroundColor: '#fff', borderRadius: 2 }}
+                                                                    onClick={() => onEdit(cat)}
+                                                                >
+                                                                    <EditIcon fontSize="small" sx={{ fontSize: 14 }} />
                                                                 </IconButton>
-                                                                <IconButton size="small" color="primary" sx={{ backgroundColor: '#fff', borderRadius: 2 }}>
-                                                                    <AddCircleRoundedIcon fontSize="small" sx={{ fontSize: 16 }} />
+
+                                                                {/* ➕ ปุ่มเพิ่มหมวดย่อย */}
+                                                                <IconButton
+                                                                    size="small"
+                                                                    color="primary"
+                                                                    sx={{ backgroundColor: '#fff', borderRadius: 2 }}
+                                                                    onClick={() => onAddSub(cat)}
+                                                                >
+                                                                    <AddCircleRoundedIcon fontSize="small" sx={{ fontSize: 14 }} />
                                                                 </IconButton>
-                                                                <IconButton size="small" color="error" sx={{ backgroundColor: '#fff', borderRadius: 2 }}>
-                                                                    <DeleteIcon fontSize="small" sx={{ fontSize: 16 }} />
+
+                                                                {/* ❌ ปุ่มลบ */}
+                                                                <IconButton
+                                                                    size="small"
+                                                                    color="error"
+                                                                    sx={{ backgroundColor: '#fff', borderRadius: 2 }}
+                                                                    onClick={() => onDelete(cat)}
+                                                                >
+                                                                    <DeleteIcon fontSize="small" sx={{ fontSize: 14 }} />
                                                                 </IconButton>
                                                             </TableCell>
                                                         </TableRow>
@@ -152,44 +222,53 @@ const CategoryTableChild = () => {
                                                 </Table>
                                             }
                                         >
-                                            {/* ✅ Child rows */}
+                                            {/* 🔸 แสดงหมวดย่อยของหมวดหลักนั้น */}
                                             {cat.children?.map((child) => (
                                                 <TreeItem
                                                     key={child.id}
                                                     itemId={child.id}
                                                     sx={{ backgroundColor: '#F9F9FA' }}
                                                     label={
-                                                        <Table
-                                                            size="small"
-                                                            sx={{ width: "100%", borderCollapse: "collapse" }}
-                                                        >
+                                                        <Table size="small" sx={{ width: "100%", borderCollapse: "collapse" }}>
                                                             <TableBody>
-                                                                <TableRow
-
-                                                                >
+                                                                <TableRow>
                                                                     <TableCell sx={{ width: "40%" }}>
-                                                                        <Typography
-                                                                            sx={{ fontWeight: 300, fontSize: 13, color: "#000" }}
-                                                                        >
+                                                                        <Typography sx={{ fontWeight: 300, fontSize: 13, color: "#000" }}>
                                                                             {child.category}
                                                                         </Typography>
                                                                     </TableCell>
                                                                     <TableCell sx={{ width: "20%" }}>
-                                                                        <Typography sx={{ fontSize: 13 }}>
-                                                                            {cat.creator}
-                                                                        </Typography>
+                                                                        <Typography sx={{ fontSize: 13 }}>{cat.creator}</Typography>
                                                                     </TableCell>
                                                                     <TableCell sx={{ width: "20%" }}>
-                                                                        <Typography sx={{ fontSize: 13 }}>
-                                                                            {cat.createdAt}
-                                                                        </Typography>
+                                                                        <Typography sx={{ fontSize: 13 }}>{cat.createdAt}</Typography>
                                                                     </TableCell>
-                                                                    <TableCell sx={{ textAlign: "center", display: 'flex', justifyContent: 'center', gap: 0.5 }}>
-                                                                        <IconButton size="small" color="primary" sx={{ backgroundColor: '#fff', borderRadius: 2 }}>
-                                                                            <EditIcon fontSize="small" sx={{ fontSize: 16 }} />
+                                                                    <TableCell
+                                                                        sx={{
+                                                                            textAlign: "center",
+                                                                            display: 'flex',
+                                                                            justifyContent: 'center',
+                                                                            gap: 0.5,
+                                                                        }}
+                                                                    >
+                                                                        {/* ✏️ ปุ่มแก้ไขหมวดย่อย (ส่ง parent กลับไปด้วย) */}
+                                                                        <IconButton
+                                                                            size="small"
+                                                                            color="primary"
+                                                                            sx={{ backgroundColor: '#fff', borderRadius: 2 }}
+                                                                            onClick={() => onEdit(child, cat)}
+                                                                        >
+                                                                            <EditIcon fontSize="small" sx={{ fontSize: 14 }} />
                                                                         </IconButton>
-                                                                        <IconButton size="small" color="error" sx={{ backgroundColor: '#fff', borderRadius: 2 }}>
-                                                                            <DeleteIcon fontSize="small" sx={{ fontSize: 16 }} />
+
+                                                                        {/* ❌ ปุ่มลบหมวดย่อย */}
+                                                                        <IconButton
+                                                                            size="small"
+                                                                            color="error"
+                                                                            sx={{ backgroundColor: '#fff', borderRadius: 2 }}
+                                                                            onClick={() => onDelete(child, cat)}
+                                                                        >
+                                                                            <DeleteIcon fontSize="small" sx={{ fontSize: 14 }} />
                                                                         </IconButton>
                                                                     </TableCell>
                                                                 </TableRow>
@@ -207,19 +286,23 @@ const CategoryTableChild = () => {
                 </Table>
             </TableContainer>
 
-            <Box sx={{ flexShrink: 0 }}>
+            {/* ------------------------------------------------------------
+                ✅ ส่วน Pagination ด้านล่าง
+                ใช้ควบคุมจำนวนแถวต่อหน้า และสลับหน้า
+            ------------------------------------------------------------ */}
+            <Box sx={{ flexShrink: 0, }}>
                 <TablePagination
                     rowsPerPageOptions={[10, 25, 100]}
                     component="div"
-                    count={flattenedRows.length}
+                    count={flattenedRows.length} // ✅ ใช้จำนวนทั้งหมดของหมวดหลัก + ย่อย
                     rowsPerPage={rowsPerPage}
                     page={page}
                     onPageChange={handleChangePage}
                     onRowsPerPageChange={handleChangeRowsPerPage}
                 />
             </Box>
-        </Paper >
-    )
-}
+        </Paper>
+    );
+};
 
 export default CategoryTableChild

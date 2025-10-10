@@ -7,7 +7,7 @@ import EmergencyNotifier from './EmergencyNotifier';
 import ComplaintFilterBar from './ComplaintFilterBar';
 import ArrowRightIcon from '@mui/icons-material/ArrowRight';
 import ArrowLeftIcon from '@mui/icons-material/ArrowLeft';
-import MapboxMapComponent from '../Mapbox';
+import MapboxMapComponent, { Network } from '../Mapbox';
 import FilterListIcon from '@mui/icons-material/FilterList';
 
 type CardData = {
@@ -32,11 +32,19 @@ type ComplaintMapProps = {
     closeTask: boolean;
 };
 
-const ComplaintMap: React.FC<ComplaintMapProps> = ({ cardsData, collapse, closeTask, }) => {
+const ComplaintMap: React.FC<ComplaintMapProps> = ({ cardsData, collapse, closeTask }) => {
     const [open, setOpen] = useState<boolean>(false);
     const [openFilter, setOpenFilter] = useState<boolean>(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
+    const [issue, setIssue] = useState<Network[]>([
+        {
+            id: 1,
+            name: "string",
+            lat: 13.9063539,
+            lng: 100.5396905,
+        }
+    ])
 
     return (
         <Box
@@ -49,7 +57,7 @@ const ComplaintMap: React.FC<ComplaintMapProps> = ({ cardsData, collapse, closeT
                 overflow: 'hidden'
             }}>
 
-            <MapboxMapComponent networks={[]} collapse={collapse} closeTask={closeTask} />
+            <MapboxMapComponent networks={issue} collapse={collapse} closeTask={closeTask} />
 
             <Box
                 sx={{
