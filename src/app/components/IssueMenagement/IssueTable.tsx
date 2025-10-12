@@ -1,12 +1,17 @@
 "use client";
-import { Stack, TextField, InputAdornment, Box, Typography } from "@mui/material";
+import { Stack, TextField, InputAdornment, Box, Typography, Button } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import IssueFilter from "./IssueFilter";
 import DateRangePickerDemo from "./DateRangePickerDemo";
-import React from "react";
+import React, { useState } from "react";
 import IssueTableChild from "./IssueTableChild";
+import IssueSummarySection from "./IssueSummarySection";
+import { issuesData } from "@/app/data/issuesData";
+import AddCircleRoundedIcon from '@mui/icons-material/AddCircleRounded';
 
 const IssueTable = () => {
+    const [selectedLevel, setSelectedLevel] = useState<string | null>(null);
+
     return (
         <Box
             sx={{
@@ -21,7 +26,7 @@ const IssueTable = () => {
             }}
         >
             {/* 🔹 Header */}
-            <Typography
+            {/* <Typography
                 sx={{
                     px: 2,
                     pb: 2,
@@ -31,8 +36,50 @@ const IssueTable = () => {
                     flexShrink: 0, // ✅ คงขนาด ไม่หด
                 }}
             >
-                จัดการปัญหาของหน่วยงาน
-            </Typography>
+                จัดการปัญหา
+            </Typography> */}
+
+            <Box
+                sx={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                    px: 2,
+                    mb: 1,
+                }}
+            >
+                <Typography
+                    sx={{
+                        px: 2,
+                        pb: 2,
+                        fontSize: 24,
+                        fontWeight: "bold",
+                        color: "#000",
+                        flexShrink: 0, // ✅ คงขนาด ไม่หด
+                    }}
+                >
+                    จัดการปัญหา
+                </Typography>
+
+                <Button
+                    variant="contained"
+                    sx={{
+                        ml: "auto",
+                        display: "flex",
+                        gap: 0.5,
+                        borderRadius: 2,
+                        backgroundColor: '#004D99',
+                        fontSize: 10,
+                    }}
+                >
+                    <AddCircleRoundedIcon sx={{ fontSize: 16 }} />
+                    สร้างปัญหาใหม่
+                </Button>
+            </Box>
+
+            <Box sx={{ p: 2, pt: 0 }}>
+                <IssueSummarySection selectedLevel={selectedLevel} onSelectLevel={setSelectedLevel} />
+            </Box>
 
             {/* 🔹 Filter */}
             <Stack
@@ -111,7 +158,7 @@ const IssueTable = () => {
                             fontSize: 12
                         }}
                     >
-                        100
+                        {issuesData.length}
                     </Typography>
                 </Box>
             </Stack>
@@ -127,7 +174,7 @@ const IssueTable = () => {
                     scrollbarWidth: "none",
                 }}
             >
-                <IssueTableChild />
+                <IssueTableChild filterLevel={selectedLevel} />
             </Box>
         </Box>
     );

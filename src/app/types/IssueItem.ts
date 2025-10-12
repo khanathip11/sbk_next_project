@@ -5,6 +5,14 @@ export interface IssueItem {
   problem: string;             // ปัญหา
   date: string;                // วันที่แจ้ง
   category: string;            // ประเภทปัญหา
+  reporter: string;            // ผู้แจ้ง
+  level: "ทั่วไป" | "เร่งด่วน"; // ระดับปัญหา
+  department: string;          // หน่วยรับผิดชอบ
+
+  /** 
+   * สถานะหลักของการดำเนินงาน (Workflow Status)
+   * เช่น สถานะในระบบก่อนถึงการแก้ไขจริง 
+   */
   status:
   | "ระบบรับข้อมูลแล้ว"
   | "เจ้าหน้าที่ตรวจสอบ"
@@ -12,12 +20,34 @@ export interface IssueItem {
   | "หน่วยงานกำลังดำเนินการ"
   | "ดำเนินการเสร็จสิ้น"
   | "ไม่สามารถดำเนินการได้";
-  location: string;            // สถานที่
-  reporter: string;            // ผู้แจ้ง
-  department: string;          // หน่วยรับผิดชอบ
-  level: "ทั่วไป" | "เร่งด่วน"; // ระดับปัญหา
-  remainingDays: string;       // ระยะเวลาที่ต้องการแก้ไข
-  img?: (string | StaticImageData)[];  // รูปภาพ (optional)
-  video?: (string | StaticImageData)[]; // วิดีโอ (optional)
-  qrCode?: string | StaticImageData; // ✅ QR Code (เป็นรูปจาก LINE)
+
+  /**
+   * ✅ สถานะการแก้ไขปัญหา (ใหม่)
+   * ระบุว่าการดำเนินการอยู่ในช่วงไหน
+   */
+  solutionStatus:
+  | "กำลังดำเนินการ"
+  | "ดำเนินการเสร็จสิ้น"
+  | "ไม่สามารถดำเนินการได้";
+
+  /**
+   * ✅ ระยะเวลาที่ต้องอ่าน (ใหม่)
+   * เช่น "2 วัน", "5 วัน", "เกินกำหนด 1 วัน" เป็นต้น
+   */
+  readDuration: string;
+
+  /** ระยะเวลาที่ต้องการแก้ไข (เวลาเหลือ / เกินกำหนด) */
+  remainingDays: string;
+
+  /** หน่วยงาน / พื้นที่ */
+  location: string;
+
+  /** รูปภาพประกอบ (optional) */
+  img?: (string | StaticImageData)[];
+
+  /** วิดีโอประกอบ (optional) */
+  video?: (string | StaticImageData)[];
+
+  /** QR Code จาก LINE หรือระบบอื่น (optional) */
+  qrCode?: string | StaticImageData;
 }

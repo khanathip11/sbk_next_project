@@ -3,13 +3,11 @@ import React, { useState } from 'react';
 import {
     Box,
     Typography,
-    Button,
     FormControl,
     InputLabel,
     Select,
     MenuItem,
     TextField,
-    OutlinedInput,
 } from '@mui/material';
 import SpokeOutlinedIcon from '@mui/icons-material/SpokeOutlined';
 import RecordVoiceOverOutlinedIcon from '@mui/icons-material/RecordVoiceOverOutlined';
@@ -17,7 +15,7 @@ import DoNotDisturbAltOutlinedIcon from '@mui/icons-material/DoNotDisturbAltOutl
 import ScheduleIcon from '@mui/icons-material/Schedule';
 import AttachFileOutlinedIcon from '@mui/icons-material/AttachFileOutlined';
 import TextsmsOutlinedIcon from '@mui/icons-material/TextsmsOutlined';
-
+import RemoveRedEyeOutlinedIcon from '@mui/icons-material/RemoveRedEyeOutlined';
 import { STATUS_OPTIONS } from '@/app/constants/statusOptions';
 import { IssueItem } from '@/app/types/IssueItem';
 
@@ -63,7 +61,7 @@ const IssueInfoRight: React.FC<OfficerFormProps> = ({ selectedIssue }) => {
                 <Box sx={{ mb: -1 }}>
                     <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1, }}>
                         <SpokeOutlinedIcon sx={{ fontSize: 18 }} />
-                        <Typography sx={{ fontSize: 13, fontWeight: 600 }}>อัปเดตสถานะใหม่</Typography>
+                        <Typography sx={{ fontSize: 13 }}>อัปเดตสถานะใหม่</Typography>
                     </Box>
 
                     <FormControl fullWidth size="small" variant="outlined" sx={{ pl: 3 }}>
@@ -79,7 +77,7 @@ const IssueInfoRight: React.FC<OfficerFormProps> = ({ selectedIssue }) => {
                                 borderRadius: 3,
                                 backgroundColor: '#fff',
                                 "& .MuiOutlinedInput-notchedOutline": {
-                                    borderColor: "#EDEDED", // เทาอ่อน
+                                    borderColor: "#D1D5DB", // เทาอ่อน
                                 },
                             }}
                         >
@@ -97,7 +95,7 @@ const IssueInfoRight: React.FC<OfficerFormProps> = ({ selectedIssue }) => {
                 <Box sx={{ mb: -1 }}>
                     <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1 }}>
                         <RecordVoiceOverOutlinedIcon sx={{ fontSize: 18 }} />
-                        <Typography sx={{ fontSize: 13, fontWeight: 600 }}>
+                        <Typography sx={{ fontSize: 13 }}>
                             เลือกหน่วยงานรับผิดชอบ
                         </Typography>
                     </Box>
@@ -108,7 +106,7 @@ const IssueInfoRight: React.FC<OfficerFormProps> = ({ selectedIssue }) => {
                         <Box sx={{ display: "flex", gap: 1.5 }}>
                             {/* ศูนย์ */}
                             <Box sx={{ display: "flex", flexDirection: "column", flex: 1 }}>
-                                <Typography sx={{ fontSize: 13, fontWeight: 600, mb: 0.5, pl: 3.2, color: '#5B616D' }}>
+                                <Typography sx={{ fontSize: 13, mb: 0.5, pl: 3.2, color: '#5B616D' }}>
                                     ศูนย์
                                 </Typography>
                                 <FormControl fullWidth size="small" variant="outlined" sx={{ pl: 3 }}>
@@ -118,7 +116,7 @@ const IssueInfoRight: React.FC<OfficerFormProps> = ({ selectedIssue }) => {
                                         sx={{
                                             borderRadius: 3, backgroundColor: "#fff",
                                             "& .MuiOutlinedInput-notchedOutline": {
-                                                borderColor: "#EDEDED", // เทาอ่อน
+                                                borderColor: "#D1D5DB", // เทาอ่อน
                                             },
                                         }}
                                     >
@@ -131,7 +129,7 @@ const IssueInfoRight: React.FC<OfficerFormProps> = ({ selectedIssue }) => {
 
                             {/* ภาค */}
                             <Box sx={{ display: "flex", flexDirection: "column", flex: 1 }}>
-                                <Typography sx={{ fontSize: 13, fontWeight: 600, mb: 0.5, color: '#5B616D' }}>
+                                <Typography sx={{ fontSize: 13, mb: 0.5, color: '#5B616D' }}>
                                     ภาค
                                 </Typography>
                                 <FormControl fullWidth size="small" variant="outlined" >
@@ -141,7 +139,7 @@ const IssueInfoRight: React.FC<OfficerFormProps> = ({ selectedIssue }) => {
                                         sx={{
                                             borderRadius: 3, backgroundColor: "#fff",
                                             "& .MuiOutlinedInput-notchedOutline": {
-                                                borderColor: "#EDEDED", // เทาอ่อน
+                                                borderColor: "#D1D5DB", // เทาอ่อน
                                             },
                                         }}
                                     >
@@ -155,7 +153,7 @@ const IssueInfoRight: React.FC<OfficerFormProps> = ({ selectedIssue }) => {
 
                         {/* 🔸 แถวล่าง: จังหวัด */}
                         <Box sx={{ display: "flex", flexDirection: "column", flex: 1 }}>
-                            <Typography sx={{ fontSize: 13, fontWeight: 600, mb: 0.5, pl: 3.2, color: '#5B616D' }}>
+                            <Typography sx={{ fontSize: 13, mb: 0.5, pl: 3.2, color: '#5B616D' }}>
                                 จังหวัด
                             </Typography>
                             <FormControl fullWidth size="small" variant="outlined" sx={{ pl: 3 }}>
@@ -165,7 +163,7 @@ const IssueInfoRight: React.FC<OfficerFormProps> = ({ selectedIssue }) => {
                                     sx={{
                                         borderRadius: 3, backgroundColor: "#fff",
                                         "& .MuiOutlinedInput-notchedOutline": {
-                                            borderColor: "#EDEDED", // เทาอ่อน
+                                            borderColor: "#D1D5DB", // เทาอ่อน
                                         },
                                     }}
                                 >
@@ -179,13 +177,13 @@ const IssueInfoRight: React.FC<OfficerFormProps> = ({ selectedIssue }) => {
                         </Box>
                     </Box>
 
-                </Box>
+                </Box >
 
                 {/* 🔹 ระดับของปัญหา */}
-                <Box sx={{ mb: -1 }}>
+                < Box sx={{ mb: -1 }}>
                     <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1 }}>
                         <DoNotDisturbAltOutlinedIcon sx={{ fontSize: 18 }} />
-                        <Typography sx={{ fontSize: 13, fontWeight: 600 }}>ระดับของปัญหา</Typography>
+                        <Typography sx={{ fontSize: 13 }}>ระดับของปัญหา</Typography>
                     </Box>
 
                     <FormControl fullWidth size="small" sx={{ pl: 3 }}>
@@ -195,7 +193,7 @@ const IssueInfoRight: React.FC<OfficerFormProps> = ({ selectedIssue }) => {
                             sx={{
                                 borderRadius: 3, backgroundColor: '#fff',
                                 "& .MuiOutlinedInput-notchedOutline": {
-                                    borderColor: "#EDEDED", // เทาอ่อน
+                                    borderColor: "#D1D5DB", // เทาอ่อน
                                 },
                             }}
                         >
@@ -203,31 +201,81 @@ const IssueInfoRight: React.FC<OfficerFormProps> = ({ selectedIssue }) => {
                             <MenuItem value="เร่งด่วน">เร่งด่วน</MenuItem>
                         </Select>
                     </FormControl>
-                </Box>
+                </ Box>
 
                 {/* 🔹 ระยะเวลา */}
-                <Box sx={{ mb: -1 }}>
+                < Box sx={{ mb: -1, maxWidth: 210 }}>
+                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1 }}>
+                        <RemoveRedEyeOutlinedIcon sx={{ fontSize: 18 }} />
+                        <Typography sx={{ fontSize: 13 }}>
+                            ระยะเวลาที่ต้องอ่าน
+                        </Typography>
+                    </Box>
+                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
+                        <TextField
+                            id="complaint-search"
+                            variant="outlined"
+                            size="small"
+                            sx={{
+                                width: 130,
+                                flexShrink: 0,
+                                ml: 3,
+                                // bgcolor: "#fff",
+                                "& .MuiOutlinedInput-root": {
+                                    height: 36,
+                                    bgcolor: '#fff',
+                                    borderRadius: 3, // ✅ ใส่ radius ตรงนี้
+                                    "& fieldset": {
+                                        borderColor: "#D1D5DB", // เส้นขอบปกติ
+                                    },
+                                    "&:hover fieldset": {
+                                        borderColor: "#9CA3AF", // เส้นขอบตอน hover
+                                    },
+                                    "&.Mui-focused fieldset": {
+                                        borderColor: "#1976d2", // เส้นขอบตอน focus
+                                    },
+                                },
+                            }}
+                        />
+                        <Typography>ชั่วโมง</Typography>
+                    </Box>
+                </ Box>
+
+                <Box sx={{ mb: -1, maxWidth: 200 }}>
                     <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1 }}>
                         <ScheduleIcon sx={{ fontSize: 18 }} />
-                        <Typography sx={{ fontSize: 13, fontWeight: 600 }}>
+                        <Typography sx={{ fontSize: 13 }}>
                             ระยะเวลาที่ต้องการแก้ไข
                         </Typography>
                     </Box>
-                    <FormControl fullWidth size="small" sx={{ pl: 3 }}>
-                        <Select
-                            value={level}
-                            onChange={(e) => setLevel(e.target.value)}
+                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
+                        <TextField
+                            id="complaint-search"
+                            variant="outlined"
+                            size="small"
                             sx={{
-                                borderRadius: 3, backgroundColor: '#fff',
-                                "& .MuiOutlinedInput-notchedOutline": {
-                                    borderColor: "#EDEDED", // เทาอ่อน
+                                width: 130,
+                                flexShrink: 0,
+                                ml: 3,
+                                // bgcolor: "#fff",
+                                "& .MuiOutlinedInput-root": {
+                                    height: 36,
+                                    bgcolor: '#fff',
+                                    borderRadius: 3, // ✅ ใส่ radius ตรงนี้
+                                    "& fieldset": {
+                                        borderColor: "#D1D5DB", // เส้นขอบปกติ
+                                    },
+                                    "&:hover fieldset": {
+                                        borderColor: "#9CA3AF", // เส้นขอบตอน hover
+                                    },
+                                    "&.Mui-focused fieldset": {
+                                        borderColor: "#1976d2", // เส้นขอบตอน focus
+                                    },
                                 },
                             }}
-                        >
-                            <MenuItem value="1">1</MenuItem>
-                            <MenuItem value="2">2</MenuItem>
-                        </Select>
-                    </FormControl>
+                        />
+                        <Typography>วัน</Typography>
+                    </Box>
                 </Box>
 
                 {/* 🔹 แนบไฟล์ */}
@@ -235,7 +283,7 @@ const IssueInfoRight: React.FC<OfficerFormProps> = ({ selectedIssue }) => {
                 <Box sx={{ mb: -1 }}>
                     <Box sx={{ display: "flex", alignItems: "center", gap: 1, mb: 1 }}>
                         <AttachFileOutlinedIcon sx={{ fontSize: 18 }} />
-                        <Typography sx={{ fontSize: 13, fontWeight: 600 }}>
+                        <Typography sx={{ fontSize: 13 }}>
                             แนบไฟล์ (ถ้ามี)
                         </Typography>
                     </Box>
@@ -284,7 +332,7 @@ const IssueInfoRight: React.FC<OfficerFormProps> = ({ selectedIssue }) => {
                 <Box>
                     <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1 }}>
                         <TextsmsOutlinedIcon sx={{ fontSize: 18 }} />
-                        <Typography sx={{ fontSize: 13, fontWeight: 600 }}>
+                        <Typography sx={{ fontSize: 13 }}>
                             ข้อความเพิ่มเติม (ถ้ามี)
                         </Typography>
                     </Box>
@@ -306,7 +354,7 @@ const IssueInfoRight: React.FC<OfficerFormProps> = ({ selectedIssue }) => {
                         }}
                     />
                 </Box>
-            </Box>
+            </Box >
         </Box >
     );
 };

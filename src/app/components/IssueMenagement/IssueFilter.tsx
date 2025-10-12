@@ -6,6 +6,8 @@ import { Box } from '@mui/material';
 const IssueFilter = () => {
     const [urgency, setUrgency] = useState("all");
     const [status, setStatus] = useState("all");
+    const [department, setDepartment] = useState("all");
+
     return (
         <Box
             sx={{
@@ -42,6 +44,20 @@ const IssueFilter = () => {
                     { value: "in_progress", label: "หน่วยงานกำลังดำเนินการ" },
                     { value: "completed", label: "ดำเนินการเสร็จสิ้น" },
                     { value: "failed", label: "ไม่สามารถดำเนินการได้" },
+                ]}
+            />
+
+            {/* หน่วยรับผิดชอบ */}
+            <IssueFilterDropdown
+                key="department"
+                label="หน่วยรับผิดชอบ"
+                value={department}
+                onChange={setDepartment}
+                options={[
+                    { value: "all", label: "ทั้งหมด" },
+                    { value: "received", label: "ระบบรับข้อมูลแล้ว" },
+                    { value: "reviewing", label: "เจ้าหน้าที่ตรวจสอบ" },
+                    { value: "forwarded", label: "ส่งต่อให้หน่วยงาน" },
                 ]}
             />
         </Box>
