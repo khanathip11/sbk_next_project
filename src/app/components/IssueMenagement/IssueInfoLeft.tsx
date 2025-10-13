@@ -1,6 +1,6 @@
 import { IconButton, Tooltip, Typography } from '@mui/material'
 import { Box } from '@mui/system'
-import React from 'react'
+import React, { useState } from 'react'
 import VpnKeyOutlinedIcon from '@mui/icons-material/VpnKeyOutlined';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import RecordVoiceOverOutlinedIcon from '@mui/icons-material/RecordVoiceOverOutlined';
@@ -12,6 +12,7 @@ import PhotoLibraryOutlinedIcon from '@mui/icons-material/PhotoLibraryOutlined';
 import { MediaItem } from '../common/MediaSlider';
 import { IssueItem } from '@/app/types/IssueItem';
 import MediaSlider from '../common/MediaSlider';
+import MapboxMapComponent, { Network } from '../Mapbox';
 
 interface IssueInfoLeftProps {
     issuesData: IssueItem[];
@@ -19,6 +20,16 @@ interface IssueInfoLeftProps {
 }
 
 const IssueInfoLeft: React.FC<IssueInfoLeftProps> = ({ issuesData, selectedRow }) => {
+    const [collapse, setCollapse] = useState<boolean>(true);
+    const [closeTask, SetCloseTask] = useState<boolean>(false);
+    const [issue, setIssue] = useState<Network[]>([
+        {
+            id: 1,
+            name: "string",
+            lat: 13.9063539,
+            lng: 100.5396905,
+        }
+    ])
     // ✅ ใช้ id ซึ่งมีอยู่ใน IssueItem
     const selectedIssue = issuesData.find((item) => item.id === selectedRow?.id);
     // ✅ IssueInfo.tsx
@@ -127,15 +138,18 @@ const IssueInfoLeft: React.FC<IssueInfoLeftProps> = ({ issuesData, selectedRow }
                             รูปภาพและวิดีโอ
                         </Typography>
                     </Box>
-                    {/* <MediaSlider media={mediaItems} /> */}
+                    <MediaSlider media={mediaItems} />
                 </Box>
 
-                <Box sx={{ mb: 1 }}>
+                <Box sx={{ mb: 1, display: 'flex', flexDirection: 'column', gap: 1, }}>
                     <Box sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
                         <MapOutlinedIcon sx={{ fontSize: 18, mr: 0.8 }} />
                         <Typography variant="subtitle1" sx={{ color: '#0A0C11', fontSize: 13 }}>
                             แผนที่
                         </Typography>
+                    </Box>
+                    <Box sx={{ width: 'auto', height: '200px', border: '1px solid #D1D5DB', borderRadius: 3, ml: 3, overflow: 'hidden' }}>
+                        <MapboxMapComponent networks={issue} collapse={collapse} closeTask={closeTask} />
                     </Box>
                 </Box>
 

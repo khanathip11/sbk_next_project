@@ -58,7 +58,7 @@ const IssueInfo: React.FC<IssueInfoProps> = ({
                         sx={{
                             mt: 1,
                             fontSize: 14,
-                            fontWeight: 600,
+                            fontWeight: 400,
                             ...getTypeStyle(selectedIssue?.status ?? ""),
                             borderRadius: 3,
                             p: 1,

@@ -28,34 +28,35 @@ const MediaSlider: React.FC<MediaSliderProps> = ({ media }) => {
                 borderRadius: 4,
                 overflow: "hidden", // ✅ ไม่ให้ภาพล้น container
                 mx: "auto",
-                position: "relative",
-                "& .swiper": {
-                    paddingBottom: "12px", // ✅ ระยะใต้ภาพ (เว้นให้จุดไข่ปลา)
-                },
-                "& .swiper-wrapper": {
-                    margin: 0, // ✅ เอาช่องว่างซ้าย-ขวาออก
-                },
-                "& .swiper-slide": {
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                },
-                "& .swiper-pagination": {
-                    bottom: "10px",
-                },
-                "& .swiper-pagination-bullet": {
-                    backgroundColor: "#ccc",
-                    opacity: 1,
-                    width: 6,
-                    height: 6,
-                    mx: "2px",
-                },
-                "& .swiper-pagination-bullet-active": {
-                    backgroundColor: "#1976d2",
-                },
+                display: 'flex'
+                // position: "relative",
+                // "& .swiper": {
+                //     paddingBottom: "12px", // ✅ ระยะใต้ภาพ (เว้นให้จุดไข่ปลา)
+                // },
+                // "& .swiper-wrapper": {
+                //     margin: 0, // ✅ เอาช่องว่างซ้าย-ขวาออก
+                // },
+                // "& .swiper-slide": {
+                //     display: "flex",
+                //     justifyContent: "center",
+                //     alignItems: "center",
+                // },
+                // "& .swiper-pagination": {
+                //     bottom: "10px",
+                // },
+                // "& .swiper-pagination-bullet": {
+                //     backgroundColor: "#ccc",
+                //     opacity: 1,
+                //     width: 6,
+                //     height: 6,
+                //     mx: "2px",
+                // },
+                // "& .swiper-pagination-bullet-active": {
+                //     backgroundColor: "#1976d2",
+                // },
             }}
         >
-            <Swiper
+            {/* <Swiper
                 modules={[Pagination]} // ✅ ไม่มีปุ่มลูกศรแล้ว
                 pagination={{ clickable: true }}
                 loop={media.length > 3}
@@ -144,7 +145,19 @@ const MediaSlider: React.FC<MediaSliderProps> = ({ media }) => {
                         </Box>
                     </SwiperSlide>
                 ))}
-            </Swiper>
+            </Swiper> */}
+
+            <Box sx={{ width: '100px', height: '100px', border: '1px solid #D1D5DB', borderRadius: 3, ml: 2 }}>
+                <img src="#" alt="" />
+            </Box>
+
+            <Box sx={{ width: '100px', height: '100px', border: '1px solid #D1D5DB', borderRadius: 3, ml: 2 }}>
+                <img src="#" alt="" />
+            </Box>
+
+            <Box sx={{ width: '100px', height: '100px', border: '1px solid #D1D5DB', borderRadius: 3, ml: 2 }}>
+                <img src="#" alt="" />
+            </Box>
         </Box>
 
 

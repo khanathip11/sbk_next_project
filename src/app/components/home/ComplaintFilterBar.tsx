@@ -11,12 +11,12 @@ interface ComplaintFilterBarProps {
 }
 
 const ComplaintFilterBar: React.FC<ComplaintFilterBarProps> = ({ open }) => {
-    const [days, setDays] = useState("");
-    const [problemType, setProblemType] = useState("");
-    const [region, setRegion] = useState("");
-    const [province, setProvince] = useState("");
-    const [district, setDistrict] = useState("");
-    const [subdistrict, setSubdistrict] = useState("");
+    const [days, setDays] = useState("วันนี้");
+    const [problemType, setProblemType] = useState("ทั้งหมด");
+    const [region, setRegion] = useState("ทั้งหมด");
+    const [province, setProvince] = useState("ทั้งหมด");
+    const [district, setDistrict] = useState("ทั้งหมด");
+    const [subdistrict, setSubdistrict] = useState("ทั้งหมด");
     const [openDatePicker, setOpenDatePicker] = useState<boolean>(false);
 
     function handleOpenDatePicker() {
@@ -48,8 +48,17 @@ const ComplaintFilterBar: React.FC<ComplaintFilterBarProps> = ({ open }) => {
             }}
         >
             <Box sx={{ display: "flex", gap: 0.5, flexWrap: 'wrap' }}>
-                <FilterDropdown label="ทั้งหมด" value={days} onChange={setDays}
-                    options={[{ value: "วันนี้", label: "วันนี้" }, { value: "3 วันย้อนหลัง", label: "3 วันย้อนหลัง" }, { value: "7 วันย้อนหลัง", label: "7 วันย้อนหลัง" }]} />
+                <FilterDropdown
+                    label="วันนี้"
+                    value={days}
+                    onChange={setDays}
+                    showLabelPrefix={false} // ✅ ไม่มี prefix
+                    options={[
+                        { value: "วันนี้", label: "วันนี้" },
+                        { value: "3 วันย้อนหลัง", label: "3 วันย้อนหลัง" },
+                        { value: "7 วันย้อนหลัง", label: "7 วันย้อนหลัง" },
+                    ]}
+                />
 
                 <Button
                     variant="contained"
