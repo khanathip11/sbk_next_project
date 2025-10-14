@@ -9,42 +9,40 @@ import IssueSummarySection from "./IssueSummarySection";
 import { issuesData } from "@/app/data/issuesData";
 import AddCircleRoundedIcon from '@mui/icons-material/AddCircleRounded';
 
+
 const IssueTable = () => {
     const [selectedLevel, setSelectedLevel] = useState<string | null>(null);
 
     return (
         <Box
             sx={{
+                // height: "100%",
+                // width: "100%",
+                // display: "flex",
+                // flexDirection: "column",
+                // overflow: "hidden", // ✅ ไม่ให้ทะลุ container
+                // bgcolor: "#F7F7F7",
+                // borderRadius: 4,
+                // boxSizing: "border-box",
                 height: "100%",
                 width: "100%",
                 display: "flex",
                 flexDirection: "column",
-                overflow: "hidden", // ✅ ไม่ให้ทะลุ container
+                overflow: "hidden",
                 bgcolor: "#F7F7F7",
                 borderRadius: 4,
                 boxSizing: "border-box",
+                minWidth: 0,   // ✅
+                minHeight: 0,  // ✅
             }}
         >
             {/* 🔹 Header */}
-            {/* <Typography
-                sx={{
-                    px: 2,
-                    pb: 2,
-                    fontSize: 24,
-                    fontWeight: "bold",
-                    color: "#000",
-                    flexShrink: 0, // ✅ คงขนาด ไม่หด
-                }}
-            >
-                จัดการปัญหา
-            </Typography> */}
-
             <Box
                 sx={{
                     display: "flex",
                     justifyContent: "space-between",
                     alignItems: "center",
-                    px: 2,
+                    // px: 2,
                     mb: 1,
                 }}
             >
@@ -181,3 +179,4 @@ const IssueTable = () => {
 };
 
 export default IssueTable;
+

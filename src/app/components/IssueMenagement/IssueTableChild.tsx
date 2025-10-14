@@ -1,13 +1,6 @@
 import React, { useState } from "react";
 import {
     Paper,
-    Table,
-    TableBody,
-    TableCell,
-    TableContainer,
-    TableHead,
-    TablePagination,
-    TableRow,
     Button,
     Box,
     Typography,
@@ -17,6 +10,7 @@ import { columns } from "./columns";
 import { issuesData } from "@/app/data/issuesData";
 import { IssueItem } from "@/app/types/IssueItem";
 import EditIcon from '@mui/icons-material/Edit';
+import BaseTable, { Column } from "../common/BaseTable";
 
 interface IssueTableChildProps {
     filterLevel: string | null;
@@ -24,9 +18,6 @@ interface IssueTableChildProps {
 
 const IssueTableChild: React.FC<IssueTableChildProps> = ({ filterLevel }) => {
     const filteredData = filterLevel ? issuesData.filter((i) => i.level === filterLevel) : issuesData;
-
-    const [page, setPage] = React.useState(0);
-    const [rowsPerPage, setRowsPerPage] = React.useState(10);
     const [open, setOpen] = useState(false);
     const [selectedRow, setSelectedRow] = useState<IssueItem | null>(null);
 
@@ -38,12 +29,6 @@ const IssueTableChild: React.FC<IssueTableChildProps> = ({ filterLevel }) => {
     const handleCloseModal = () => {
         setOpen(false);
         setSelectedRow(null);
-    };
-
-    const handleChangePage = (_: unknown, newPage: number) => setPage(newPage);
-    const handleChangeRowsPerPage = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setRowsPerPage(+e.target.value);
-        setPage(0);
     };
 
     // ✅ ฟังก์ชันกำหนดสีสถานะ
@@ -68,288 +53,223 @@ const IssueTableChild: React.FC<IssueTableChildProps> = ({ filterLevel }) => {
         }
     };
 
+    // 🕓 ฟังก์ชันแปลงวันที่เป็นรูปแบบไทย
+    const formatThaiDateTime = (dateString: string) => {
+        if (!dateString) return "-";
+        const [day, month, year] = dateString.split("/").map(Number);
+        if (!day || !month || !year) return "-";
+
+        const date = new Date(year, month - 1, day);
+
+        return new Intl.DateTimeFormat("th-TH", {
+            dateStyle: "medium",
+            timeStyle: "medium",
+        }).format(date);
+    };
+
+    const enhancedColumns = columns.map((col) => {
+        if (col.id === "status" || col.id === "solutionStatus") {
+            return {
+                ...col,
+                align: "center" as const,
+                render: (row: IssueItem) => {
+                    const style = getTypeStyle(String(row[col.id as keyof IssueItem] ?? ""));
+                    return (
+                        <Box
+                            sx={{
+                                ...style,
+                                px: 1.5,
+                                py: 0.3,
+                                borderRadius: 2,
+                                fontSize: 10,
+                                fontWeight: 500,
+                                display: "inline-block",
+                            }}
+                        >
+                            {String(row[col.id as keyof IssueItem] ?? "-")}
+                        </Box>
+                    );
+                },
+            };
+        }
+
+        if (col.id === "level") {
+            return {
+                ...col,
+                align: "center" as const,
+                render: (row: IssueItem) => (
+                    <Box
+                        sx={{
+                            width: "60px",
+                            fontSize: 10,
+                            px: 0.5,
+                            py: 0.3,
+                            borderRadius: 2,
+                            color: row.level === "เร่งด่วน" ? "#E92020" : "#054887",
+                            backgroundColor:
+                                row.level === "เร่งด่วน" ? "#F03D3D1F" : "#004D991F",
+                        }}
+                    >
+                        {row.level}
+                    </Box>
+                ),
+            };
+        }
+
+        if (col.id === "action") {
+            return {
+                ...col,
+                align: "center" as const,
+                render: (row: IssueItem) => (
+                    <Button
+                        variant="contained"
+                        size="small"
+                        sx={{
+                            fontSize: 12,
+                            textTransform: "none",
+                            borderRadius: 2.5,
+                            px: 2,
+                            py: 0.2,
+                            bgcolor: "#004D99",
+                        }}
+                        onClick={() => handleOpenModal(row)}
+                    >
+                        <EditIcon sx={{ pr: 0.5, fontSize: 20 }} />
+                        จัดการ
+                    </Button>
+                ),
+            };
+        }
+
+        if (col.id === "readDuration" || col.id === "remainingDays") {
+            return {
+                ...col,
+                align: "center" as const,
+                render: (row: IssueItem) => {
+                    // 🧮 Helper: แปลงข้อความ "3 วัน" → 3 (ตัวเลข)
+                    const getDays = (text?: string): number => {
+                        if (!text) return 0;
+                        const match = text.match(/\d+/);
+                        return match ? parseInt(match[0], 10) : 0;
+                    };
+
+                    const parseDate = (dateStr: string): Date | null => {
+                        const [day, month, year] = dateStr.split("/").map(Number);
+                        if (!day || !month || !year) return null;
+                        const christianYear = year > 2400 ? year - 543 : year;
+                        return new Date(christianYear, month - 1, day);
+                    };
+
+                    // ✅ คำนวณความต่างวัน
+                    const readDays = getDays(row.readDuration);
+                    const reportDate = parseDate(row.date);
+                    const today = new Date();
+
+                    let diffText = "-";
+                    let diff = 0;
+
+                    if (reportDate) {
+                        if (readDays === 0) {
+                            diff = 0; // ✅ ถือว่าครบกำหนดวันนี้
+                            diffText = "ครบกำหนดวันนี้";
+                        } else {
+                            const dueDate = new Date(reportDate);
+                            dueDate.setDate(reportDate.getDate() + readDays);
+                            const diffTime = dueDate.getTime() - today.getTime();
+                            diff = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+                            if (diff > 0) diffText = `เหลือ ${diff} วัน`;
+                            else if (diff < 0) diffText = `เกิน ${Math.abs(diff)} วัน`;
+                            else diffText = "ครบกำหนดวันนี้";
+                        }
+                    }
+
+                    // ✅ ตั้งค่าสี
+                    const color =
+                        diff < 0 ? "#E92020" :
+                            diff === 0 ? "#108BE8" :
+                                diff <= 2 ? "#FCBF04" : "#FCBF04";
+
+                    const displayValue =
+                        col.id === "readDuration" ? row.readDuration || "-" : row.remainingDays || "-";
+
+                    return (
+                        <Box
+                            sx={{
+                                display: "flex",
+                                flexDirection: "row",
+                                alignItems: "center",
+                                justifyContent: "center",
+                            }}
+                        >
+                            <Box
+                                sx={{
+                                    minWidth: "60px",
+                                    fontSize: 12,
+                                    borderRadius: 2,
+                                    color: "#000",
+                                    fontWeight: 400,
+                                    textAlign: "center",
+                                }}
+                            >
+                                {displayValue}
+                            </Box>
+
+                            <Typography
+                                sx={{
+                                    fontSize: 10,
+                                    color,
+                                    whiteSpace: "nowrap",
+                                    ml: 0.5,
+                                }}
+                            >
+                                ({diffText})
+                            </Typography>
+                        </Box>
+                    );
+                },
+            };
+        }
+
+        if (col.id === "date") {
+            return {
+                ...col,
+                align: "center" as const,
+                render: (row: IssueItem) => (
+                    <Typography sx={{ fontSize: 12 }}>
+                        {formatThaiDateTime(row.date)}
+                    </Typography>
+                ),
+            };
+        }
+
+        return col; // ✅ column ปกติใช้ค่าปกติ
+    });
+
     return (
         <Paper
-            elevation={2}
+            // elevation={2}
             sx={{
-                width: "100%",
-                height: "100%",
-                borderRadius: 3,
-                display: "flex",
-                flexDirection: "column",
-                overflow: "hidden", // ✅ ป้องกัน TableContainer ทะลุ
+                flex: 1,
+                // p: 2,
+                overflow: "hidden", // ไม่ให้ Paper ขยายเกินขอบ
             }}
         >
-            {/* ✅ Scroll ภายในเฉพาะตาราง */}
-            <TableContainer
+            {/* ✅ Container สำหรับ scroll แนวนอน */}
+            <Box
                 sx={{
-                    flex: 1,
-                    overflowY: "auto",
+                    width: "100%",
                     overflowX: "auto",
-                    bgcolor: "#fff",
-                    borderRadius: 2,
-                    "&::-webkit-scrollbar": { height: 8, width: 8 },
-                    "&::-webkit-scrollbar-thumb": {
-                        backgroundColor: "#c1c1c1",
-                        borderRadius: 10,
-                    },
-                    "&::-webkit-scrollbar-thumb:hover": {
-                        backgroundColor: "#a8a8a8",
-                    },
+                    overflowY: "hidden",
+                    "&::-webkit-scrollbar": { display: "none" }, // ซ่อน scrollbar บน Chrome/Safari
+                    scrollbarWidth: "none", // ซ่อน scrollbar บน Firefox
                 }}
             >
-                <Table stickyHeader>
-                    <TableHead>
-                        <TableRow>
-                            {columns.map((column) => (
-                                <TableCell
-                                    key={column.label}
-                                    align={
-                                        ["สถานะการแก้ปัญหา", "ระดับของปัญหา", "จัดการ"].includes(
-                                            column.label
-                                        )
-                                            ? "center"
-                                            : "left"
-                                    }
-                                    sx={{
-                                        fontWeight: 400,
-                                        fontSize: 13,
-                                        color: "#333",
-                                        backgroundColor: "#f5f5f5",
-                                        borderBottom: "1px solid #ddd",
-                                        py: 1.5,
-                                    }}
-                                >
-                                    {column.label}
-                                </TableCell>
-                            ))}
-                        </TableRow>
-                    </TableHead>
-
-                    <TableBody>
-                        {filteredData
-                            .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                            .map((issue) => (
-                                <TableRow key={issue.id} hover>
-                                    {columns.map((column) => {
-                                        const value = issue[column.field as keyof IssueItem];
-
-                                        // 🔹 สถานะ (มีสี)
-                                        if (column.field === "status" || column.field === "solutionStatus") {
-                                            const style = getTypeStyle(String(value));
-                                            return (
-                                                <TableCell key={column.field} align="center">
-                                                    <Box
-                                                        sx={{
-                                                            ...style,
-                                                            px: 1.5,
-                                                            py: 0,
-                                                            borderRadius: 2,
-                                                            fontSize: 10,
-                                                            fontWeight: 500,
-                                                            display: "inline-block",
-                                                        }}
-                                                    >
-                                                        {value as string}
-                                                    </Box>
-                                                </TableCell>
-                                            );
-                                        }
-
-                                        if (column.field === "department") {
-                                            const departmentValue = String(issue.department ?? "-");
-
-                                            return (
-                                                <TableCell key={column.field}>
-                                                    <Box
-                                                        sx={{
-                                                            color: departmentValue === "ยังไม่มี" ? "red" : "#000", // ✅ เงื่อนไขตรงนี้
-                                                            fontSize: 12
-                                                        }}
-                                                    >
-                                                        {departmentValue}
-                                                    </Box>
-                                                </TableCell>
-                                            );
-                                        }
-
-                                        if (column.field === "level") {
-                                            const levelValue = String(issue.level ?? "-")
-
-                                            return (
-                                                <TableCell key={column.field} align="center">
-                                                    <Box
-                                                        sx={{
-                                                            width: '60px',
-                                                            fontSize: 10,
-                                                            px: 0,
-                                                            py: 0.3,
-                                                            borderRadius: 2,
-                                                            color: levelValue === "เร่งด่วน" ? '#E92020' : '#054887',
-                                                            backgroundColor: levelValue === "เร่งด่วน" ? '#F03D3D1F' : '#004D991F',
-                                                        }}
-                                                    >
-                                                        {levelValue}
-                                                    </Box>
-                                                </TableCell>
-                                            )
-                                        }
-
-                                        if (column.field === "readDuration" || column.field === "remainingDays") {
-                                            // 🧮 Helper: แปลงข้อความ "3 วัน" → 3 (ตัวเลข)
-                                            const getDays = (text?: string): number => {
-                                                if (!text) return 0;
-                                                const match = text.match(/\d+/);
-                                                return match ? parseInt(match[0], 10) : 0;
-                                            };
-
-                                            // 🧮 Helper: แปลงวันที่ "10/10/2025" → Date object
-                                            const parseDate = (dateStr: string): Date | null => {
-                                                const [day, month, year] = dateStr.split("/").map(Number);
-                                                if (!day || !month || !year) return null;
-                                                return new Date(year, month - 1, day);
-                                            };
-
-                                            // ✅ แปลงค่าต่าง ๆ
-                                            const readDays = getDays(issue.readDuration);
-                                            const reportDate = parseDate(issue.date);
-                                            const today = new Date();
-
-                                            let diffText = "-";
-                                            let diff = 0;
-
-                                            if (reportDate && readDays > 0) {
-                                                // 🧮 วันที่ครบกำหนด = วันที่แจ้ง + readDuration (เช่น 10 ต.ค. + 2 วัน = 12 ต.ค.)
-                                                const dueDate = new Date(reportDate);
-                                                dueDate.setDate(reportDate.getDate() + readDays);
-
-                                                // ✅ คำนวณความต่างของวัน (จำนวนวันที่เหลือหรือเกิน)
-                                                const diffTime = dueDate.getTime() - today.getTime();
-                                                diff = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-
-                                                // ✅ ข้อความสถานะ
-                                                if (diff > 0) diffText = `เหลือ ${diff} วัน`;
-                                                else if (diff < 0) diffText = `เกิน ${Math.abs(diff)} วัน`;
-                                                else diffText = "ครบกำหนดวันนี้";
-                                            }
-
-                                            // ✅ ตั้งค่าสีพื้นหลัง/ตัวอักษรตามสถานะ
-                                            let color = "#054887";
-
-                                            if (diff < 0) {
-                                                color = "#E92020";
-                                            } else if (diff <= 2 && diff > 0) {
-                                                color = "#FCBE04";
-                                            } else if (diff === 0) {
-                                                color = "#108BE8";
-                                            }
-
-                                            // ✅ แสดงผลตาม column
-                                            const displayValue =
-                                                column.field === "readDuration"
-                                                    ? issue.readDuration || "-"
-                                                    : issue.remainingDays || "-";
-
-                                            return (
-                                                <TableCell key={column.field} align="center">
-                                                    <Box
-                                                        sx={{
-                                                            display: "flex",
-                                                            flexDirection: "row", // แนวนอน
-                                                            alignItems: "center",
-                                                            justifyContent: "center",
-                                                            // gap: 1,
-                                                        }}
-                                                    >
-                                                        {/* กล่องตัวเลข */}
-                                                        <Box
-                                                            sx={{
-                                                                minWidth: "60px",
-                                                                fontSize: 12,
-                                                                borderRadius: 2,
-                                                                color: '#000',
-                                                                fontWeight: 400,
-                                                                textAlign: "center",
-                                                            }}
-                                                        >
-                                                            {displayValue}
-                                                        </Box>
-
-                                                        {/* ข้อความสถานะ */}
-                                                        <Typography
-                                                            sx={{
-                                                                fontSize: 10,
-                                                                color:
-                                                                    diff < 0
-                                                                        ? "#E92020"
-                                                                        : diff === 0
-                                                                            ? "#FF8C00"
-                                                                            : "#FCBF04",
-                                                                whiteSpace: "nowrap",
-                                                            }}
-                                                        >
-                                                            ({diffText})
-                                                        </Typography>
-                                                    </Box>
-                                                </TableCell>
-                                            );
-                                        }
-
-                                        // 🔹 ปุ่มจัดการ
-                                        if (column.field === "actions") {
-                                            return (
-                                                <TableCell key={column.field} align="center">
-                                                    <Button
-                                                        variant="contained"
-                                                        size="small"
-                                                        sx={{
-                                                            fontSize: 12,
-                                                            textTransform: "none",
-                                                            borderRadius: 2.5,
-                                                            px: 2,
-                                                            py: 0.2,
-                                                            bgcolor: '#004D99'
-                                                        }}
-                                                        onClick={() => handleOpenModal(issue)}
-                                                    >
-                                                        <EditIcon sx={{ pr: 0.5, fontSize: 20 }} />
-                                                        จัดการ
-                                                    </Button>
-                                                </TableCell>
-                                            );
-                                        }
-
-                                        // 🔹 ค่าทั่วไป
-                                        return (
-                                            <TableCell
-                                                key={column.field}
-                                                align="left"
-                                                sx={{
-                                                    fontSize: 12,
-                                                    py: 1,
-                                                    borderBottom: "1px solid #eee",
-                                                }}
-                                            >
-                                                {String(value ?? "-")}
-                                            </TableCell>
-                                        );
-                                    })}
-                                </TableRow>
-                            ))}
-                    </TableBody>
-                </Table>
-            </TableContainer>
-
-            {/* ✅ Pagination ด้านล่าง (คงที่ ไม่ scroll) */}
-            <Box sx={{ flexShrink: 0 }}>
-                <TablePagination
+                <BaseTable
+                    columns={enhancedColumns}
+                    rows={filteredData}
+                    loading={false}
                     rowsPerPageOptions={[10, 25, 100]}
-                    component="div"
-                    count={issuesData.length}
-                    rowsPerPage={rowsPerPage}
-                    page={page}
-                    onPageChange={handleChangePage}
-                    onRowsPerPageChange={handleChangeRowsPerPage}
                 />
             </Box>
 
@@ -361,9 +281,14 @@ const IssueTableChild: React.FC<IssueTableChildProps> = ({ filterLevel }) => {
                 handleClose={handleCloseModal}
                 issuesData={issuesData}
             />
-        </Paper >
+        </Paper>
+        // <BaseTable
+        //     columns={enhancedColumns}
+        //     rows={filteredData}
+        //     loading={false}
+        //     rowsPerPageOptions={[10, 25, 100]}
+        // />
     );
 };
 
 export default IssueTableChild;
-

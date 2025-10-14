@@ -306,3 +306,173 @@ const CategoryTableChild: React.FC<CategoryTableChildProps> = ({ onEdit, onAddSu
 };
 
 export default CategoryTableChild
+
+// "use client";
+
+// import React, { useState } from "react";
+// import { Paper, Typography, IconButton, Stack, Collapse, Box } from "@mui/material";
+// import EditIcon from "@mui/icons-material/Edit";
+// import AddCircleRoundedIcon from "@mui/icons-material/AddCircleRounded";
+// import DeleteIcon from "@mui/icons-material/Delete";
+// import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+// import ChevronRightIcon from "@mui/icons-material/ChevronRight";
+// import BaseTable, { Column } from "../common/BaseTable";
+// import { Category, SubCategory } from "@/app/types/categoryType";
+// import { categories } from "@/app/data/categoryData";
+// interface FlatCategory {
+//     id: string;
+//     category: string;
+//     creator?: string;
+//     createdAt?: string;
+//     isChild?: boolean;
+//     parentId?: string;
+// }
+
+// const flattenCategories = (cats: Category[]): FlatCategory[] => {
+//     const rows: FlatCategory[] = [];
+//     cats.forEach((cat) => {
+//         rows.push({
+//             id: cat.id,
+//             category: cat.category,
+//             creator: cat.creator,
+//             createdAt: cat.createdAt,
+//             isChild: false,
+//         });
+//         cat.children?.forEach((child) => {
+//             rows.push({
+//                 id: child.id,
+//                 category: child.category,
+//                 creator: cat.creator,
+//                 createdAt: cat.createdAt,
+//                 isChild: true,
+//                 parentId: cat.id,
+//             });
+//         });
+//     });
+//     return rows;
+// };
+
+// const CategoryTableChild: React.FC = () => {
+//     const [expandedIds, setExpandedIds] = useState<string[]>([]);
+
+//     const handleToggleExpand = (id: string) => {
+//         setExpandedIds((prev) =>
+//             prev.includes(id) ? prev.filter((i) => i !== id) : [...prev, id]
+//         );
+//     };
+
+//     const handleEdit = (item: FlatCategory) => console.log("Edit:", item);
+//     const handleAddSub = (item: FlatCategory) => console.log("Add Sub:", item);
+//     const handleDelete = (item: FlatCategory) => console.log("Delete:", item);
+
+//     const columns: Column<FlatCategory>[] = [
+//         {
+//             id: "category",
+//             label: "หมวดหมู่",
+//             render: (row) => {
+//                 const isExpanded = expandedIds.includes(row.id);
+//                 const hasChildren =
+//                     !row.isChild &&
+//                     categories.find((c) => c.id === row.id)?.children?.length;
+
+//                 return (
+//                     <Stack direction="row" alignItems="center" spacing={1}>
+//                         {/* 🔽 ปุ่ม Expand */}
+//                         {hasChildren ? (
+//                             <IconButton
+//                                 size="small"
+//                                 onClick={() => handleToggleExpand(row.id)}
+//                                 sx={{ p: 0.3 }}
+//                             >
+//                                 {isExpanded ? (
+//                                     <ExpandMoreIcon fontSize="small" />
+//                                 ) : (
+//                                     <ChevronRightIcon fontSize="small" />
+//                                 )}
+//                             </IconButton>
+//                         ) : (
+//                             <Box sx={{ width: 24 }} /> // เว้นระยะถ้าไม่มีลูก
+//                         )}
+
+//                         {/* 🏷️ ชื่อหมวด */}
+//                         <Typography
+//                             sx={{
+//                                 ml: row.isChild ? 3 : 0,
+//                                 fontSize: 13,
+//                                 fontWeight: row.isChild ? 400 : 600,
+//                             }}
+//                         >
+//                             {row.category}
+//                         </Typography>
+//                     </Stack>
+//                 );
+//             },
+//         },
+//         { id: "creator", label: "ผู้สร้าง" },
+//         { id: "createdAt", label: "วันที่สร้าง", align: "center" },
+//         {
+//             id: "action",
+//             label: "จัดการ",
+//             align: "center",
+//             render: (row) => (
+//                 <Stack direction="row" spacing={0.5} justifyContent="center">
+//                     <IconButton
+//                         size="small"
+//                         color="primary"
+//                         sx={{ backgroundColor: "#fff", borderRadius: 2 }}
+//                         onClick={() => handleEdit(row)}
+//                     >
+//                         <EditIcon fontSize="small" sx={{ fontSize: 14 }} />
+//                     </IconButton>
+
+//                     {!row.isChild && (
+//                         <IconButton
+//                             size="small"
+//                             color="primary"
+//                             sx={{ backgroundColor: "#fff", borderRadius: 2 }}
+//                             onClick={() => handleAddSub(row)}
+//                         >
+//                             <AddCircleRoundedIcon fontSize="small" sx={{ fontSize: 14 }} />
+//                         </IconButton>
+//                     )}
+
+//                     <IconButton
+//                         size="small"
+//                         color="error"
+//                         sx={{ backgroundColor: "#fff", borderRadius: 2 }}
+//                         onClick={() => handleDelete(row)}
+//                     >
+//                         <DeleteIcon fontSize="small" sx={{ fontSize: 14 }} />
+//                     </IconButton>
+//                 </Stack>
+//             ),
+//         },
+//     ];
+
+//     // ✅ Filter เฉพาะหมวดหลัก + หมวดย่อยที่เปิดอยู่
+//     const visibleRows = flattenCategories(categories).filter(
+//         (row) =>
+//             !row.isChild || (row.isChild && expandedIds.includes(row.parentId!))
+//     );
+
+//     return (
+//         <Paper
+//             elevation={2}
+//             sx={{
+//                 width: "100%",
+//                 borderRadius: 3,
+//                 overflow: "hidden",
+//                 p: 1,
+//             }}
+//         >
+//             <BaseTable
+//                 columns={columns}
+//                 rows={visibleRows}
+//                 emptyText="ไม่พบข้อมูลหมวดหมู่"
+//                 rowsPerPageOptions={[10, 25, 100]}
+//             />
+//         </Paper>
+//     );
+// };
+
+// export default CategoryTableChild;

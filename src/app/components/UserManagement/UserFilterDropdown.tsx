@@ -1,4 +1,3 @@
-"use client";
 import React from 'react'
 import { FormControl, MenuItem, Select, SelectChangeEvent } from "@mui/material";
 
@@ -14,11 +13,10 @@ interface IssueFilterDropdownProps {
     options: Option[];
 }
 
-const IssueFilterDropdown = ({ label, value, onChange, options }: IssueFilterDropdownProps) => {
+const UserFilterDropdown: React.FC<IssueFilterDropdownProps> = ({ label, value, onChange, options }) => {
     const handleChange = (event: SelectChangeEvent<string>) => {
         onChange(event.target.value);
     }
-
     return (
         <FormControl size="small" sx={{ minWidth: 150 }}>
             <Select
@@ -45,4 +43,4 @@ const IssueFilterDropdown = ({ label, value, onChange, options }: IssueFilterDro
     )
 }
 
-export default IssueFilterDropdown
+export default UserFilterDropdown
