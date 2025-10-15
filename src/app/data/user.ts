@@ -1,14 +1,6 @@
 // 📄 src/data/user.ts
-
-export interface UserItem {
-    username: string;
-    fullname: string;
-    email: string;
-    department: string;
-    role: "แอดมิน" | "เจ้าหน้าที่" | "ผู้บังคับบัญชา";
-    status: "ใช้งานอยู่" | "ไม่ได้ใช้งาน";
-    lastLogin: string;
-}
+import { UserItem } from "../types/userType";
+import { LoginHistoryItem } from "../types/userType";
 
 export const users: UserItem[] = [
     {
@@ -193,3 +185,9 @@ export const users: UserItem[] = [
     },
 ];
 
+export const dummyLogs: LoginHistoryItem[] = [
+    { id: 1, action: "login", date: "15 ส.ค. 2568 15:39:21", ip: "111.003.43536.432", browser: "chrome" },
+    { id: 2, action: "login", date: "15 ส.ค. 2568 15:40:21", ip: "111.003.43536.432", browser: "safari" },
+    { id: 3, action: "login", date: "15 ส.ค. 2568 15:41:21", ip: "111.003.43536.432", browser: "edge" },
+    { id: 4, action: "logout", date: "15 ส.ค. 2568 15:42:21", ip: "111.003.43536.432", browser: "chrome" },
+];

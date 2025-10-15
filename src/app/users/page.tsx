@@ -1,7 +1,7 @@
 import React from 'react'
-import NavigatLayout from '../components/layout/NavigatLayout'
+import NavigatLayout from '../components/layout/Navigat-layout'
 import { Box } from '@mui/system'
-import UserTable from '../components/UserManagement/UserTable'
+import UserTable from '../components/UserManagement/User-table'
 
 const UserManagement = () => {
     return (

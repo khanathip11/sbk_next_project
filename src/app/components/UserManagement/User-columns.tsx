@@ -1,30 +1,31 @@
 import React from 'react'
-import BaseTable, { Column } from '../common/BaseTable'
+import { Column } from '../common/BaseTable'
 import { Chip, IconButton } from "@mui/material";
-import { users, UserItem } from '@/app/data/user';
+import { UserItem } from '@/app/types/userType';
 import { Stack } from '@mui/system';
 import RemoveRedEyeRoundedIcon from '@mui/icons-material/RemoveRedEyeRounded';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 
-interface UserTableChildProps {
+interface UserColumnsProps {
     handleEdit: (users: UserItem) => void;
     handleView: (users: UserItem) => void;
 }
 
-const formatThaiDateTime = (dateString: string) => {
+const formatThaiDateTime = (dateString?: string) => {
     if (!dateString) return "-";
     const date = new Date(dateString);
+    if (isNaN(date.getTime())) return "-";
+
     return new Intl.DateTimeFormat("th-TH", {
         dateStyle: "medium",
-        timeStyle: "medium",
+        timeStyle: "short",
     }).format(date);
 };
 
 
-
-const UserTableChild: React.FC<UserTableChildProps> = ({ handleEdit, handleView }) => {
-    const userColumns: Column<UserItem>[] = [
+const userColumns = ({ handleEdit, handleView }: UserColumnsProps): Column<UserItem>[] =>
+    [
         { id: "username", label: "ชื่อผู้ใช้" },
         { id: "fullname", label: "ชื่อ - สกุล" },
         { id: "email", label: "อีเมล" },
@@ -168,17 +169,6 @@ const UserTableChild: React.FC<UserTableChildProps> = ({ handleEdit, handleView 
                 </Stack >
             ),
         },
+    ]
 
-
-    ];
-
-    return (
-        <BaseTable
-            columns={userColumns}
-            rows={users}
-            loading={false} // ถ้ากำลังโหลดข้อมูลจาก API ก็ส่ง true ได
-        />
-    )
-}
-
-export default UserTableChild
+export default userColumns

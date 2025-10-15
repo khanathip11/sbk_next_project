@@ -34,7 +34,7 @@ const Navbar: React.FC<NavbarProps> = ({ collapsed, setCollapsed }) => {
     const menuTopItems = [
         { text: "Overview", icon: <HomeRoundedIcon />, href: "/" },
         { text: "Issue Management", icon: <BubbleChartRoundedIcon />, href: "/issues" },
-        { text: "Report", icon: <EqualizerRoundedIcon />, href: "/report" },
+        { text: "Dashboard", icon: <EqualizerRoundedIcon />, href: "/dashboard/main" },
         { text: "Category", icon: <CategoryRoundedIcon />, href: "/category" },
         { text: "User Management", icon: <PersonRoundedIcon />, href: "/users" },
     ];

@@ -14,9 +14,9 @@ import MapOutlinedIcon from '@mui/icons-material/MapOutlined';
 import QrCodeScannerOutlinedIcon from '@mui/icons-material/QrCodeScannerOutlined';
 import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined';
 import { Collapse } from '@mui/material';
-import PreviewHeader from './PreviewHeader';
-import PreviewDetailItem from './PreviewDetailItem';
-import PreviewIssueTimelineSection from './PreviewIssueTimelineSection ';
+import PreviewHeader from './Preview-header';
+import PreviewDetailItem from './Preview-detailItem';
+import PreviewIssueTimelineSection from './Preview-issue-timeline-section ';
 export interface CardItem {
     id: number;
     issue: string;

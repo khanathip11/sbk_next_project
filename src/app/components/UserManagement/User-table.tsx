@@ -10,12 +10,12 @@ import React, { useState } from "react";
 import SearchIcon from "@mui/icons-material/Search";
 import PersonAddRoundedIcon from "@mui/icons-material/PersonAddRounded";
 import ReplyRoundedIcon from "@mui/icons-material/ReplyRounded";
-import UserFilter from "./UserFilter";
-import UserDateRangePicker from "./UserDateRangePicker";
-import UserTableChild from "./UserTableChild";
-import UserCreate from "./UserCreate";
-import UserLoginHistory from "./UserLoginHistory";
-import { UserItem } from "@/app/data/user";
+import UserFilter from "./User-filter";
+import UserDateRangePicker from "./User-datepicker";
+import UserTableChild from "./User-table-child";
+import UserCreate from "./User-create";
+import UserLoginHistory from "./User-login-history";
+import { UserItem } from "@/app/types/userType";
 
 interface UserData {
     username: string;
@@ -225,9 +225,22 @@ const UserTable = () => {
                 open={openCreate}
                 handleClose={() => setOpenCreate(false)}
                 mode={mode}
-                initialData={selectedUser || undefined}
+                initialData={
+                    selectedUser
+                        ? {
+                            username: selectedUser.username,
+                            fullname: selectedUser.fullname,
+                            email: selectedUser.email,
+                            password: "", // เพิ่ม field ที่ UserData ต้องการ
+                            department: selectedUser.department,
+                            role: selectedUser.role,
+                            active: selectedUser.status === "ใช้งานอยู่", // แปลงจาก string เป็น boolean
+                        }
+                        : undefined
+                }
                 onSubmit={handleSubmit}
             />
+
 
             {/* 🔹 Modal: ประวัติการเข้าใช้งาน */}
             <UserLoginHistory

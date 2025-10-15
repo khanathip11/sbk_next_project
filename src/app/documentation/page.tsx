@@ -1,5 +1,5 @@
 import React from 'react';
-import NavigatLayout from '../components/layout/NavigatLayout';
+import NavigatLayout from '../components/layout/Navigat-layout';
 
 const Documentation = () => {
     return (

@@ -2,10 +2,10 @@
 import { Stack, TextField, InputAdornment, Box, Typography, Button, Dialog, DialogTitle, DialogContent, DialogActions } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import React, { useState } from "react";
-import CategoryDatePicker from "./CategoryDatePicker";
-import CategoryTableChild from "./CategoryTableChild";
+import CategoryDatePicker from "./Category-datepicker";
+import CategoryTableChild from "./Category-table-child";
 import AddCircleRoundedIcon from '@mui/icons-material/AddCircleRounded';
-import CategoryCreate from "./CategoryCreate";
+import CategoryCreate from "./Category-create";
 import { Category, SubCategory } from "@/app/types/categoryType";
 import { categories } from "@/app/data/categoryData";
 

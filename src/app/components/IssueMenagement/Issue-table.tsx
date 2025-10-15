@@ -1,11 +1,11 @@
 "use client";
 import { Stack, TextField, InputAdornment, Box, Typography, Button } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
-import IssueFilter from "./IssueFilter";
-import DateRangePickerDemo from "./DateRangePickerDemo";
+import IssueFilter from "./Issue-filter";
+import DateRangePickerDemo from "./Issue-datepicker";
 import React, { useState } from "react";
-import IssueTableChild from "./IssueTableChild";
-import IssueSummarySection from "./IssueSummarySection";
+import IssueTableChild from "./Issue-table-child";
+import IssueSummarySection from "./Issue-summary-section";
 import { issuesData } from "@/app/data/issuesData";
 import AddCircleRoundedIcon from '@mui/icons-material/AddCircleRounded';
 
@@ -16,14 +16,6 @@ const IssueTable = () => {
     return (
         <Box
             sx={{
-                // height: "100%",
-                // width: "100%",
-                // display: "flex",
-                // flexDirection: "column",
-                // overflow: "hidden", // ✅ ไม่ให้ทะลุ container
-                // bgcolor: "#F7F7F7",
-                // borderRadius: 4,
-                // boxSizing: "border-box",
                 height: "100%",
                 width: "100%",
                 display: "flex",
@@ -49,7 +41,7 @@ const IssueTable = () => {
                 <Typography
                     sx={{
                         px: 2,
-                        pb: 2,
+                        pb: 1,
                         fontSize: 24,
                         fontWeight: "bold",
                         color: "#000",
@@ -148,7 +140,7 @@ const IssueTable = () => {
                         sx={{
                             height: 35,
                             border: "1px solid #D9D9D9",
-                            px: 1,
+                            px: 1.5,
                             borderRadius: 2,
                             backgroundColor: "#ffffff",
                             display: "flex",

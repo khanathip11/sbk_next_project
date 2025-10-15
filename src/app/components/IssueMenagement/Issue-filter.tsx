@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from 'react'
-import IssueFilterDropdown from './IssueFilterDropdown';
+import IssueFilterDropdown from './Issue-filter-dropdown';
 import { Box } from '@mui/material';
 
 const IssueFilter = () => {

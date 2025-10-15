@@ -3,11 +3,11 @@
 import React, { useState } from "react";
 import Navbar from "../components/home/Navbar";
 import { Box, Paper, useTheme, useMediaQuery } from "@mui/material";
-import TaskSummary from "../components/home/TaskSummary";
-import TaskBoard from "../components/home/TaskBoard";
+import TaskSummary from "../components/home/Task-summary";
+import TaskBoard from "../components/home/Task-board";
 import AdsClickIcon from '@mui/icons-material/AdsClick';
-import ComplaintMap from "../components/home/ComplaintMap";
-import PreviewPanal from "../components/home/PreviewPanal";
+import ComplaintMap from "../components/home/Complaint-map";
+import PreviewPanal from "../components/home/Preview-panal";
 import { CardItem } from "../types/CardItem";
 import { cardsData } from '../data/CardsData';
 

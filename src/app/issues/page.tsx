@@ -1,6 +1,6 @@
 import React from "react";
-import IssueTable from "../components/IssueMenagement/IssueTable";
-import NavigatLayout from "../components/layout/NavigatLayout";
+import IssueTable from "../components/IssueMenagement/Issue-table";
+import NavigatLayout from "../components/layout/Navigat-layout";
 import { Box } from "@mui/material";
 
 const Issues = () => {

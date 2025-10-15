@@ -9,9 +9,12 @@ import {
 } from "@mui/material";
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 import BaseTable, { Column } from "../common/BaseTable"; // ✅ ใช้ตารางกลาง
-import { UserItem } from "@/app/data/user";
 import SearchIcon from "@mui/icons-material/Search";
 import ReplyRoundedIcon from "@mui/icons-material/ReplyRounded";
+import { UserItem } from "@/app/types/userType";
+import { userColumnHistory } from "./User-column-history";
+import { LoginHistoryItem } from "@/app/types/userType";
+import { users, dummyLogs } from "@/app/data/user";
 
 interface UserLoginHistoryProps {
     open: boolean;
@@ -19,35 +22,12 @@ interface UserLoginHistoryProps {
     user?: UserItem | null;
 }
 
-interface LoginHistoryItem {
-    id: number;
-    action: string;
-    date: string;
-    ip: string;
-    browser: string;
-}
-
 const UserLoginHistory: React.FC<UserLoginHistoryProps> = ({
     open,
     handleClose,
     user,
 }) => {
-    // ✅ ข้อมูลจำลอง
-    const dummyLogs: LoginHistoryItem[] = [
-        { id: 1, action: "login", date: "15 ส.ค. 2568 15:39:21", ip: "111.003.43536.432", browser: "chrome" },
-        { id: 2, action: "login", date: "15 ส.ค. 2568 15:40:21", ip: "111.003.43536.432", browser: "safari" },
-        { id: 3, action: "login", date: "15 ส.ค. 2568 15:41:21", ip: "111.003.43536.432", browser: "edge" },
-        { id: 4, action: "logout", date: "15 ส.ค. 2568 15:42:21", ip: "111.003.43536.432", browser: "chrome" },
-    ];
-
-    // ✅ columns สำหรับ BaseTable
-    const columns: Column<LoginHistoryItem>[] = [
-        { id: "action", label: "พฤติกรรม" },
-        { id: "date", label: "วันที่" },
-        { id: "ip", label: "IP" },
-        { id: "browser", label: "บราวเซอร์" },
-    ];
-
+    const columns = userColumnHistory(); // ✅ ดึง column จากไฟล์แยก
 
     return (
         <Modal open={open} onClose={handleClose}>

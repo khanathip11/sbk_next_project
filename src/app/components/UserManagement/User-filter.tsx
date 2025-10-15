@@ -1,7 +1,7 @@
 "use client";
 import { Box } from '@mui/system'
 import React, { useState } from 'react'
-import UserFilterDropdown from './UserFilterDropdown'
+import UserFilterDropdown from './User-filter-dropdown'
 
 const UserFilter = () => {
     const [role, setRole] = useState("all");

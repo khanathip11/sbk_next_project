@@ -1,12 +1,10 @@
 import React, { useState, useRef } from 'react'
 import { Box, Button, IconButton, Modal } from '@mui/material'
 import ReportProblemIcon from '@mui/icons-material/ReportProblem';
-import ComplaintOverview from './ComplaintOverview';
+import ComplaintOverview from './Complaint-overview';
 import { StaticImageData } from "next/image";
-import EmergencyNotifier from './EmergencyNotifier';
-import ComplaintFilterBar from './ComplaintFilterBar';
-import ArrowRightIcon from '@mui/icons-material/ArrowRight';
-import ArrowLeftIcon from '@mui/icons-material/ArrowLeft';
+import EmergencyNotifier from './Emergency-notifier';
+import ComplaintFilterBar from './Complaint-filter-bar';
 import MapboxMapComponent, { Network } from '../Mapbox';
 import FilterListIcon from '@mui/icons-material/FilterList';
 

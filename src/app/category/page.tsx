@@ -1,7 +1,7 @@
 import React from 'react'
-import NavigatLayout from '../components/layout/NavigatLayout'
+import NavigatLayout from '../components/layout/Navigat-layout'
 import { Box } from '@mui/system'
-import CategoryTable from '../components/Category/CategoryTable'
+import CategoryTable from '../components/Category/Category-table'
 
 const page = () => {
     return (

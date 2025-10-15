@@ -2,9 +2,9 @@ import { Box, Button, Grid, InputAdornment, ListItemButton, Paper, Stack, TextFi
 import FilterListIcon from '@mui/icons-material/FilterList';
 import SearchIcon from "@mui/icons-material/Search";
 import { StaticImageData } from "next/image";
-import ComplaintFilterBar from './ComplaintFilterBar';
+import ComplaintFilterBar from './Complaint-filter-bar';
 import React from 'react'
-import ProblemChart from './ProblemChart';
+import ProblemChart from './Problem-chart';
 
 type CardsData = {
     id: number;

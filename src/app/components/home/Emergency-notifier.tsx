@@ -2,8 +2,8 @@ import { Box, Button, Paper, Typography } from '@mui/material'
 import React, { useState } from 'react'
 import ReportProblemRoundedIcon from '@mui/icons-material/ReportProblemRounded';
 import ArticleRoundedIcon from '@mui/icons-material/ArticleRounded';
-import EmergencyNotifierLeft from './EmergencyNotifierLeft';
-import EmergencyNotifierRight from './EmergencyNotifierRight';
+import EmergencyNotifierLeft from './Emergency-notifier-left';
+import EmergencyNotifierRight from './Emergency-notifier-right';
 
 type EmergencyNotifierProps = {
     handleClose: () => void;

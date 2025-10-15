@@ -1,8 +1,8 @@
 import React from "react";
 import { Modal, Box, Button, Typography, } from "@mui/material";
 import { IssueItem } from "@/app/types/IssueItem";
-import IssueInfoLeft from "./IssueInfoLeft";
-import IssueInfoRight from "./IssueInfoRight";
+import IssueInfoLeft from "./Issue-info-left";
+import IssueInfoRight from "./Issue-info-right";
 import CloseIcon from '@mui/icons-material/Close';
 import SendIcon from '@mui/icons-material/Send';
 interface IssueInfoProps {
