@@ -264,6 +264,7 @@ const CategoryTable = () => {
                     handleClose={handleCloseDialog}      // ปิด modal
                     mode={dialog.mode}                   // โหมดการทำงาน (create/edit/sub)
                     initialData={dialog.initialData}     // ข้อมูลเริ่มต้น (ชื่อหมวด / หมวดหลัก)
+                    deleteTarget={deleteTarget}
                 />
 
                 <Dialog

@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from "react";
-import Navbar from "../home/Navbar";
+import Navbar from "../Overview/Navbar";
 import { Box, Paper, useTheme, useMediaQuery } from "@mui/material";
 
 type menuProps = { children: React.ReactNode };

@@ -5,29 +5,25 @@ import {
     DialogActions,
     DialogContent,
     DialogTitle,
+    MenuItem,
     TextField,
     Typography,
 } from "@mui/material";
 import { Box } from "@mui/system";
 import CheckCircleRoundedIcon from '@mui/icons-material/CheckCircleRounded';
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
-
-/**
- * ✅ Interface: CategoryCreateProps
- * รับ props จาก parent (เช่น CategoryTable)
- * - open: สถานะเปิด/ปิด Dialog
- * - handleClose: ฟังก์ชันปิด Dialog
- * - mode: ระบุว่าอยู่ในโหมด "create" หรือ "edit"
- * - initialData: ข้อมูลเริ่มต้นของหมวดหมู่ (ใช้เฉพาะตอนแก้ไข)
- */
 interface CategoryCreateProps {
     open: boolean;
     handleClose: () => void;
-    mode: "edit" | "create" | "sub";
+    mode: "edit" | "create" | "sub" | "delete";
     initialData?: {
         categoryName: string;
         parentCategory?: string | null;
     };
+    deleteTarget?: {
+        name: string;
+        parent?: string | null;
+    } | null;
 }
 
 /**
@@ -40,6 +36,7 @@ const CategoryCreate: React.FC<CategoryCreateProps> = ({
     handleClose,
     mode,
     initialData,
+    deleteTarget
 }) => {
     /** ✅ เก็บประเภทหมวดหมู่ เช่น “main” (หมวดหลัก) — ใช้ในอนาคตหากต้องมีหมวดย่อย */
     const [categoryType, setCategoryType] = useState("main");
@@ -64,6 +61,11 @@ const CategoryCreate: React.FC<CategoryCreateProps> = ({
         handleClose();
     };
 
+    const handleDelete = () => {
+        console.log("🔴 ลบหมวดหมู่:", deleteTarget);
+        handleClose();
+    };
+
     /**
      * ✅ useEffect: เมื่อ modal ถูกเปิด (`open === true`)
      * จะโหลดค่าจาก initialData (ในกรณีโหมดแก้ไข)
@@ -78,116 +80,274 @@ const CategoryCreate: React.FC<CategoryCreateProps> = ({
     // 🧭 Render ส่วนของ UI
     // ------------------------------------------------------------
 
+    const textFieldStyle = {
+        fontSize: 13,
+        "& .MuiOutlinedInput-root": {
+            borderRadius: 3,
+            backgroundColor: "#fff",
+            "& fieldset": { borderColor: "#D1D5DB" },
+            "&:hover fieldset": { borderColor: "#9CA3AF" },
+            "&.Mui-focused fieldset": { borderColor: "#1976d2" },
+        },
+    };
+
     return (
-        <Box>
+        <Box sx={{ height: "auto" }}>
             <Dialog
                 open={open}
-                // onClose={handleClose}
+                onClose={handleClose}
                 maxWidth="xs"
                 fullWidth
                 PaperProps={{
-                    sx: { borderRadius: 3, p: 0 },
+                    sx: { borderRadius: 3, height: "auto" },
                 }}
             >
-                {/* 🔹 ส่วนหัวของ Dialog */}
-                <DialogTitle sx={{ fontWeight: "bold", pb: 2.5, textAlign: 'center' }}>
-                    {mode === "create"
-                        ? "เพิ่มหมวดหมู่หลัก"
-                        : mode === "sub"
-                            ? "เพิ่มหมวดหมู่ย่อย"
-                            : initialData?.parentCategory
-                                ? "แก้ไขหมวดหมู่ย่อย"
-                                : "แก้ไขหมวดหมู่หลัก"}
-                </DialogTitle>
+                {/* 🎯 เงื่อนไขแยกโหมด */}
+                {mode === "delete" ? (
+                    <>
+                        {/* 🔴 ยืนยันการลบ */}
+                        <DialogTitle sx={{ fontWeight: "bold", textAlign: "center" }}>
+                            ยืนยันการลบ
+                        </DialogTitle>
 
-                {/* 🔹 ส่วนเนื้อหาใน Dialog */}
-                <DialogContent
-                    sx={{ display: "flex", flexDirection: "column", gap: 2, pt: 1 }}
-                >
-                    {/* แสดงชื่อหมวดหลัก (เฉพาะตอนแก้ไขหมวดย่อย) */}
-                    {mode !== "create" && initialData?.parentCategory && (
-                        <Typography sx={{ fontSize: 13, color: "#666" }}>
-                            หมวดหลัก: {initialData.parentCategory}
-                        </Typography>
-                    )}
+                        <DialogContent>
+                            <Typography>
+                                {`ต้องการลบหมวดหมู่ ${deleteTarget?.name}`}
+                                {deleteTarget?.parent && ` (ภายใต้ ${deleteTarget.parent}) `}
+                                ใช่หรือไม่?
+                            </Typography>
+                        </DialogContent>
 
-                    {/* 🔸 กล่องใส่ TextField พร้อมพื้นหลังเทา */}
-                    <Box
-                        sx={{
-                            backgroundColor: "#F9F9FA",
-                            borderRadius: 4,
-                            p: 1,
-                            pb: 2,
-                            border: '1px solid #F2F2F2'
-                        }}
-                    >
-                        <Typography sx={{ py: 1, fontWeight: 100, color: '#A6A6A6', fontSize: 13 }}>
+                        <DialogActions sx={{ px: 3, pb: 2 }}>
+                            <Button
+                                onClick={handleClose}
+                                color="inherit"
+                                sx={{
+                                    borderRadius: 3,
+                                    border: "1px solid #F2F2F2",
+                                }}
+                            >
+                                ยกเลิก
+                            </Button>
+
+                            <Button
+                                color="error"
+                                variant="contained"
+                                onClick={handleDelete}
+                                sx={{ borderRadius: 3 }}
+                            >
+                                ลบ
+                            </Button>
+                        </DialogActions>
+                    </>
+                ) : (
+                    <>
+                        {/* 🟩 ส่วนหัวของ Dialog */}
+                        <DialogTitle
+                            sx={{ fontWeight: "400", pb: 2.5, textAlign: "center" }}
+                        >
                             {mode === "create"
-                                ? "ชื่อหมวดหมู่หลัก"
+                                ? "เพิ่มหมวดหมู่หลัก"
                                 : mode === "sub"
-                                    ? "ชื่อหมวดหมู่ย่อย"
-                                    : "ชื่อหมวดหมู่ที่จะแก้ไข"}
-                        </Typography>
+                                    ? "เพิ่มหมวดย่อย"
+                                    : initialData?.parentCategory
+                                        ? "แก้ไขหมวดหมู่ย่อย"
+                                        : "แก้ไขหมวดหมู่หลัก"}
+                        </DialogTitle>
 
-                        {/* 📝 ช่องกรอกชื่อหมวดหมู่ */}
-                        <TextField
-                            size="small"
-                            label="ชื่อหมวดหมู่"
-                            placeholder="กรอกชื่อหมวดหมู่"
-                            fullWidth
-                            value={categoryName}
-                            onChange={(e) => setCategoryName(e.target.value)}
+                        {/* 🟦 เนื้อหา Dialog */}
+                        <DialogContent
                             sx={{
-                                fontSize: 13,
-                                "& .MuiOutlinedInput-root": {
-                                    borderRadius: 3, // ✅ มุมโค้งมน
-                                    backgroundColor: "#fff", // พื้นหลังขาว
-                                    "& fieldset": {
-                                        borderColor: "#D1D5DB", // ขอบปกติ
-                                    },
-                                    "&:hover fieldset": {
-                                        borderColor: "#9CA3AF", // ขอบตอน hover
-                                    },
-                                    "&.Mui-focused fieldset": {
-                                        borderColor: "#1976d2", // ขอบตอน focus
-                                    },
-                                },
+                                display: "flex",
+                                flexDirection: "column",
+                                gap: 2,
+                                pt: 1,
                             }}
-                        />
-                    </Box>
-                </DialogContent>
+                        >
+                            {/* ✅ ฟอร์มหมวดหมู่หลัก */}
+                            {(mode === "create" ||
+                                (mode === "edit" && !initialData?.parentCategory)) && (
+                                    <Box
+                                        sx={{
+                                            backgroundColor: "#F9F9FA",
+                                            borderRadius: 4,
+                                            p: 1,
+                                            pb: 2,
+                                            border: "1px solid #F2F2F2",
+                                        }}
+                                    >
+                                        <Typography
+                                            sx={{
+                                                py: 1,
+                                                fontWeight: 100,
+                                                color: "#8C929C",
+                                                fontSize: 13,
+                                                pl: 0.5
+                                            }}
+                                        >
+                                            {mode === "create"
+                                                ? "ชื่อหมวดหมู่หลัก"
+                                                : "แก้ไขหมวดหมู่หลัก"}
+                                        </Typography>
 
-                {/* 🔹 ส่วนปุ่มด้านล่างของ Dialog */}
-                <DialogActions sx={{ px: 3, pb: 2 }}>
-                    {/* ปุ่ม “ยกเลิก” */}
-                    <Button
-                        onClick={handleClose}
-                        color="inherit"
-                        sx={{
-                            borderRadius: 3,
-                            border: "1px solid #F2F2F2",
-                            display: 'flex',
-                            gap: 0.5
-                        }}
-                    >
-                        <CloseRoundedIcon sx={{ fontSize: 16 }} />
-                        ยกเลิก
-                    </Button>
+                                        <TextField
+                                            size="small"
+                                            // label="ชื่อหมวดหมู่"
+                                            placeholder="กรอกชื่อหมวดหมู่"
+                                            fullWidth
+                                            value={categoryName}
+                                            onChange={(e) => setCategoryName(e.target.value)}
+                                            sx={textFieldStyle}
+                                        />
+                                    </Box>
+                                )}
 
-                    {/* ปุ่ม “บันทึก” หรือ “อัปเดต” */}
-                    <Button
-                        variant="contained"
-                        onClick={handleSave}
-                        sx={{ borderRadius: 3, display: 'flex', gap: 0.5 }}
-                        disabled={!categoryName.trim()} // ✅ ปิดปุ่มถ้ายังไม่กรอกชื่อ
-                    >
-                        {/* {mode === "edit" ? "อัปเดต" : "บันทึก"} */}
-                        <CheckCircleRoundedIcon sx={{ fontSize: 16 }} />
-                        ยืนยัน
-                    </Button>
-                </DialogActions>
+                            {/* 🟨 ฟอร์มหมวดย่อย */}
+                            {(mode === "sub" ||
+                                (mode === "edit" && initialData?.parentCategory)) && (
+                                    <Box
+                                        sx={{
+                                            height: "auto",
+                                            backgroundColor: "#F9F9FA",
+                                            borderRadius: 4,
+                                            py: 2,
+                                            px: 1,
+                                            border: "1px solid #F2F2F2",
+                                            display: "flex",
+                                            gap: 1.5,
+                                            flexDirection: "column",
+                                        }}
+                                    >
+                                        <Typography sx={{ fontWeight: 100, color: "#8C929C", fontSize: 13, pl: 0.5 }}>
+                                            ชื่อหมวดหมู่ย่อย
+                                        </Typography>
+
+                                        <TextField
+                                            size="small"
+                                            // label="ชื่อหมวดหมู่ย่อย"
+                                            fullWidth
+                                            value={categoryName}
+                                            onChange={(e) => setCategoryName(e.target.value)}
+                                            sx={textFieldStyle}
+                                        />
+
+                                        <Typography sx={{ fontWeight: 100, color: "#8C929C", fontSize: 13, pl: 0.5 }}>
+                                            ระดับ
+                                        </Typography>
+
+                                        <TextField
+                                            size="small"
+                                            select
+                                            // label="ระดับ"
+                                            fullWidth
+                                            defaultValue="เร่งด่วน"
+                                            sx={{
+                                                ...textFieldStyle,
+                                                "& .MuiSelect-select": {
+                                                    display: "flex",
+                                                    alignItems: "center",
+                                                    py: 0.8,
+                                                    fontSize: 14,
+                                                    color: "#374151", // สีตัวอักษร
+                                                },
+                                                "& .MuiSvgIcon-root": {
+                                                    color: "#9CA3AF", // สีลูกศร dropdown
+                                                },
+                                            }}
+                                        >
+                                            <MenuItem value="เร่งด่วน">เร่งด่วน</MenuItem>
+                                            <MenuItem value="ทั่วไป">ทั่วไป</MenuItem>
+                                        </TextField>
+
+                                        <Typography sx={{ fontWeight: 100, color: "#8C929C", fontSize: 13, pl: 0.5 }}>
+                                            ระยะเวลาที่ต้องปิดจบ (ชั่วโมง)
+                                        </Typography>
+
+                                        <TextField
+                                            size="small"
+                                            type="number"
+                                            // label="ระยะเวลาที่ต้องปิดจบ (ชั่วโมง)"
+                                            placeholder="กรอกจำนวนชั่วโมง"
+                                            fullWidth
+                                            sx={textFieldStyle}
+                                        />
+
+                                        <Typography sx={{ fontWeight: 100, color: "#8C929C", fontSize: 13, pl: 0.5 }}>
+                                            ระยะเวลาที่ต้องแก้ไข (วัน)
+                                        </Typography>
+
+                                        <TextField
+                                            size="small"
+                                            type="number"
+                                            // label="ระยะเวลาที่ต้องแก้ไข (วัน)"
+                                            placeholder="กรอกจำนวนวัน"
+                                            fullWidth
+                                            sx={textFieldStyle}
+                                        />
+
+                                        <Typography sx={{ fontWeight: 100, color: "#8C929C", fontSize: 13, pl: 0.5 }}>
+                                            หน่วยงานรับผิดชอบ
+                                        </Typography>
+
+                                        <TextField
+                                            size="small"
+                                            select
+                                            // label="หน่วยงานรับผิดชอบ"
+                                            fullWidth
+                                            defaultValue="ศูนย์ 1"
+                                            sx={{
+                                                ...textFieldStyle,
+                                                "& .MuiSelect-select": {
+                                                    display: "flex",
+                                                    alignItems: "center",
+                                                    py: 0.8,
+                                                    fontSize: 14,
+                                                    color: "#374151", // สีตัวอักษร
+                                                },
+                                                "& .MuiSvgIcon-root": {
+                                                    color: "#9CA3AF", // สีลูกศร dropdown
+                                                },
+                                            }}
+                                        >
+                                            <MenuItem value="ศูนย์ 1">ศูนย์ 1</MenuItem>
+                                            <MenuItem value="ศูนย์ 2">ศูนย์ 2</MenuItem>
+                                            <MenuItem value="ศูนย์ 3">ศูนย์ 3</MenuItem>
+                                            <MenuItem value="ศูนย์ 4">ศูนย์ 4</MenuItem>
+                                        </TextField>
+                                    </Box>
+                                )}
+                        </DialogContent>
+
+                        {/* 🔹 ปุ่มด้านล่าง */}
+                        <DialogActions sx={{ px: 3, pb: 2 }}>
+                            <Button
+                                onClick={handleClose}
+                                color="inherit"
+                                sx={{
+                                    borderRadius: 3,
+                                    border: "1px solid #F2F2F2",
+                                    display: "flex",
+                                    gap: 0.5,
+                                }}
+                            >
+                                <CloseRoundedIcon sx={{ fontSize: 16 }} />
+                                ยกเลิก
+                            </Button>
+
+                            <Button
+                                variant="contained"
+                                onClick={handleSave}
+                                sx={{ borderRadius: 3, display: "flex", gap: 0.5 }}
+                                disabled={!categoryName.trim()}
+                            >
+                                <CheckCircleRoundedIcon sx={{ fontSize: 16 }} />
+                                ยืนยัน
+                            </Button>
+                        </DialogActions>
+                    </>
+                )}
             </Dialog>
-        </Box >
+        </Box>
     );
 }
 

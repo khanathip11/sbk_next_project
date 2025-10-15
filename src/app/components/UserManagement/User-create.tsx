@@ -185,7 +185,7 @@ const UserCreate: React.FC<UserCreateProps> = ({
                     </Box>
 
                     {/* ✅ ซ่อน password ถ้าอยู่ในโหมด edit */}
-                    {mode === 'create' && (
+                    {/* {mode === 'create' && (
                         <Box>
                             <Typography sx={{ fontSize: 13, color: '#8C929C', mb: 1 }}>
                                 รหัสผ่าน
@@ -200,7 +200,21 @@ const UserCreate: React.FC<UserCreateProps> = ({
                                 sx={textFieldStyle}
                             />
                         </Box>
-                    )}
+                    )} */}
+                    <Box>
+                        <Typography sx={{ fontSize: 13, color: '#8C929C', mb: 1 }}>
+                            รหัสผ่าน
+                        </Typography>
+                        <TextField
+                            name="password"
+                            type="password"
+                            value={formData.password}
+                            onChange={handleChange}
+                            variant="outlined"
+                            size="small"
+                            sx={textFieldStyle}
+                        />
+                    </Box>
 
                     <Box>
                         <Typography sx={{ fontSize: 13, color: '#8C929C', mb: 1 }}>

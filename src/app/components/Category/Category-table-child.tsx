@@ -86,7 +86,7 @@ const CategoryTableChild: React.FC<CategoryTableChildProps> = ({ onEdit, onAddSu
                 width: "100%",
                 height: "auto",
                 pb: 1,
-                borderRadius: 3,
+                borderRadius: 4,
                 display: "flex",
                 flexDirection: "column",
                 overflow: "auto",
@@ -99,9 +99,9 @@ const CategoryTableChild: React.FC<CategoryTableChildProps> = ({ onEdit, onAddSu
             <TableContainer
                 component={Paper}
                 sx={{
-                    borderRadius: 3,
+                    borderRadius: 4,
                     boxShadow: "none",
-                    border: "1px solid #fff",
+                    // border: "1px solid #fff",
                     flex: 1,
                     overflow: "auto",
                     scrollbarWidth: "none",

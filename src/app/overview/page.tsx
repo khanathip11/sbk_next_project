@@ -1,13 +1,12 @@
 "use client";
 
 import React, { useState } from "react";
-import Navbar from "../components/home/Navbar";
+import Navbar from "../components/Overview/Navbar";
 import { Box, Paper, useTheme, useMediaQuery } from "@mui/material";
-import TaskSummary from "../components/home/Task-summary";
-import TaskBoard from "../components/home/Task-board";
-import AdsClickIcon from '@mui/icons-material/AdsClick';
-import ComplaintMap from "../components/home/Complaint-map";
-import PreviewPanal from "../components/home/Preview-panal";
+import TaskSummary from "../components/Overview/Task-summary";
+import TaskBoard from "../components/Overview/Task-board";
+import ComplaintMap from "../components/Overview/Complaint-map";
+import PreviewPanal from "../components/Overview/Preview-panal";
 import { CardItem } from "../types/CardItem";
 import { cardsData } from '../data/CardsData';
 
@@ -125,71 +124,6 @@ export default function HomePage() {
                     )
                 ) : null}
             </Paper>
-
-
-            {/* {!closeTask && (
-                <Paper
-                    id="task-container"
-                    elevation={5}
-                    sx={{
-                        borderRadius: 4,
-                        bgcolor: '#f9f9f9',
-                        width: '40%',
-                        p: !selectedCard ? 1 : 0,
-                        transition: 'width 0.3s ease',
-                        height: '100%',
-                        maxHeight: 'calc(100vh)',
-                        overflowY: 'auto',
-                        "&::-webkit-scrollbar": {
-                            width: "0px",
-                        },
-                        "&::-webkit-scrollbar-thumb": {
-                            backgroundColor: "#c1c1c1",
-                            borderRadius: "4px",
-                        },
-                        "&::-webkit-scrollbar-thumb:hover": {
-                            backgroundColor: "#a0a0a0",
-                        },
-                    }
-                    }
-                >
-                    <TaskSummary count={120} closeTask={closeTask} SetCloseTask={SetCloseTask} selectedCard={selectedCard} />
-                    {!selectedCard ? (
-                        cardsData.map((card) => (
-                            <TaskBoard key={card.id} card={card} onClick={() => setSelectedCard(card)} />
-                        ))
-                    ) : (
-                        <PreviewPanal card={selectedCard} onBack={() => setSelectedCard(null)} />
-                    )
-                    }
-                </Paper>
-            )}
-
-            {closeTask && (
-                <Box
-                    onClick={() => SetCloseTask(false)}
-                    sx={{
-                        position: 'absolute',
-                        bottom: 30,
-                        right: 30,
-                        width: '2%',
-                        height: '4%',
-                        bgcolor: '#FFF',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        cursor: 'pointer',
-                        borderRadius: 2,
-                        zIndex: 10,
-                        '&:hover': {
-                            backgroundColor: '#FF5757'
-                        }
-                    }}
-                >
-                    <AdsClickIcon sx={{ fontSize: 16, color: '#000', transform: 'rotate(180deg)', }} onClick={() => console.log('s')} />
-                </Box>
-            )
-            } */}
         </Box >
     );
 }

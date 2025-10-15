@@ -32,16 +32,16 @@ const Navbar: React.FC<NavbarProps> = ({ collapsed, setCollapsed }) => {
     };
 
     const menuTopItems = [
-        { text: "Overview", icon: <HomeRoundedIcon />, href: "/" },
-        { text: "Issue Management", icon: <BubbleChartRoundedIcon />, href: "/issues" },
+        { text: "Overview", icon: <HomeRoundedIcon />, href: "/overview" },
+        { text: "Issue Management", icon: <BubbleChartRoundedIcon />, href: "/issue-management" },
         { text: "Dashboard", icon: <EqualizerRoundedIcon />, href: "/dashboard/main" },
-        { text: "Category", icon: <CategoryRoundedIcon />, href: "/category" },
-        { text: "User Management", icon: <PersonRoundedIcon />, href: "/users" },
+        { text: "Issue Category", icon: <CategoryRoundedIcon />, href: "/issue-category" },
+        { text: "User Management", icon: <PersonRoundedIcon />, href: "/user-management" },
     ];
 
     const menuBottomItems = [
         { text: "Documentation", icon: <ArticleRoundedIcon />, href: "/documentation" },
-        { text: "Audit trail", icon: <VerifiedUserRoundedIcon />, href: "/audittrail" },
+        { text: "Audit Trail", icon: <VerifiedUserRoundedIcon />, href: "/audit-trail" },
         { text: "Help", icon: <HelpIcon />, href: "/help" },
         { text: "Setting", icon: <SettingsRoundedIcon />, href: "/setting" }
     ];
