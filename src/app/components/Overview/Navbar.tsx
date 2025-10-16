@@ -3,12 +3,12 @@
 import React, { useState } from 'react'
 import { Box, List, Toolbar, Stack, Avatar, Typography, IconButton, AppBar, ListItemIcon, ListItemText, ListItemButton, Tooltip } from "@mui/material";
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
-import AssignmentIcon from "@mui/icons-material/Assignment";
+import ChatRoundedIcon from '@mui/icons-material/ChatRounded';
 import HelpIcon from "@mui/icons-material/Help";
 import SettingsRoundedIcon from '@mui/icons-material/SettingsRounded';
 import LogoutIcon from '@mui/icons-material/Logout';
 import HomeRoundedIcon from '@mui/icons-material/HomeRounded';
-import LightModeIcon from '@mui/icons-material/LightMode';
+import GradingRoundedIcon from '@mui/icons-material/GradingRounded';
 import ContrastIcon from '@mui/icons-material/Contrast';
 import EqualizerRoundedIcon from '@mui/icons-material/EqualizerRounded';
 import NightsStayIcon from '@mui/icons-material/NightsStay';
@@ -36,12 +36,14 @@ const Navbar: React.FC<NavbarProps> = ({ collapsed, setCollapsed }) => {
         { text: "Issue Management", icon: <BubbleChartRoundedIcon />, href: "/issue-management" },
         { text: "Dashboard", icon: <EqualizerRoundedIcon />, href: "/dashboard/main" },
         { text: "Issue Category", icon: <CategoryRoundedIcon />, href: "/issue-category" },
-        { text: "User Management", icon: <PersonRoundedIcon />, href: "/user-management" },
+        { text: "Feedback", icon: <ChatRoundedIcon />, href: "/feedback" },
+        { text: "Feedback Issue Status Done", icon: <GradingRoundedIcon />, href: "/feedback-issue" },
     ];
 
     const menuBottomItems = [
         { text: "Documentation", icon: <ArticleRoundedIcon />, href: "/documentation" },
         { text: "Audit Trail", icon: <VerifiedUserRoundedIcon />, href: "/audit-trail" },
+        { text: "User Management", icon: <PersonRoundedIcon />, href: "/user-management" },
         { text: "Help", icon: <HelpIcon />, href: "/help" },
         { text: "Setting", icon: <SettingsRoundedIcon />, href: "/setting" }
     ];

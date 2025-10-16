@@ -9,9 +9,22 @@ import IssueSummarySection from "./Issue-summary-section";
 import { issuesData } from "@/app/data/issuesData";
 import AddCircleRoundedIcon from '@mui/icons-material/AddCircleRounded';
 
-
 const IssueTable = () => {
     const [selectedLevel, setSelectedLevel] = useState<string | null>(null);
+    const [selectedCenter, setSelectedCenter] = useState<string | null>(null)
+
+    // ✅ ตรงนี้คือจุดที่ใช้ filter จริง
+    const filteredIssues = issuesData.filter((issue) => {
+        const matchLevel = selectedLevel ? issue.level === selectedLevel : true;
+        const matchCenter =
+            selectedCenter !== null && selectedCenter !== undefined
+                ? issue.center === selectedCenter
+                : true;
+        return matchLevel && matchCenter;
+    });
+
+    const currentRole = "admin";
+    const currentUnit = "สบข";
 
     return (
         <Box
@@ -68,7 +81,17 @@ const IssueTable = () => {
             </Box>
 
             <Box sx={{ p: 2, pt: 0 }}>
-                <IssueSummarySection selectedLevel={selectedLevel} onSelectLevel={setSelectedLevel} />
+                <IssueSummarySection
+                    selectedLevel={selectedLevel}
+                    selectedCenter={selectedCenter}
+                    role={currentRole}
+                    organizationUnit={currentUnit}
+                    onSelectFilter={(level, center) => {
+                        setSelectedLevel(level)
+                        setSelectedCenter(center)
+                    }
+                    }
+                />
             </Box>
 
             {/* 🔹 Filter */}
@@ -164,7 +187,11 @@ const IssueTable = () => {
                     scrollbarWidth: "none",
                 }}
             >
-                <IssueTableChild filterLevel={selectedLevel} />
+                <IssueTableChild
+                    issues={filteredIssues}
+                    role={currentRole}
+                    organizationUnit={currentUnit}
+                />
             </Box>
         </Box>
     );

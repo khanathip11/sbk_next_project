@@ -1,145 +1,82 @@
-// app/columns/issueColumns.tsx
 import { Column } from "../common/BaseTable";
 import { IssueItem } from "@/app/types/IssueItem";
-import { Chip, IconButton, Stack, Tooltip, Typography } from "@mui/material";
+import {
+    Button,
+    Chip,
+    IconButton,
+    Stack,
+    Tooltip,
+    Typography,
+    Box,
+} from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
+import ReplayRoundedIcon from "@mui/icons-material/ReplayRounded";
+import CheckRoundedIcon from "@mui/icons-material/CheckRounded";
+import RemoveRedEyeRoundedIcon from "@mui/icons-material/RemoveRedEyeRounded";
 import { getTypeStyled } from "@/app/utils/getTypeStyled";
-import ReplayRoundedIcon from '@mui/icons-material/ReplayRounded';
+import { issuePermissionMatrix } from "@/app/permissions/issuePermissionMatrix";
 
-const formatThaiDateTime = (dateString: string) => {
-    if (!dateString) return "-";
-    const [day, month, year] = dateString.split("/").map(Number);
-    if (!day || !month || !year) return "-";
-
-    const date = new Date(year, month - 1, day);
-
-    return new Intl.DateTimeFormat("th-TH", {
-        dateStyle: "medium",
-        timeStyle: "medium",
-    }).format(date);
-};
 interface IssueColumnOptions {
     handleEdit: (issue: IssueItem) => void;
     handleView: (issue: IssueItem) => void;
+    role?: string;
+    organizationUnit?: string;
 }
+
+// ✅ เพิ่ม type ใหม่ที่ extends มาจาก BaseColumn
+
+
+// 🧮 ฟังก์ชันแปลงวันที่ไทย
+const formatThaiDateTime = (dateString: string) => {
+    if (!dateString) return "-";
+    const [day, month, year] = dateString.split("/").map(Number);
+    const christianYear = year > 2400 ? year - 543 : year;
+    return new Intl.DateTimeFormat("th-TH", {
+        dateStyle: "medium",
+        timeStyle: "medium",
+    }).format(new Date(christianYear, month - 1, day));
+};
 
 const getTypeStyle = (row: IssueItem) => {
     const status = (row.ackStatus || "").trim();
-    const readDuration = row.readDuration || "";
-    const reportDateStr = row.date || "";
-
-    // 🧮 ดึงจำนวนวันจากข้อความ "1 วัน" → 1
-    const getDays = (text: string): number => {
-        const match = text.match(/\d+/);
-        return match ? parseInt(match[0], 10) : 0;
-    };
-
-    // 🕒 แปลงวันที่ dd/mm/yyyy → Date object
-    const parseDate = (dateStr: string): Date | null => {
-        const [day, month, year] = dateStr.split("/").map(Number);
-        if (!day || !month || !year) return null;
-        const christianYear = year > 2400 ? year - 543 : year; // แปลง พ.ศ. → ค.ศ.
-        return new Date(christianYear, month - 1, day);
-    };
-
-    const readDays = getDays(readDuration);
-    const reportDate = parseDate(reportDateStr);
-    const today = new Date();
-
-    // 🕓 คำนวณเวลาที่ครบกำหนด
-    const dueDate = reportDate ? new Date(reportDate.getTime()) : null;
-    if (dueDate) dueDate.setDate(dueDate.getDate() + readDays);
-
-    let text = ""; // ✅ ข้อความต่อท้าย
-    let background = "#FCBF041F";
-    let color = "#CA9802";
-
-    // 🟥 ยังไม่ได้เปิดอ่าน
-    if (status === "ยังไม่ได้เปิดอ่าน") {
-        if (dueDate) {
-            const diffTime = dueDate.getTime() - today.getTime();
-            const diffHours = diffTime / (1000 * 60 * 60);
-            const diffDays = Math.floor(diffHours / 24);
-
-            if (diffTime > 0) {
-                // เหลือเวลา
-                text = diffDays >= 1
-                    ? `(เหลือ ${diffDays} วัน)`
-                    : `(เหลือ ${Math.round(diffHours)} ชม.)`;
-            } else {
-                // เกินเวลา
-                const overDays = Math.abs(diffDays);
-                text = overDays >= 1
-                    ? `(เกิน ${overDays} วัน)`
-                    : `(เกิน ${Math.abs(Math.round(diffHours))} ชม.)`;
-            }
-        }
-
-        return { background: "#F03D3D1F", color: "#E92020", text };
-    }
-
-    // 🟢 เปิดอ่านแล้ว
-    if (status === "เปิดอ่านแล้ว") {
-        if (!reportDate || !dueDate) {
-            text = `(ไม่พบข้อมูลเวลาอ่าน)`;
-            return { background: "#35C2201F", color: "#2A9919", text };
-        }
-
-        // สมมติว่าเวลาอ่านคือวันนี้ (ในระบบจริงอาจมี field readAt)
-        const readAt = today;
-
-        const diffTime = readAt.getTime() - dueDate.getTime();
-        const diffHours = diffTime / (1000 * 60 * 60);
-        const diffDays = Math.floor(diffHours / 24);
-
-        if (diffDays <= 0) {
-            // ภายในเวลาที่กำหนด
-            text = `(อ่านเมื่อ ${readAt.toLocaleString("th-TH", {
-                dateStyle: "medium",
-                timeStyle: "short",
-            })})`;
-            background = "#35C2201F";
-            color = "#2A9919";
-        } else {
-            // เกินเวลา
-            text =
-                diffDays >= 1
-                    ? `(เกิน ${diffDays} วัน)`
-                    : `(เกิน ${Math.abs(Math.round(diffHours))} ชม.)`;
-            background = "#FCBF041F";
-            color = "#CA9802";
-        }
-
-        return { background, color, text };
-    }
-
-    return { background, color, text: "(ไม่มีข้อมูลสถานะ)" };
+    if (status === "ยังไม่ได้เปิดอ่าน")
+        return { background: "#F03D3D1F", color: "#E92020", text: "(ยังไม่ได้เปิดอ่าน)" };
+    if (status === "เปิดอ่านแล้ว")
+        return { background: "#35C2201F", color: "#2A9919", text: "(เปิดอ่านแล้ว)" };
+    return { background: "#FCBF041F", color: "#CA9802", text: "(ไม่มีข้อมูลสถานะ)" };
 };
-
 
 export const issueColumns = ({
     handleEdit,
     handleView,
-}: IssueColumnOptions): Column<IssueItem>[] => [
+    role = "admin",
+    organizationUnit = "สบข",
+}: IssueColumnOptions): Column<IssueItem>[] => {
+    // ✅ ตรวจสอบสิทธิ์ตาม matrix
+    const currentPermission = issuePermissionMatrix.find(
+        (perm) => perm.role === role && perm.organizationUnit === organizationUnit
+    );
+    const allowedActions = currentPermission?.actions || [];
+
+    const canView = allowedActions.includes("view") || allowedActions.includes("all");
+    const canUpdate = allowedActions.includes("update") || allowedActions.includes("all");
+    const canApprove = allowedActions.includes("approve") || allowedActions.includes("all");
+
+    const cols: Column<IssueItem & { visibleFor?: string[] }>[] = [
         {
             id: "problem",
             label: "ปัญหา",
-            render: (row) => (
-                <Stack direction="row" spacing={1} alignItems="center">
-                    {row.img?.length > 0 && (
-                        <Typography sx={{ fontSize: 13 }}>{row.problem}</Typography>
-                    )}
-                </Stack>
-            ),
+            render: (row) => <Typography sx={{ fontSize: 13 }}>{row.problem}</Typography>,
         },
         {
-            id: "date", label: "วันที่แจ้ง", align: "left", render: (row: IssueItem) => (
-                <Typography sx={{ fontSize: 12 }}>
-                    {formatThaiDateTime(row.date)}
-                </Typography>
+            id: "date",
+            label: "วันที่แจ้ง",
+            align: "left",
+            render: (row: IssueItem) => (
+                <Typography sx={{ fontSize: 12 }}>{formatThaiDateTime(row.date)}</Typography>
             ),
         },
-        { id: "category", label: "หมวดปัญหา", align: "left" },
+        { id: "category", label: "หมวดหมู่ปัญหา", align: "left" },
         {
             id: "level",
             label: "ระดับของปัญหา",
@@ -152,7 +89,8 @@ export const issueColumns = ({
                         color: row.level === "เร่งด่วน" ? "#C62828" : "#1976D2",
                         fontWeight: 500,
                         fontSize: 12,
-                        borderRadius: "6px",
+                        px: 1,
+                        borderRadius: 2
                     }}
                     size="small"
                 />
@@ -162,9 +100,9 @@ export const issueColumns = ({
             id: "center",
             label: "ศูนย์ปัจจุบัน",
             align: "left",
+            visibleFor: ["admin"], // ✅ เห็นเฉพาะ admin
             render: (row) => {
                 const isEmpty = !row.center || row.center.trim() === "";
-
                 return (
                     <Typography
                         sx={{
@@ -172,9 +110,8 @@ export const issueColumns = ({
                             alignItems: "center",
                             fontSize: 12,
                             fontWeight: 500,
-                            borderRadius: "6px",
-                            color: isEmpty ? "#FCBF04" : "#000", // สีเหลืองถ้าว่าง
-                            gap: 0.5, // เพิ่มระยะห่างระหว่างไอคอนกับข้อความ
+                            color: isEmpty ? "#FCBF04" : "#000",
+                            gap: 0.5,
                         }}
                     >
                         {isEmpty ? (
@@ -193,6 +130,7 @@ export const issueColumns = ({
             id: "forwardedFrom",
             label: "ส่งต่อจาก",
             align: "left",
+            visibleFor: ["admin"], // ✅ เห็นเฉพาะ admin
             render: (row) => {
                 const isEmpty = row.forwardedFrom === null || row.forwardedFrom === undefined || row.forwardedFrom.trim() === "";
 
@@ -225,26 +163,23 @@ export const issueColumns = ({
                                 color: style.color,
                                 fontSize: 12,
                                 fontWeight: 500,
-                                borderRadius: "6px",
                             }}
                             size="small"
                         />
-                        <Typography sx={{ fontSize: 11, color: style.color }}>
-                            {style.text}
-                        </Typography>
+                        <Typography sx={{ fontSize: 11, color: style.color }}>{style.text}</Typography>
                     </Stack>
                 );
             },
         },
         { id: "assignee", label: "ผู้รับผิดชอบปัจจุบัน", align: "left" },
-        { id: "reportType", label: "ประเภทการแจ้ง", align: "left" },
+        { id: "reportType", label: "ประเภทการแจ้ง", align: "left", visibleFor: ["admin"] },
         {
             id: "solutionStatus",
             label: "สถานะการแก้ปัญหา",
             align: "center",
+            visibleFor: ["admin", "operator"],
             render: (row) => {
                 const style = getTypeStyled(row.solutionStatus || ""); // ✅ เรียกใช้ฟังก์ชัน
-
                 return (
                     <Chip
                         label={row.solutionStatus}
@@ -261,31 +196,143 @@ export const issueColumns = ({
             },
         },
         {
+            id: "confirmCenterStatus",
+            label: "ยืนยันศูนย์ที่รับผิดชอบ",
+            align: "center",
+            visibleFor: ["operator-view-approve"], // ✅ เฉพาะ role ที่อนุมัติได้
+            render: (row) =>
+                canApprove ? (
+                    <Box sx={{ display: "flex", justifyContent: "center" }}>
+                        <IconButton
+                            size="small"
+                            sx={{
+                                backgroundColor:
+                                    row.confirmCenterStatus === "ยืนยันแล้ว" ? "#ccc" : "#004D99",
+                                borderRadius: 3,
+                                px: 1.5,
+                                "&:hover": { backgroundColor: "#003970" },
+                            }}
+                            disabled={row.confirmCenterStatus === "ยืนยันแล้ว"}
+                            onClick={() => console.log("ยืนยันศูนย์", row.id)}
+                        >
+                            <CheckRoundedIcon sx={{ fontSize: 16, color: "#fff" }} />
+                            <Typography sx={{ fontSize: 12, color: "#fff" }}>ยืนยัน</Typography>
+                        </IconButton>
+                    </Box>
+                ) : null,
+        },
+        {
             id: "action",
             label: "จัดการ",
             align: "center",
-            render: (row) => (
-                <Stack direction="row" spacing={0.5} justifyContent="center">
-                    <Tooltip title="แก้ไข">
-                        <IconButton
-                            size="small"
-                            color="primary"
+            visibleFor: ["admin", "operator-view-approve"],
+            render: (row) => {
+                if (role === "operator-view-approve") {
+                    return (
+                        <Box
                             sx={{
-                                display: 'flex',
-                                gap: 1,
-                                px: 1.5,
-                                backgroundColor: "#004D99",
-                                borderRadius: 3,
-                                boxShadow: "0 0 2px rgba(0,0,0,0.1)",
-                                "&:hover": { backgroundColor: "#003970" },
+                                display: "flex",
+                                justifyContent: "center",
+                                alignItems: "center",
+                                width: "100%",
                             }}
-                            onClick={() => handleEdit(row)}
                         >
-                            <EditIcon fontSize="small" sx={{ fontSize: 16, color: '#fff' }} />
-                            <Typography sx={{ fontSize: 12, color: '#fff' }}>จัดการ</Typography>
-                        </IconButton>
-                    </Tooltip>
-                </Stack>
-            ),
+                            <Button
+                                variant="contained"
+                                sx={{
+                                    backgroundColor: "#004D99",
+                                    color: "#fff",
+                                    fontSize: 12,
+                                    borderRadius: 3,
+                                    px: 1.5,
+                                    py: 0.5,
+                                    textTransform: "none",
+                                    "&:hover": { backgroundColor: "#003970" },
+                                }}
+                                startIcon={<ReplayRoundedIcon sx={{ fontSize: 18 }} />}
+                                onClick={() => console.log("ส่งกลับ สนข.", row.id)}
+                            >
+                                ส่งกลับ สนข.
+                            </Button>
+                        </Box>
+                    );
+                }
+
+                if (role === "admin") {
+                    return (
+                        <Stack direction="row" spacing={0.5} justifyContent="center">
+                            <Tooltip title="แก้ไข">
+                                <IconButton
+                                    size="small"
+                                    color="primary"
+                                    sx={{
+                                        display: "flex",
+                                        gap: 1,
+                                        px: 1.5,
+                                        backgroundColor: "#004D99",
+                                        borderRadius: 3,
+                                        boxShadow: "0 0 2px rgba(0,0,0,0.1)",
+                                        "&:hover": { backgroundColor: "#003970" },
+                                    }}
+                                    onClick={() => handleEdit(row)}
+                                >
+                                    <EditIcon fontSize="small" sx={{ fontSize: 16, color: "#fff" }} />
+                                    <Typography sx={{ fontSize: 12, color: "#fff" }}>จัดการ</Typography>
+                                </IconButton>
+                            </Tooltip>
+                        </Stack>
+                    );
+                }
+
+                return null; // ✅ ป้องกัน warning และ cell ว่างโดยไม่ error
+            },
+        },
+        {
+            id: "viewIssue",
+            label: "ดู",
+            align: "center",
+            visibleFor: ["operator-view", "operator-view-update"],
+            render: (row) =>
+                canView ? (
+                    <Stack direction="row" spacing={0.5} justifyContent="center">
+                        <Tooltip title="ดูรายละเอียด">
+                            <IconButton
+                                size="small"
+                                sx={{
+                                    px: 0.8,
+                                    backgroundColor: "#004D99",
+                                    borderRadius: 2,
+                                    "&:hover": { backgroundColor: "#003970" },
+                                }}
+                                onClick={() => handleView(row)}
+                            >
+                                <RemoveRedEyeRoundedIcon
+                                    fontSize="small"
+                                    sx={{ fontSize: 16, color: "#fff" }}
+                                />
+                            </IconButton>
+                        </Tooltip>
+                    </Stack>
+                ) : null,
         },
     ];
+
+    return cols.filter((col) => {
+        // 🔹 1) ตรวจ visibleFor — ให้ role ที่มีคำตรงกันหรือใกล้เคียงผ่านได้
+        if (col.visibleFor) {
+            const isVisible = col.visibleFor.some((allowedRole) =>
+                role === allowedRole || role.includes(allowedRole)
+            );
+            if (!isVisible) return false;
+        }
+
+        // 🔹 2) ตรวจสิทธิ์จาก matrix (รองรับ operator-view-approve ด้วย)
+        if (col.id === "confirmCenterStatus" && !canApprove) return false;
+        if (col.id === "action" && !(canUpdate || canApprove)) return false;
+        if (col.id === "viewIssue" && !canView) return false;
+
+        return true;
+    });
+
+
+};

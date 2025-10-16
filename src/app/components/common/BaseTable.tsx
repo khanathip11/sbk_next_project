@@ -1,4 +1,6 @@
 // BaseTable.tsx
+"use client";
+
 import React, { useState } from "react";
 import {
     Table,
@@ -15,10 +17,11 @@ import {
 } from "@mui/material";
 
 export interface Column<T> {
-    id: keyof T | "action";
+    id: keyof T | "action" | "viewIssue";
     label: string;
     align?: "left" | "center" | "right";
     render?: (row: T) => React.ReactNode;
+    visibleFor?: string[];
 }
 
 export interface BaseTableProps<T> {
@@ -30,7 +33,7 @@ export interface BaseTableProps<T> {
     rowHeight?: number; // ✅ เพิ่ม prop เพื่อกำหนดความสูงของแต่ละแถว
 }
 
-function BaseTable<T>({
+function BaseTable<T extends { level?: string }>({
     columns,
     rows,
     loading = false,
@@ -89,7 +92,7 @@ function BaseTable<T>({
                 </TableHead>
 
                 {/* 🔹 เนื้อหาตาราง */}
-                <TableBody>
+                {/* <TableBody>
                     {loading ? (
                         <TableRow>
                             <TableCell colSpan={columns.length} align="center">
@@ -133,7 +136,64 @@ function BaseTable<T>({
                             </TableRow>
                         ))
                     )}
+                </TableBody> */}
+                <TableBody>
+                    {loading ? (
+                        <TableRow>
+                            <TableCell colSpan={columns.length} align="center">
+                                <CircularProgress size={24} />
+                            </TableCell>
+                        </TableRow>
+                    ) : rows.length === 0 ? (
+                        <TableRow>
+                            <TableCell colSpan={columns.length} align="center">
+                                <Typography variant="body2" color="text.secondary">
+                                    {emptyText}
+                                </Typography>
+                            </TableCell>
+                        </TableRow>
+                    ) : (
+                        paginatedRows.map((row, rowIndex) => (
+                            <TableRow
+                                key={rowIndex}
+                                hover
+                                sx={{
+                                    height: rowHeight,
+                                    "&:nth-of-type(odd)": { backgroundColor: "#fafafa" },
+
+                                    ...(row.level === "เร่งด่วน" && {
+                                        animation: "blinkUrgent 5s infinite",
+                                    }),
+
+                                    // ✅ กำหนด keyframes ภายใน sx ได้เลย
+                                    "@keyframes blinkUrgent": {
+                                        "0%": { backgroundColor: "#FFEBEE" },
+                                        "50%": { backgroundColor: "#FFFFFF" },
+                                        "100%": { backgroundColor: "#FFEBEE" },
+                                    },
+                                }}
+                            >
+                                {columns.map((col) => (
+                                    <TableCell
+                                        key={String(col.id)}
+                                        align={col.align || "left"}
+                                        sx={{
+                                            fontSize: 13,
+                                            paddingY: 1.2,
+                                            paddingX: 2,
+                                            lineHeight: 1.8,
+                                        }}
+                                    >
+                                        {col.render
+                                            ? col.render(row)
+                                            : String((row as T)[col.id as keyof T] ?? "-")}
+                                    </TableCell>
+                                ))}
+                            </TableRow>
+                        ))
+                    )}
                 </TableBody>
+
             </Table>
 
             {/* 🔹 Pagination Section */}

@@ -6,7 +6,7 @@ import { Box } from '@mui/material';
 const IssueFilter = () => {
     const [urgency, setUrgency] = useState("all");
     const [status, setStatus] = useState("all");
-    const [department, setDepartment] = useState("all");
+    // const [department, setDepartment] = useState("all");
 
     return (
         <Box
@@ -48,7 +48,7 @@ const IssueFilter = () => {
             />
 
             {/* หน่วยรับผิดชอบ */}
-            <IssueFilterDropdown
+            {/* <IssueFilterDropdown
                 key="department"
                 label="หน่วยรับผิดชอบ"
                 value={department}
@@ -59,7 +59,7 @@ const IssueFilter = () => {
                     { value: "reviewing", label: "เจ้าหน้าที่ตรวจสอบ" },
                     { value: "forwarded", label: "ส่งต่อให้หน่วยงาน" },
                 ]}
-            />
+            /> */}
         </Box>
     )
 }

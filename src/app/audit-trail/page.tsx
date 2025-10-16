@@ -1,8 +1,12 @@
 import React from 'react'
+import NavigatLayout from '../components/layout/Navigat-layout'
 
 const page = () => {
     return (
-        <div>page</div>
+        <NavigatLayout>
+
+            <div>page</div>
+        </NavigatLayout>
     )
 }
 

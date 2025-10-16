@@ -7,11 +7,13 @@ import { issueColumns } from "./issue-columns"
 import BaseTable from "../common/BaseTable";
 import { getTypeStyled } from "@/app/utils/getTypeStyled";
 interface IssueTableChildProps {
-    filterLevel: string | null;
+    issues: IssueItem[];
+    role: string;
+    organizationUnit: string;
 }
 
-const IssueTableChild: React.FC<IssueTableChildProps> = ({ filterLevel }) => {
-    const filteredData = filterLevel ? issuesData.filter((i) => i.level === filterLevel) : issuesData;
+const IssueTableChild: React.FC<IssueTableChildProps> = ({ issues, role, organizationUnit }) => {
+    // const filteredData = issues ? issuesData.filter((i) => i.level === issues) : issuesData;
     const [open, setOpen] = useState(false);
     const [selectedRow, setSelectedRow] = useState<IssueItem | null>(null);
 
@@ -27,7 +29,9 @@ const IssueTableChild: React.FC<IssueTableChildProps> = ({ filterLevel }) => {
 
     const columns = issueColumns({
         handleEdit: handleOpenModal,
-        handleView: handleCloseModal
+        handleView: handleCloseModal,
+        role,
+        organizationUnit
     });
 
     return (
@@ -51,7 +55,7 @@ const IssueTableChild: React.FC<IssueTableChildProps> = ({ filterLevel }) => {
             >
                 <BaseTable
                     columns={columns}
-                    rows={filteredData}
+                    rows={issues}
                     loading={false}
                     rowsPerPageOptions={[10, 25, 100]}
                 />
@@ -66,7 +70,6 @@ const IssueTableChild: React.FC<IssueTableChildProps> = ({ filterLevel }) => {
                 issuesData={issuesData}
             />
         </Paper>
-
     );
 };
 
