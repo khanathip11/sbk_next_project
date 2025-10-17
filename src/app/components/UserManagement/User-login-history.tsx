@@ -11,15 +11,14 @@ import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 import BaseTable, { Column } from "../common/BaseTable"; // ✅ ใช้ตารางกลาง
 import SearchIcon from "@mui/icons-material/Search";
 import ReplyRoundedIcon from "@mui/icons-material/ReplyRounded";
-import { UserItem } from "@/app/types/userType";
+import { AuditItem } from "@/app/types/userType";
 import { userColumnHistory } from "./User-column-history";
-import { LoginHistoryItem } from "@/app/types/userType";
-import { users, dummyLogs } from "@/app/data/user";
+import { auditData } from "@/app/data/user";
 
 interface UserLoginHistoryProps {
     open: boolean;
     handleClose: () => void;
-    user?: UserItem | null;
+    user?: AuditItem | null;
 }
 
 const UserLoginHistory: React.FC<UserLoginHistoryProps> = ({
@@ -145,9 +144,9 @@ const UserLoginHistory: React.FC<UserLoginHistoryProps> = ({
                 </Box>
 
                 {/* 🔹 ตาราง */}
-                <BaseTable<LoginHistoryItem>
+                <BaseTable<AuditItem>
                     columns={columns}
-                    rows={dummyLogs}
+                    rows={auditData}
                     loading={false}
                     emptyText="ไม่มีข้อมูลการเข้าใช้งาน"
                     rowHeight={48}

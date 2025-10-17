@@ -1,15 +1,15 @@
 import React from 'react'
 import { Column } from '../common/BaseTable'
 import { Chip, IconButton } from "@mui/material";
-import { UserItem } from '@/app/types/userType';
+import { AuditItem } from '@/app/types/userType';
 import { Stack } from '@mui/system';
 import RemoveRedEyeRoundedIcon from '@mui/icons-material/RemoveRedEyeRounded';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 
 interface UserColumnsProps {
-    handleEdit: (users: UserItem) => void;
-    handleView: (users: UserItem) => void;
+    handleEdit: (users: AuditItem) => void;
+    handleView: (users: AuditItem) => void;
 }
 
 const formatThaiDateTime = (dateString?: string) => {
@@ -24,7 +24,7 @@ const formatThaiDateTime = (dateString?: string) => {
 };
 
 
-const userColumns = ({ handleEdit, handleView }: UserColumnsProps): Column<UserItem>[] =>
+const userColumns = ({ handleEdit, handleView }: UserColumnsProps): Column<AuditItem>[] =>
     [
         { id: "username", label: "ชื่อผู้ใช้" },
         { id: "fullname", label: "ชื่อ - สกุล" },
@@ -116,7 +116,7 @@ const userColumns = ({ handleEdit, handleView }: UserColumnsProps): Column<UserI
             align: "center",
             render: (row) => (
                 <Stack direction="row" spacing={0.5} justifyContent="center">
-                    {/* 👁️ ปุ่มดูข้อมูล */}
+                    {/* 👁️ ปุ่มแก้ไข */}
                     <IconButton
                         size="small"
                         color="primary"
@@ -131,7 +131,7 @@ const userColumns = ({ handleEdit, handleView }: UserColumnsProps): Column<UserI
                         <EditIcon fontSize="small" sx={{ fontSize: 14 }} />
                     </IconButton>
 
-                    {/* ✏️ ปุ่มแก้ไข */}
+                    {/* ✏️ ปุ่มดู */}
                     < IconButton
                         size="small"
                         sx={{

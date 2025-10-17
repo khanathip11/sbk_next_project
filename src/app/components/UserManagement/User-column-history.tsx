@@ -1,7 +1,7 @@
 import { Column } from "../common/BaseTable";
-import { LoginHistoryItem } from "@/app/types/userType";
+import { AuditItem } from "@/app/types/userType";
 
-export const userColumnHistory = (): Column<LoginHistoryItem>[] => [
+export const userColumnHistory = (): Column<AuditItem>[] => [
     { id: "action", label: "พฤติกรรม", align: "left" },
     { id: "date", label: "วันที่", align: "center" },
     { id: "ip", label: "IP", align: "center" },

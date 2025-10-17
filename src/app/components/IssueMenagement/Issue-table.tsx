@@ -8,10 +8,13 @@ import IssueTableChild from "./Issue-table-child";
 import IssueSummarySection from "./Issue-summary-section";
 import { issuesData } from "@/app/data/issuesData";
 import AddCircleRoundedIcon from '@mui/icons-material/AddCircleRounded';
+import { GenericFilter } from "../common/GenericFilter";
+import { FilterValues } from '../common/GenericFilter';
 
 const IssueTable = () => {
     const [selectedLevel, setSelectedLevel] = useState<string | null>(null);
     const [selectedCenter, setSelectedCenter] = useState<string | null>(null)
+    const [filters, setFilters] = useState<Partial<FilterValues>>({});
 
     // ✅ ตรงนี้คือจุดที่ใช้ filter จริง
     const filteredIssues = issuesData.filter((issue) => {
@@ -111,7 +114,7 @@ const IssueTable = () => {
                 direction="row"
                 alignItems="center"
             >
-                <TextField
+                {/* <TextField
                     id="complaint-search"
                     placeholder="ค้นหา"
                     variant="outlined"
@@ -142,6 +145,13 @@ const IssueTable = () => {
                             </InputAdornment>
                         ),
                     }}
+                /> */}
+
+                <GenericFilter
+                    role="operator-view-update"
+                    organizationUnit=""
+                    visibleFilters={["search"]}
+                    onChange={(f) => setFilters({ ...filters, ...f })}
                 />
 
                 <IssueFilter />

@@ -4,13 +4,11 @@ import { Stack, Box, Typography, Button } from "@mui/material";
 import { DateRangeFilter } from '../common/DateRangeFilter';
 import ReplyRoundedIcon from "@mui/icons-material/ReplyRounded";
 import { issuesData } from "@/app/data/issuesData";
-import FeedbackTableChild from './Feedback-table-child';
 import { GenericFilter } from '../common/GenericFilter';
 import { FilterValues } from '../common/GenericFilter';
+import AuditTrailTableChild from './Audit-trail-table-child';
 
-const FeedbackTable = () => {
-    const currentRole = "admin";
-    const currentUnit = "สบข";
+const AuditTrailTable = () => {
     const [filters, setFilters] = useState<Partial<FilterValues>>({});
 
     return (
@@ -44,7 +42,7 @@ const FeedbackTable = () => {
                         color: "#000",
                     }}
                 >
-                    ข้อเสนอแนะเพิ่มเติม
+                    บันทึกการตรวจสอบการใช้งาน
                 </Typography>
 
                 <Button
@@ -85,7 +83,7 @@ const FeedbackTable = () => {
                 <GenericFilter
                     role="operator-view-update"
                     organizationUnit=""
-                    visibleFilters={["search", "level", "status"]}
+                    visibleFilters={["auditTrail", "search", "unit"]}
                     onChange={(f) => setFilters({ ...filters, ...f })}
                 />
 
@@ -139,14 +137,10 @@ const FeedbackTable = () => {
                     scrollbarWidth: "none",
                 }}
             >
-                <FeedbackTableChild
-                    issues={issuesData}
-                    role={currentRole}
-                    organizationUnit={currentUnit}
-                />
+                <AuditTrailTableChild />
             </Box>
         </Box>
-    );
-};
+    )
+}
 
-export default FeedbackTable;
+export default AuditTrailTable

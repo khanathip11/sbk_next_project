@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import {
     Stack,
     FormControl,
@@ -7,9 +7,14 @@ import {
     MenuItem,
     InputAdornment,
     OutlinedInput,
+    Tooltip,
+    IconButton,
+    Typography,
 } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
-
+import { Box } from "@mui/system";
+import PersonRoundedIcon from '@mui/icons-material/PersonRounded';
+import HomeRoundedIcon from '@mui/icons-material/HomeRounded';
 export interface FilterValues {
     search?: string;
     status?: string;
@@ -17,6 +22,7 @@ export interface FilterValues {
     priority?: string;
     category?: string;
     level?: string
+    auditTrail?: string;
 }
 
 export interface GenericFilterProps {
@@ -30,7 +36,7 @@ export interface GenericFilterProps {
 export const GenericFilter: React.FC<GenericFilterProps> = ({
     role,
     organizationUnit,
-    visibleFilters = ["search", "status", "unit", "level"],
+    visibleFilters = ["search", "status", "unit", "level", "auditTrail"],
     onChange,
 }) => {
     const canViewAllUnits = role === "admin" || organizationUnit === "หน่วยแม่";
@@ -85,8 +91,110 @@ export const GenericFilter: React.FC<GenericFilterProps> = ({
         onChange(newFilters);
     };
 
+    const [activeButton, setActiveButton] = useState<"audit" | "overview">("audit");
+
+    // เปลี่ยนหน้าและสถานะปุ่ม
+    const handleClick = (type: "audit" | "overview") => {
+        setActiveButton(type);
+
+        if (type === "audit") {
+            console.log("📘 เปิดหน้า: รายการใช้ระบบ (Audit Trail)");
+            // TODO: setPageData(auditData)
+        } else {
+            console.log("🏠 เปิดหน้า: ภาพรวมรายหน่วย (Overview)");
+            // TODO: setPageData(overviewData)
+        }
+    };
+
     return (
         <Stack direction="row" spacing={1}>
+            {/* Audit trail */}
+            {visibleFilters.includes("auditTrail") && (
+                <Box
+                    sx={{
+                        backgroundColor: '#F2F2F4',
+                        display: 'flex',
+                        height: 36,
+                        gap: 0.3,
+                        p: 0.3,
+                        borderRadius: 3,
+                        border: '1px solid #EBEBEB',
+                        flexShrink: 0,
+                    }}
+                >
+                    <Tooltip title="ดูรายการใช้ระบบ">
+                        <IconButton
+                            size="small"
+                            sx={{
+                                p: 0.5,
+                                px: 1,
+                                borderRadius: 2,
+                                backgroundColor: activeButton === "audit" ? "#004D99" : "transparent",
+                                // border: "1px solid #004D99",
+                                transition: "all 0.2s ease",
+                                "&:hover": {
+                                    backgroundColor: activeButton === "audit" ? "#003970" : "#E5E8EB",
+                                },
+                            }}
+                            onClick={() => handleClick("audit")}
+                        >
+                            <PersonRoundedIcon
+                                sx={{
+                                    fontSize: 16,
+                                    color: activeButton === "audit" ? "#fff" : "#8C929C",
+                                    mr: 1,
+                                }}
+                            />
+                            <Typography
+                                sx={{
+                                    color: activeButton === "audit" ? "#fff" : "#8C929C",
+                                    fontSize: 12,
+                                    fontWeight: 500,
+                                }}
+                            >
+                                รายการใช้ระบบ
+                            </Typography>
+                        </IconButton>
+                    </Tooltip>
+
+                    {/* 🔹 ปุ่ม Overview */}
+                    <Tooltip title="ภาพรวมรายหน่วย">
+                        <IconButton
+                            size="small"
+                            sx={{
+                                p: 0.5,
+                                px: 1,
+                                borderRadius: 2,
+                                backgroundColor: activeButton === "overview" ? "#004D99" : "transparent",
+                                // border: "1px solid #004D99",
+                                transition: "all 0.2s ease",
+                                "&:hover": {
+                                    backgroundColor: activeButton === "overview" ? "#003970" : "#E5E8EB",
+                                },
+                            }}
+                            onClick={() => handleClick("overview")}
+                        >
+                            <HomeRoundedIcon
+                                sx={{
+                                    fontSize: 16,
+                                    color: activeButton === "overview" ? "#fff" : "#8C929C",
+                                    mr: 1,
+                                }}
+                            />
+                            <Typography
+                                sx={{
+                                    color: activeButton === "overview" ? "#fff" : "#8C929C",
+                                    fontSize: 12,
+                                    fontWeight: 500,
+                                }}
+                            >
+                                ภาพรวมรายหน่วย
+                            </Typography>
+                        </IconButton>
+                    </Tooltip>
+                </Box>
+            )}
+
             {/* 🔍 Search Box */}
             {visibleFilters.includes("search") && (
                 <OutlinedInput
@@ -101,7 +209,8 @@ export const GenericFilter: React.FC<GenericFilterProps> = ({
                     }
                     sx={{
                         minWidth: 180,
-                        borderRadius: 2,
+                        height: 36,
+                        borderRadius: 3,
                         backgroundColor: "#f2f2f4",
                         fontSize: 13,
                     }}
@@ -197,8 +306,6 @@ export const GenericFilter: React.FC<GenericFilterProps> = ({
                     </Select>
                 </FormControl>
             )}
-
-
         </Stack>
     );
 };

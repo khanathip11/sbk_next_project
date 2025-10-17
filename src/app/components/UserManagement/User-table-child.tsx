@@ -1,12 +1,12 @@
 import React from 'react'
 import BaseTable from '../common/BaseTable'
-import { UserItem } from '@/app/types/userType';
-import { users } from '@/app/data/user';
+import { AuditItem } from '@/app/types/userType';
+import { auditData } from "@/app/data/user";
 import userColumns from './User-columns';
 import { Paper } from '@mui/material';
 interface UserTableProps {
-    handleEdit: (users: UserItem) => void;
-    handleView: (users: UserItem) => void;
+    handleEdit: (users: AuditItem) => void;
+    handleView: (users: AuditItem) => void;
 }
 
 const UserTableChild: React.FC<UserTableProps> = ({ handleEdit, handleView }) => {
@@ -24,7 +24,7 @@ const UserTableChild: React.FC<UserTableProps> = ({ handleEdit, handleView }) =>
         }}>
             <BaseTable
                 columns={columns}
-                rows={users}
+                rows={auditData}
                 loading={false} // ถ้ากำลังโหลดข้อมูลจาก API ก็ส่ง true ได
             />
         </Paper>

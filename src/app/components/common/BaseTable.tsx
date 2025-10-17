@@ -17,7 +17,8 @@ import {
 } from "@mui/material";
 
 export interface Column<T> {
-    id: keyof T | "action" | "viewIssue";
+    // id: keyof T | "action" | "viewIssue";
+    id: keyof T | string;
     label: string;
     align?: "left" | "center" | "right";
     render?: (row: T) => React.ReactNode;
@@ -32,8 +33,8 @@ export interface BaseTableProps<T> {
     rowsPerPageOptions?: number[];
     rowHeight?: number; // ✅ เพิ่ม prop เพื่อกำหนดความสูงของแต่ละแถว
 }
-
-function BaseTable<T extends { level?: string }>({
+// <T extends { level?: string }>
+function BaseTable<T>({
     columns,
     rows,
     loading = false,
@@ -92,7 +93,7 @@ function BaseTable<T extends { level?: string }>({
                 </TableHead>
 
                 {/* 🔹 เนื้อหาตาราง */}
-                {/* <TableBody>
+                <TableBody>
                     {loading ? (
                         <TableRow>
                             <TableCell colSpan={columns.length} align="center">
@@ -136,8 +137,8 @@ function BaseTable<T extends { level?: string }>({
                             </TableRow>
                         ))
                     )}
-                </TableBody> */}
-                <TableBody>
+                </TableBody>
+                {/* <TableBody>
                     {loading ? (
                         <TableRow>
                             <TableCell colSpan={columns.length} align="center">
@@ -161,16 +162,16 @@ function BaseTable<T extends { level?: string }>({
                                     height: rowHeight,
                                     "&:nth-of-type(odd)": { backgroundColor: "#fafafa" },
 
-                                    ...(row.level === "เร่งด่วน" && {
-                                        animation: "blinkUrgent 5s infinite",
-                                    }),
+                                    // ...(row.level === "เร่งด่วน" && {
+                                    //     animation: "blinkUrgent 5s infinite",
+                                    // }),
 
                                     // ✅ กำหนด keyframes ภายใน sx ได้เลย
-                                    "@keyframes blinkUrgent": {
-                                        "0%": { backgroundColor: "#FFEBEE" },
-                                        "50%": { backgroundColor: "#FFFFFF" },
-                                        "100%": { backgroundColor: "#FFEBEE" },
-                                    },
+                                    // "@keyframes blinkUrgent": {
+                                    //     "0%": { backgroundColor: "#FFEBEE" },
+                                    //     "50%": { backgroundColor: "#FFFFFF" },
+                                    //     "100%": { backgroundColor: "#FFEBEE" },
+                                    // },
                                 }}
                             >
                                 {columns.map((col) => (
@@ -192,7 +193,7 @@ function BaseTable<T extends { level?: string }>({
                             </TableRow>
                         ))
                     )}
-                </TableBody>
+                </TableBody> */}
 
             </Table>
 

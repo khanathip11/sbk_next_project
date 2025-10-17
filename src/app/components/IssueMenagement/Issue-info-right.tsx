@@ -34,7 +34,7 @@ const IssueInfoRight: React.FC<OfficerFormProps> = ({ selectedIssue }) => {
     return (
         <Box sx={{ width: '100%', display: 'flex', flexDirection: 'column', overflow: 'auto' }}>
             <Box sx={{ textAlign: 'center', mb: 1 }}>
-                <Typography sx={{ color: '#000' }}>สำหรับเจ้าหน้าที่</Typography>
+                <Typography sx={{ color: '#000' }}>ข้อมูลปัญหา</Typography>
             </Box>
 
             <Box

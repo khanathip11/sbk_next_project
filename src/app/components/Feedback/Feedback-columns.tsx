@@ -8,6 +8,6 @@ export const feedbackColumns = (): Column<IssueItem>[] => [
         label: "รหัสข้อเสนอแนะ",
         render: (row) => <Typography sx={{ fontSize: 13 }}>{row.id}</Typography>,
     },
-    { id: "reportType", label: "ประเภท", align: "left" },
+    { id: "suggestionType", label: "ประเภท", align: "left" },
     { id: "reporter", label: "ผู้แจ้ง", align: "left", },
 ] 

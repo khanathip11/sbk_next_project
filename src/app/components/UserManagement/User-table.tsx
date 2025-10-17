@@ -15,9 +15,11 @@ import UserDateRangePicker from "./User-datepicker";
 import UserTableChild from "./User-table-child";
 import UserCreate from "./User-create";
 import UserLoginHistory from "./User-login-history";
-import { UserItem } from "@/app/types/userType";
-
-interface UserData {
+import { AuditItem } from "@/app/types/userType";
+import { auditData } from "@/app/data/user";
+import { GenericFilter } from "../common/GenericFilter";
+import { FilterValues } from '../common/GenericFilter';
+interface AuditData {
     username: string;
     fullname: string;
     email: string;
@@ -25,15 +27,28 @@ interface UserData {
     department: string;
     role: string;
     active: boolean;
+    status?: "ใช้งานอยู่" | "ไม่ได้ใช้งาน";
+    lastLogin?: string;
+
+    // 🧩 ข้อมูลประวัติการเข้าใช้งาน
+    id?: number;
+    action?: string;
+    date?: string;
+    ip?: string;
+    browser?: string;
+
+    // 🧩 ใช้ภายในระบบ
+    origin: "user" | "log";
+    level?: string;
 }
 
 const UserTable = () => {
     // ✅ Modal States
     const [openCreate, setOpenCreate] = useState(false);
     const [openHistory, setOpenHistory] = useState(false);
-
+    const [filters, setFilters] = useState<Partial<FilterValues>>({});
     const [mode, setMode] = useState<"create" | "edit">("create");
-    const [selectedUser, setSelectedUser] = useState<UserItem | null>(null);
+    const [selectedUser, setSelectedUser] = useState<AuditItem | null>(null);
 
     // ✅ เพิ่มผู้ใช้ใหม่
     const handleCreate = () => {
@@ -43,22 +58,23 @@ const UserTable = () => {
     };
 
     // ✅ แก้ไขผู้ใช้
-    const handleEdit = (user: UserItem) => {
+    const handleEdit = (user: AuditItem) => {
         setMode("edit");
         setSelectedUser(user);
         setOpenCreate(true);
     };
 
     // ✅ ดูประวัติ login
-    const handleView = (user: UserItem) => {
+    const handleView = (user: AuditItem) => {
         setSelectedUser(user);
         setOpenHistory(true);
     };
 
     // ✅ เมื่อกดยืนยันใน modal create/edit
-    const handleSubmit = (data: UserData) => {
-        console.log(mode === "create" ? "สร้างผู้ใช้ใหม่:" : "อัปเดตผู้ใช้:", data);
-        setOpenCreate(false); // ✅ ปิด modal หลังบันทึก
+    // ใน UserTable
+    const handleSubmit = (data: AuditItem) => {
+        console.log(mode === "create" ? "เพิ่มผู้ใช้ใหม่:" : "อัปเดตผู้ใช้:", data);
+        setOpenCreate(false);
     };
 
     return (
@@ -146,7 +162,7 @@ const UserTable = () => {
                     "&::-webkit-scrollbar": { display: "none" },
                 }}
             >
-                <TextField
+                {/* <TextField
                     id="user-search"
                     placeholder="ค้นหา"
                     variant="outlined"
@@ -177,7 +193,14 @@ const UserTable = () => {
                     }}
                 />
 
-                <UserFilter />
+                <UserFilter /> */}
+                <GenericFilter
+                    role="operator-view-update"
+                    organizationUnit=""
+                    visibleFilters={["search", "status"]}
+                    onChange={(f) => setFilters({ ...filters, ...f })}
+                />
+
                 <Box flexGrow={1} />
 
                 <Box
@@ -225,22 +248,9 @@ const UserTable = () => {
                 open={openCreate}
                 handleClose={() => setOpenCreate(false)}
                 mode={mode}
-                initialData={
-                    selectedUser
-                        ? {
-                            username: selectedUser.username,
-                            fullname: selectedUser.fullname,
-                            email: selectedUser.email,
-                            password: "", // เพิ่ม field ที่ UserData ต้องการ
-                            department: selectedUser.department,
-                            role: selectedUser.role,
-                            active: selectedUser.status === "ใช้งานอยู่", // แปลงจาก string เป็น boolean
-                        }
-                        : undefined
-                }
+                initialData={selectedUser ?? undefined}
                 onSubmit={handleSubmit}
             />
-
 
             {/* 🔹 Modal: ประวัติการเข้าใช้งาน */}
             <UserLoginHistory

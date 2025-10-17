@@ -15,33 +15,28 @@ import { Box } from '@mui/system';
 import React, { useEffect, useState } from 'react';
 import CheckCircleRoundedIcon from '@mui/icons-material/CheckCircleRounded';
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
+import { AuditItem } from "@/app/types/userType";
+import { auditData } from '@/app/data/user';
 
 interface UserCreateProps {
     open: boolean;
     handleClose: () => void;
-    mode: 'create' | 'edit'; // ✅ เพิ่มโหมด
-    initialData?: UserData | null; // ✅ ข้อมูลเริ่มต้นตอนแก้ไข
-    onSubmit?: (data: UserData) => void; // ✅ callback เมื่อกดบันทึก
+    mode: 'create' | 'edit';
+    initialData?: AuditItem | null;
+    onSubmit?: (data: AuditItem) => void;
 }
 
-interface UserData {
-    username: string;
-    fullname: string;
-    email: string;
-    password: string;
-    department: string;
-    role: string;
-    active: boolean;
-}
-
-const defaultUser: UserData = {
-    username: '',
-    fullname: '',
-    email: '',
-    password: '',
-    department: '',
-    role: 'เจ้าหน้าที่',
-    active: true,
+// ใช้ defaultUser แบบ AuditItem
+const defaultUser: AuditItem = {
+    username: "",
+    fullname: "",
+    email: "",
+    department: "",
+    role: "เจ้าหน้าที่",
+    status: "ใช้งานอยู่",
+    lastLogin: "",
+    password: "", // เพิ่มได้ถ้าคุณต้องใช้ในฟอร์ม
+    origin: "user",
 };
 
 const UserCreate: React.FC<UserCreateProps> = ({
@@ -51,7 +46,7 @@ const UserCreate: React.FC<UserCreateProps> = ({
     initialData,
     onSubmit,
 }) => {
-    const [formData, setFormData] = useState<UserData>(defaultUser);
+    const [formData, setFormData] = useState<AuditItem>(defaultUser);
 
     // ✅ โหลดข้อมูลเริ่มต้นเมื่อแก้ไข
     useEffect(() => {
@@ -266,7 +261,7 @@ const UserCreate: React.FC<UserCreateProps> = ({
                             <FormControlLabel
                                 control={
                                     <Switch
-                                        checked={formData.active}
+                                        // checked={formData.active}
                                         onChange={handleSwitchChange}
                                         name="active"
                                     />

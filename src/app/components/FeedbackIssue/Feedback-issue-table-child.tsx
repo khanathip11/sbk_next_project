@@ -1,18 +1,40 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Paper, Box, } from "@mui/material";
 import BaseTable from '../common/BaseTable';
 import { IssueItem } from '@/app/types/IssueItem';
 import { feedbackIssueColumns } from './Feedback-issue-columns';
-
+import { getTypeStyled } from '@/app/utils/getTypeStyled';
+import { issuesData } from '@/app/data/issuesData';
+import FeedbackIssueInfo from './Feedback-issue-info';
 interface FeedbackIssueTableChildProps {
     issues: IssueItem[];
     role?: string;
     organizationUnit?: string;
 }
 
-const columns = feedbackIssueColumns()
+// const columns = feedbackIssueColumns()
 
 const FeedbackIssueTableChild: React.FC<FeedbackIssueTableChildProps> = ({ issues, role, organizationUnit }) => {
+    const [open, setOpen] = useState(false);
+    const [selectedRow, setSelectedRow] = useState<IssueItem | null>(null);
+
+    const handleOpenModal = (issue: IssueItem) => {
+        setSelectedRow(issue);
+        setOpen(true);
+    };
+
+    const handleCloseModal = () => {
+        setOpen(false);
+        setSelectedRow(null);
+    };
+
+    const columns = feedbackIssueColumns({
+        handleEdit: handleOpenModal,
+        handleView: handleCloseModal,
+        role,
+        organizationUnit
+    });
+
     return (
         <Paper
             // elevation={2}
@@ -37,6 +59,14 @@ const FeedbackIssueTableChild: React.FC<FeedbackIssueTableChildProps> = ({ issue
                     rows={issues}
                     loading={false}
                     rowsPerPageOptions={[10, 25, 100]}
+                />
+
+                <FeedbackIssueInfo
+                    getTypeStyle={getTypeStyled}
+                    open={open}
+                    selectedRow={selectedRow}
+                    handleClose={handleCloseModal}
+                    issuesData={issuesData}
                 />
             </Box>
         </Paper>
