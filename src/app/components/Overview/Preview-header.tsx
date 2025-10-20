@@ -1,52 +1,3 @@
-// // ✅ PreviewHeader.tsx
-// import { StaticImageData } from "next/image";
-// import { Box, CardMedia } from "@mui/material";
-// import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
-
-// interface PreviewHeaderProps {
-//     imageSrc: string | StaticImageData;
-//     onClose: () => void;
-// }
-
-// const PreviewHeader: React.FC<PreviewHeaderProps> = ({ imageSrc, onClose }) => {
-//     const imageUrl = typeof imageSrc === "string" ? imageSrc : imageSrc.src;
-
-//     return (
-//         <>
-//             <Box
-//                 sx={{
-//                     position: "absolute",
-//                     top: 8,
-//                     right: 8,
-//                     zIndex: 10,
-//                     display: "flex",
-//                     alignItems: "center",
-//                     justifyContent: "center",
-//                 }}
-//             >
-//                 <CloseOutlinedIcon
-//                     onClick={onClose}
-//                     sx={{
-//                         fontSize: 18,
-//                         color: "text.secondary",
-//                         cursor: "pointer",
-//                     }}
-//                 />
-//             </Box>
-
-//             <CardMedia
-//                 component="img"
-//                 image={imageUrl}
-//                 alt="Preview"
-//                 sx={{ width: "100%", height: "auto", objectFit: "cover" }}
-//             />
-//         </>
-//     );
-// };
-
-// export default PreviewHeader;
-
-
 // ✅ PreviewHeader.tsx
 import { StaticImageData } from "next/image";
 import { Box, CardMedia } from "@mui/material";
@@ -106,7 +57,7 @@ const PreviewHeader: React.FC<PreviewHeaderProps> = ({ imageSrc, onClose }) => {
                     width: "100%",
                     height: "auto",
                     objectFit: "cover", // ✅ ปรับภาพให้พอดีกับกรอบ
-                    borderRadius: "8px 8px 0 0", // ✅ มุมบนโค้งเล็กน้อย
+                    // borderRadius: "8px 8px 0 0", // ✅ มุมบนโค้งเล็กน้อย
                 }}
             />
         </>

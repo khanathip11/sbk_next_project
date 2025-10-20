@@ -1,13 +1,12 @@
 "use client";
 import React, { useState } from "react";
-import Navbar from "../Overview/Navbar";
+import Navbar from "./Navbar";
 import { Box, Paper, useTheme, useMediaQuery } from "@mui/material";
 
 type menuProps = { children: React.ReactNode };
 
 const NavigatLayout: React.FC<menuProps> = ({ children }) => {
     const [collapsed, setCollapsed] = useState<boolean>(true);
-    // const [closeTask, setCloseTask] = useState<boolean>(false);
 
     const theme = useTheme();
     const isLgUp = useMediaQuery(theme.breakpoints.up("lg"));
